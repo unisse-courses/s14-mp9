@@ -1,0 +1,547 @@
+<html>
+    <head>
+        <title>Manage Locker Requests</title>
+		
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        </script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+		
+		<link rel="stylesheet" type="text/css" href="css/mp1.css">
+        
+        <script type="text/javascript" src="main.js"></script>
+        
+        <script>
+            $(document).ready(function(){
+                var resTable = $(".locker-reserve-manager #lockers-table")
+                var resLocationSelect = $(".locker-reserve-manager #location-select");
+                
+                var ownTable = $(".locker-own-manager #lockers-table")
+                var ownLocationSelect = $(".locker-own-manager #location-select");
+                
+                var abandonTable = $(".locker-abandon-manager #lockers-table")
+                var abandonLocationSelect = $(".locker-abandon-manager #location-select");
+                
+                resLocationSelect.val("all");
+                ownLocationSelect.val("all");
+                abandonLocationSelect.val("all");
+                
+                initResTable(resLocationSelect.val())
+                initOwnTable(ownLocationSelect.val())
+                initAbandonTable(abandonLocationSelect.val())
+				
+				$(".reserve-locker-section").show()
+				$(".owned-locker-section").hide()
+                
+                for(let i = 0; i < locations.length; i++){
+                    var ropLocation = $("<option></option>").text(locations[i].locationName)
+                    ropLocation.val(locations[i].locationName);
+                    var oopLocation = $("<option></option>").text(locations[i].locationName)
+                    oopLocation.val(locations[i].locationName);
+                    var aopLocation = $("<option></option>").text(locations[i].locationName)
+                    oopLocation.val(locations[i].locationName);
+                    
+                    resLocationSelect.append(ropLocation);
+                    ownLocationSelect.append(oopLocation);
+                    abandonLocationSelect.append(aopLocation);
+                }
+
+				$("#reserve-select").click(function(){
+                    $("#reserve-select").attr("class", "nav-link active")
+					$("#own-select").attr("class", "nav-link")
+					
+					$(".reserve-locker-section").show()
+					$(".owned-locker-section").hide()
+                })
+				
+				$("#own-select").click(function(){
+                    $("#reserve-select").attr("class", "nav-link")
+					$("#own-select").attr("class", "nav-link active")
+					
+					$(".reserve-locker-section").hide()
+					$(".owned-locker-section").show()
+                })
+                
+                
+                resLocationSelect.change(function(){
+                    var selectedLocation = $(this).val();
+                    initResTable(selectedLocation)
+                })
+                
+                ownLocationSelect.change(function(){
+                    var selectedLocation = $(this).val();
+                    initOwnTable(selectedLocation)
+                })
+                
+                abandonLocationSelect.change(function(){
+                    var selectedLocation = $(this).val();
+                    initAbandonTable(selectedLocation)
+                })
+                
+                
+                function initResTable(curLocation){
+                    var ridHeader, rlockerNoHeader, rlocationHeader, rcheckHeader;
+                    
+                    resTable.empty();
+                    
+                    ridHeader = $("<td></td>").text("ID Number");
+                    rlockerNoHeader = $("<td></td>").text("Reserved Locker Number");
+                    rlocationHeader = $("<td></td>").text("Reserved Locker Location");
+                    rcheckHeader = $("<td></td>");
+                    
+					var thead;
+					thead = $("<thead></thead>");
+					thead.append(rcheckHeader);
+                    thead.append(ridHeader);
+                    thead.append(rlockerNoHeader);
+                    thead.append(rlocationHeader);
+					resTable.append(thead);
+                    
+                    
+                    for(let i = 0; i < reservedLockers.length; i++){
+                        var row;
+                        var idNoTd, lockerNoTd, lockerLocTd, check;
+                        var checkForm, checkbox;
+                        
+                        if(curLocation == reservedLockers[i].location){
+                            row = $("<tr></tr>");
+                            
+                            var cLabel = $("<label></label>");
+							cLabel.attr("class", "c-label")
+							
+							var cSpan = $("<span></span>");
+							cSpan.attr("class", "c-span")
+							
+                            checkbox = $("<input>");
+                            checkbox.attr("type", "checkbox")
+                            checkbox.attr("name", "reserveCheck");
+                            checkbox.attr("value", reservedLockers[i].reserveID);
+
+                            idNoTd = $("<td></td>").text(reservedLockers[i].reserveID);
+                            lockerNoTd = $("<td></td>").text(reservedLockers[i].lockerNo);
+                            lockerLocTd = $("<td></td>").text(reservedLockers[i].location);
+                            check = $("<td></td>");
+							
+							cLabel.append(checkbox)
+							cLabel.append(cSpan)
+
+                            row.attr("id", reservedLockers[i].reserveID);
+							row.append(cLabel)
+                            row.append(idNoTd)
+                            row.append(lockerNoTd)
+                            row.append(lockerLocTd)
+
+                            resTable.append(row)
+                            
+                        }
+                        
+                        else if (curLocation == "all"){
+                            row = $("<tr></tr>");
+
+							var cLabel = $("<label></label>");
+							cLabel.attr("class", "c-label")
+							
+							var cSpan = $("<span></span>");
+							cSpan.attr("class", "c-span")
+							
+                            checkbox = $("<input>");
+                            checkbox.attr("type", "checkbox")
+                            checkbox.attr("name", "reserveCheck");
+                            checkbox.attr("value", reservedLockers[i].reserveID);
+
+                            idNoTd = $("<td></td>").text(reservedLockers[i].reserveID);
+                            lockerNoTd = $("<td></td>").text(reservedLockers[i].lockerNo);
+                            lockerLocTd = $("<td></td>").text(reservedLockers[i].location);
+                            check = $("<td></td>");
+							
+							cLabel.append(checkbox)
+							cLabel.append(cSpan)
+
+                            row.attr("id", reservedLockers[i].reserveID);
+							row.append(cLabel)
+                            row.append(idNoTd)
+                            row.append(lockerNoTd)
+                            row.append(lockerLocTd)
+
+                            resTable.append(row)
+                            
+                        }
+                        
+                    }
+                    
+                    
+                    $("input[name='reserveCheck']").click(function(){
+                    var checkedValue;
+                    
+                        if($(this).is(":checked")){
+                            var check = $(this);
+                            checkedValue = $(this).val();
+                            console.log("Reserve ID: " + checkedValue)
+
+                            $(".locker-reserve-manager #option-buttons #accept").click(function(){
+                                for(let i = 0; i < reservedLockers.length; i++){
+                                    for(let j = 0; j < lockers.length; j++){
+                                        if(reservedLockers[i].reserveID == checkedValue){
+                                            if(reservedLockers[i].lockerNo == lockers[j].lockerNo &&
+                                              reservedLockers[i].location == lockers[j].location){
+                                                var owner = new OwnedLocker(reservedLockers[i].lockerNo, reservedLockers[i].location, reservedLockers[i].lockCode, reservedLockers[i].reserveID);
+                                                reservedLockers.splice(i, 1)
+
+                                                lockers[i].owned = true
+                                                lockers[i].reserved = false
+                                                
+                                                ownedLockers.push(owner);
+
+                                                initResTable(resLocationSelect.val())
+                                                initOwnTable(ownLocationSelect.val())
+                                                console.log(ownedLockers);
+                                            }
+                                        }
+                                    }
+                                }
+                                $("input[type=checkbox]").prop('checked', false);
+                            })
+
+                            $(".locker-reserve-manager #option-buttons #reject").click(function(){
+                                for(let i = 0; i < reservedLockers.length; i++){
+                                    if(reservedLockers[i].reserveID == checkedValue){
+                                        reservedLockers.splice(i, 1);
+
+                                        console.log(reservedLockers);
+                                        initResTable(resLocationSelect.val())
+                                    }
+                                }
+                                $("input[type=checkbox]").prop('checked', false);
+                            })
+
+                        }
+
+                    })
+                }
+                
+                function initAbandonTable(curLocation){
+                    var aidHeader, alockerNoHeader, alocationHeader, acheckHeader;
+					
+                    
+                    abandonTable.empty();
+                    
+					var thead;
+					thead = $("<thead></thead>");
+                    aidHeader = $("<td></td>").text("ID Number");
+                    alockerNoHeader = $("<td></td>").text("Reserved Locker Number");
+                    alocationHeader = $("<td></td>").text("Reserved Locker Location");
+                    acheckHeader = $("<td></td>");
+                    
+					thead.append(acheckHeader);
+                    thead.append(aidHeader);
+                    thead.append(alockerNoHeader);
+                    thead.append(alocationHeader);
+					abandonTable.append(thead)
+                    
+                    for(let i = 0; i < abandonLockerRequests.length; i++){
+                        var row;
+                        var idNoTd, lockerNoTd, lockerLocTd, check;
+                        var checkForm, checkbox;
+
+                        if(curLocation == abandonLockerRequests[i].location){
+                            row = $("<tr></tr>");
+
+                            checkbox = $("<input>");
+                            checkbox.attr("type", "checkbox")
+                            checkbox.attr("name", "reserveCheck");
+                            checkbox.attr("value", abandonLockerRequests[i].abandonID);
+
+                            idNoTd = $("<td></td>").text(abandonLockerRequests[i].abandonID);
+                            lockerNoTd = $("<td></td>").text(abandonLockerRequests[i].lockerNo);
+                            lockerLocTd = $("<td></td>").text(abandonLockerRequests[i].location);
+                            check = $("<td></td>");
+                            check.append(checkbox)
+
+                            row.attr("id", abandonLockerRequests[i].abandonID);
+							row.append(check)
+                            row.append(idNoTd)
+                            row.append(lockerNoTd)
+                            row.append(lockerLocTd)
+
+                            abandonTable.append(row)
+
+                        }
+
+                        else if (curLocation == "all"){
+                            row = $("<tr></tr>");
+
+                            checkbox = $("<input>");
+                            checkbox.attr("type", "checkbox")
+                            checkbox.attr("name", "abandonCheck");
+                            checkbox.attr("value", abandonLockerRequests[i].abandonID);
+
+                            idNoTd = $("<td></td>").text(abandonLockerRequests[i].abandonID);
+                            lockerNoTd = $("<td></td>").text(abandonLockerRequests[i].lockerNo);
+                            lockerLocTd = $("<td></td>").text(abandonLockerRequests[i].location);
+                            check = $("<td></td>");
+                            check.append(checkbox)
+
+                            row.attr("id", abandonLockerRequests[i].abandonID);
+							row.append(check)
+                            row.append(idNoTd)
+                            row.append(lockerNoTd)
+                            row.append(lockerLocTd)
+
+                            abandonTable.append(row)
+
+                        }
+                    }
+                    
+                    $("input[name='abandonCheck']").click(function(){
+                        var checkedValue;
+                    
+                        if($(this).is(":checked")){
+                            var check = $(this);
+                            checkedValue = $(this).val();
+                            console.log("Abandon ID: " + checkedValue)
+
+                            $(".locker-abandon-manager #option-buttons #accept").click(function(){
+                                for(let i = 0; i < abandonLockerRequests.length; i++){
+                                    for(let j = 0; j < ownedLockers.length; j++){
+                                        for (let k = 0; k < lockers.length; k++){
+                                            if(abandonLockerRequests[i].abandonID == checkedValue){
+                                                if(abandonLockerRequests[i].abandonID == ownedLockers[j].ownerID){
+                                                    if(ownedLockers[j].lockerNo == lockers[k].lockerNo &&
+                                                      ownedLockers[j].location == lockers[k].location){
+                                                        abandonLockerRequests.splice(i, 1);
+                                                        ownedLockers.splice(j, 1);
+                                                        initAbandonTable(abandonLocationSelect.val())
+                                                        initOwnTable(ownLocationSelect.val())
+                                                        lockers[k].owned == false
+                                                    }
+                                                    
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                } 
+                                $("input[type=checkbox]").prop('checked', false);
+                            })
+
+                            $(".locker-abandon-manager #option-buttons #reject").click(function(){
+                                for(let i = 0; i < abandonLockerRequests.length; i++){
+                                    abandonLockerRequests.splice(i, 1);
+                                    initAbandonTable(abandonLocationSelect.val())
+                                } 
+                                $("input[type=checkbox]").prop('checked', false);
+                            })
+
+                        }
+
+                    })
+                   
+                    
+                }
+                
+                function initOwnTable(curLocation){
+                    var oidHeader, olockerNoHeader, olocationHeader, ocheckHeader;
+                    
+                    ownTable.empty();
+                    
+                    oidHeader = $("<td></td>").text("ID Number");
+                    olockerNoHeader = $("<td></td>").text("Reserved Locker Number");
+                    olocationHeader = $("<td></td>").text("Reserved Locker Location");
+                    
+					var thead;
+					thead = $("<thead></thead>");
+                    thead.append(oidHeader);
+                    thead.append(olockerNoHeader);
+                    thead.append(olocationHeader);
+					ownTable.append(thead);
+                    
+                    for(let i = 0; i < ownedLockers.length; i++){
+                        var row;
+                        var idNoTd, lockerNoTd, lockerLocTd, check;
+                        var checkForm, checkbox;
+                        
+                        if(curLocation == ownedLockers[i].location){
+                            row = $("<tr></tr>");
+
+                            idNoTd = $("<td></td>").text(ownedLockers[i].ownerID);
+                            lockerNoTd = $("<td></td>").text(ownedLockers[i].lockerNo);
+                            lockerLocTd = $("<td></td>").text(ownedLockers[i].location);
+
+                            row.attr("id", ownedLockers[i].ownerID);
+                            row.append(idNoTd)
+                            row.append(lockerNoTd)
+                            row.append(lockerLocTd)
+
+                            ownTable.append(row)
+                            
+                        }
+                        
+                        else if (curLocation == "all"){
+                            row = $("<tr></tr>");
+
+                            idNoTd = $("<td></td>").text(ownedLockers[i].ownerID);
+                            lockerNoTd = $("<td></td>").text(ownedLockers[i].lockerNo);
+                            lockerLocTd = $("<td></td>").text(ownedLockers[i].location);
+
+                            row.attr("id", ownedLockers[i].ownerID);
+                            row.append(idNoTd)
+                            row.append(lockerNoTd)
+                            row.append(lockerLocTd)
+
+                            ownTable.append(row)
+                            
+                        }
+                    
+                    }
+                   
+                    
+                }
+                
+            })
+        </script>
+    </head>
+    
+    <body>
+        <div class="main-menu">
+			<div class="logo">
+					<img src="photo/Logo.PNG">
+				</div>
+            <a href="/home">Home</a>
+            <div class="locker-menu">
+                <button class="locker-menu-button">Locker</button>
+                <div id="locker-menu-contents">
+                    <a href="/admin-manage-lockers">Manage all lockers</a>
+                    <a href="/admin-manage-requests">Manage locker requests and current lockers</a>
+                </div>
+            </div>
+
+            <span id="space"></span>
+
+            <div class="user-menu">
+                <button class="user-menu-button">User</button>
+                <div id="user-menu-contents">
+                    <a href="/logout">Log Out</a>
+                </div>
+            </div>
+        </div>
+		
+		
+        
+		<div class="table" id="requests-box">
+			<nav>
+				<ul class="nav nav-tabs"> 
+					<li class="nav-item">
+						<a id="reserve-select" class="nav-link active">Reservations</a>
+					</li>
+					<li class="nav-item">
+						<a id="own-select" class="nav-link">Owned Lockers</a>
+					</li>
+				</ul>
+			</nav>
+			
+			<div class="reserve-locker-section">
+				<div class="locker-reserve-manager">
+					<h3>Manage Reservations  (6)</h3>
+
+					<select id="location-select" name="Select a location">
+						<option value="all">All</option>
+					</select>
+
+					<table id="lockers-table">
+						<thead>
+							<tr>
+								<th>
+								</th>
+								<td>ID Number
+								</td>
+								<td>Reserved Locker Number
+								</td>
+								<td>Reserved Locker Location
+								</td>
+								
+							</tr>
+						</thead>
+						{{#each lockerReserves}}
+							<td>
+							</td>
+							<td>{{this.studentIdNo}}
+							</td>
+							<td>{{this.Locker.lockerNo}}
+							</td>
+							<td>{{this.Locker.location}}
+							</td>
+						{{/each}}
+					</table>
+
+					<form id="option-buttons">
+						<input id="accept" type="button" value="Accept Request(s)">
+						<input id="reject" type="button" value="Reject Request(s)">
+					</form>
+				</div>
+			</div>
+			
+
+			<div class="owned-locker-section">	
+				<div class="locker-own-manager">
+					<h3>View Owned Lockers (5)</h3>
+
+					<select id="location-select" name="Select a location">
+						<option value="all">All</option>
+					</select>
+
+					<table id="lockers-table">
+						<thead>
+							<tr>
+								<td>ID Number
+								</td>
+								<td>Reserved Locker Number
+								</td>
+								<td>Reserved Locker Location
+								</td>
+							</tr>
+						</thead>
+					</table>
+					
+				</div>
+				
+				<div class="locker-abandon-manager">
+					<h3>Manage Abandon Requests (1)</h3>
+
+					<select class="dropdown" id="location-select" name="Select a location">
+						<option value="all">All</option>
+					</select>
+
+					<table id="lockers-table">
+						<thead>
+							<tr>
+								<th>
+								</th>
+								<td>ID Number
+								</td>
+								<td>Reserved Locker Number
+								</td>
+								<td>Reserved Locker Location
+								</td>
+							</tr>
+						</thead>
+					</table>
+
+					<form id="option-buttons">
+						<input id="accept" type="button" value="Accept Request(s)">
+						<input id="reject" type="button" value="Reject Request(s)">
+					</form>
+
+				</div>
+
+				
+				
+			</div>
+		</div>
+        
+    </body>
+</html>

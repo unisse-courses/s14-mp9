@@ -1,0 +1,998 @@
+.logo{
+	display: flex;
+	flex-flow: row nowrap;
+	align-self: center;
+	width: 4%;
+	height: 70%;
+	margin-left: 18%;
+	margin-right: 21%
+}
+
+.logo img{
+	min-width: 100%;
+	min-height: inherit
+}
+
+.main-menu{
+	
+    height: 80px;
+	width: 100%;
+    background-color: #00521c;
+    color: #E6FBDA;
+    font-family: sans-serif;
+    font-size: 18px;
+    display: flex;
+    flex-direction: row;
+}
+
+.main-menu a{
+	margin-top: 10px;
+}
+
+.user-menu{
+	margin-left: 30%;
+}
+
+.locker-menu, .user-menu{
+	margin-top: 10px;
+    float: left;
+    overflow: hidden;
+}
+
+.main-menu a:hover, .locker-menu:hover .locker-menu-button, .user-menu:hover .user-menu-button{
+    background-color: #5E829E;
+}
+
+#locker-menu-contents, #user-menu-contents{
+    background-color: #C9E9C6;
+    position: absolute;
+    display: none;
+    z-index: 1;
+}
+
+#locker-menu-contents{
+	min-width: 350px;
+}
+
+#user-menu-contents{
+	min-width: 150px;
+}
+
+.main-menu a, .locker-menu, .user-menu{
+    
+}
+
+#locker-menu-contents a, #user-menu-contents a{
+    float: none;
+    color: black;
+    padding: 12px;
+    display: block;
+    text-align: left;
+}
+
+#locker-menu-contents a:hover, #user-menu-contents a:hover{
+    background-color: #74BB6D;
+}
+
+.locker-menu:hover #locker-menu-contents, .user-menu:hover #user-menu-contents{
+    display: block;
+}
+
+.main-menu button{
+    background-color: inherit;
+    color:inherit;
+    border: none;
+    outline: none;
+    padding: 20px;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
+.main-menu a{
+    color:inherit;
+    text-decoration: none;
+    padding: 20px;
+}
+
+
+/*all*/
+.user-welcome{
+    background-color: #00521c;
+    font-family: sans-serif;
+}
+
+body{
+    background-color: #cbdad0;
+    font-family: sans-serif;
+}
+
+
+/*main.html*/
+.user-box{
+    background-color: #DDDCDE;
+    padding: 20px;
+	width: 500px;
+}
+
+.user-welcome{
+	background-image: url("../photo/Background2.jpg")
+}
+
+.login, .register{
+	display:flex;
+	flex-direction: column;
+	margin-top: 70px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 0;
+	height: 30em;
+}
+
+.user-box .login{
+	height: 750px;
+}
+
+.user-box .register{
+	height: 800px;
+}
+
+.login h1{
+	text-align: center;
+	padding-bottom: 20px;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	width: 320px;
+	transform: translate(-47%, -50%)
+}
+
+.register h1{
+	text-align: center;
+	padding-bottom: 10px;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	width: 320px;
+	transform: translate(-47%, -50%)
+}
+
+
+#login-form input, #register-form input{
+	margin: 10px;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	height: 60px;
+	width: 320px;
+	transform: translate(-50%, -50%)
+}
+
+#login-form input[type=text], input[type=password], #register-form input[type=text], .manage-lockers-box .locker-manager .term-date-option form input, #personal-info form input{
+	background-color: #88ae95;
+	color: #2d4635;
+	font-size: 18px;
+	font-weight: 300;
+	outline: none;
+	border: 0;
+}
+
+#login-form input[type=submit], #register-form input[type=submit]{
+	margin-top: 40px;
+	background-color: #437eb8;
+	outline: none;
+	border: 0;
+	display: block;
+	text-transform: uppercase;
+	font-size: 20px;
+	color: #DDDCDE;
+}
+
+.login p{
+	margin-bottom: 50px;
+}
+
+#start-register{
+	background-color: inherit;
+	color: #80125a;
+	outline: none;
+	border: 0;
+	width: 300px;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 20px;
+	font-weight: 550;
+	margin: 10px;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	height: 60px;
+	width: 320px;
+	transform: translate(-50%, -50%)
+}
+
+#start-register:hover{
+	color: #e29bc9;
+}
+
+hr #divide{
+    border-top: 3px solid;
+}
+
+.user-box .login, .user-box .register{
+    flex-direction: column;
+}
+
+/*home.html*/
+.admin-options div{
+	margin-top: 50px;
+	margin-right: 300px;
+	margin-left: 300px;
+	padding: 30px 30px 5px 30px;
+	width: 850px;
+	display: inline;
+	float: left;
+}
+
+.quick-menu-box{
+	height: 760px;
+	width: 100%;
+	margin: 0;
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	background-image: linear-gradient(to bottom, rgba(25, 41, 29, 0.80), rgba(13, 112, 40, 0.73)), url("../photo/IMG_8368.JPG");
+	background-size: cover;
+}
+
+.quick-menu-box #reserve-reminder{
+	margin-left: 550px;
+	margin-right: 500px;
+	margin-top: 180px;
+	color: #E6FBDA;
+	text-align: center;
+}
+
+.quick-menu-box #reserve-reminder h1{
+	margin-left: 30px;
+	margin-right: 100px;
+}
+
+.admin-options div input[type=submit]{
+	margin-top: 45px;
+}
+
+.quick-menu-box input[type=submit]{
+	width: 400px;
+	height: 100px;
+	margin-left: 630px;
+	margin-right: 500px;
+	margin-top: 100px;
+}
+
+.quick-menu-box input[type=submit]:hover{
+	background-color: #661048
+}
+
+
+.quick-menu-box #reserve-reminder h1{
+	font-size: 40px
+}
+
+.quick-menu-box #reserve-reminder p, .admin-options div p{
+	width: 550px;
+	word-wrap: break-word;
+	font-size: 28px
+}
+
+.quick-menu-box img, .admin-options #admin-requests-option img{
+	max-width: 30%;
+}
+
+input[type=submit], input[type=button]{
+	outline: none;
+	border: 0;
+}
+
+.quick-menu-box input[type=submit], .admin-options div input[type=submit]{
+	
+	outline: none;
+	border: 0;
+	background-color: #80125a;
+	color: #eef2f5;
+	text-transform: uppercase;
+}
+
+
+/*reserve_locker_form.html*/
+.reserve-selector{
+	padding: 100px 120px 25px 120px;
+	width: 1000px;
+	height: 650px;
+	background-color: #e6f3ea;
+	position:absolute;
+	margin-top: 70px;
+	margin-left: 300px;
+	margin-right: 400px;
+}
+
+.reserve-selector select{
+	width: 400px;
+	height: 80px;
+	margin: 50px 180px 50px 180px;
+	background-color: #dde7f1;
+	border-radius: 6px;
+	color: #536a80;
+	outline: none;
+	display: block;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+
+.reserve-selector form #reserve-button{
+	background-color: #437eb8;
+	color: #dde7f1;
+	outline: none;
+	border: 0;
+	width: 400px;
+	height: 80px;
+	margin: 5px 180px 50px 180px;
+}
+
+.reserve-selector form #reserve-button:active{
+	background-color: #233b53;
+	color: #dde7f1;
+}
+
+#cancel-reminder{
+	text-align: center
+}
+
+#cancel-reservation-button{
+	margin-top: 30px;
+	height: 50px;
+	width: 200px;
+	background-color: #366ea4;
+	color: #f6f6f6;
+}
+
+.reminder-modal, .modal-quick-reserve{
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0, 0, 0);
+	background-color: rgb(0, 0, 0, 0.4)
+}
+
+.reminder, .quick-reserve{
+	background-color: #e7e3ce;
+	margin: 15% auto;
+	padding: 30px;
+	border: 1px solid #888;
+	width: 50%
+}
+
+.quick-reserve input[name='reply']{
+	margin-top: 10px;
+	height: 50px;
+	width: 50px;
+}
+
+.quick-reserve input[value='No']{
+	margin-left: 10px;
+}
+
+#close{
+	font-size: 30px;
+	margin-left: 97%;
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+/*profile.html*/
+.page-box{
+	background-color: #e6f3ea;
+	height: 100%
+}
+
+.profile-box{
+	padding: 80px;
+	display: flex;
+	flex-direction: row;
+}
+
+.profile-box img{
+	max-width: 30%;
+}
+
+.profile-box #personal-info{
+	font-size: 18px;
+	width: 1000px;
+}
+
+
+#image-locker{
+	display: flex;
+	flex-direction: column
+}
+
+#locker-address h6{
+	font-size: 40px;
+}
+
+#locker-address{
+	text-align: center;
+}
+
+.profile-box #locker-info{
+	background-color: #f3f6f4;
+}
+
+#locker-info{
+	padding: 20px;
+	background-color: #e6f3ea;
+}
+
+#locker-info #locker h5{
+	text-align: center
+}
+
+#locker-info #abandon-button{
+	width: 100px;
+	margin-top: 20px;
+}
+
+#locker-lock-code{
+	text-align: center
+}
+
+.profile header h1{
+	text-transform: uppercase;
+}
+
+.info-section #name-edit{
+	margin-bottom: 40px;
+	display: flex;
+	flex-direction: row;
+}
+
+.info-section #name-edit button{
+	margin-left: 5px;
+}
+
+.info-section{
+	background-color: #f3f6f4;
+	display: flex;
+	flex-direction: column;
+	padding: 50px;
+	margin-left: 50px;
+}
+
+.info-section button img{
+	max-width: 50%;
+	max-height: 110%;
+}
+
+
+#personal-info{
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: 250px 250px;
+}
+
+#personal-info label{
+	display: inline-block;
+	width: 150px;
+	margin-right: 100px;
+	text-align: right;
+}
+
+
+/*edit_profile.html*/
+.profile-box #personal-info #edit div{
+	margin-top: 50px;
+}
+
+.edit-profile-box{
+	margin-top: 30px;
+	background-color: #e6f3ea
+}
+
+.edit-profile-box #personal-info{
+	margin-left: 100px
+}
+
+.profile-box #personal-info #edit input[type=submit]{
+	background-color: #437eb8;
+	color: #dde7f1;
+	margin-top: 80px;
+	height: 80px;
+	width: 200px;
+}
+
+.edit-profile-box #personal-info img{
+	margin-top: 100px;
+	margin-left: 50px;
+}
+
+#personal-info form input{
+	height: 30px;
+	width: 400px;
+}
+
+
+#personal-info form div{
+	margin-top: 10px;
+}
+
+/*current_locker.html*/
+#abandon-reminder{
+	text-align: center;
+}
+
+#abandon{
+	background-color: #437eb8;
+	color: #dde7f1;
+	outline: none;
+	border: 0;
+	width: 280px;
+	height: 80px;
+	margin: 10px 140px 30px 90px;
+}
+
+.current-locker-box #locker-info{
+	width: 450px;
+}
+
+.current-locker-box{
+	margin-left: 100px;
+	margin-right: 400px;
+	margin-top: 40px
+}
+
+
+
+/*locker_view.html*/
+.locker-box{
+	background-color: #e6f3ea;
+	height: 1000px;
+	padding-top: 40px;
+	padding-left: 380px
+}
+
+#user-locker-section {
+	margin-left: 120px;
+}
+
+#term-info{
+	font-size: 18px;
+}
+
+.results-box{
+	background-color: #b8d5c1;
+	padding: 100px;
+	height: 100%;
+}
+
+.results-box{
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
+.results-box #results-info{
+	margin-left: 100px;
+	font-size: 20px;
+}
+
+#results-search{
+	width:1000px;
+	margin: 50px;
+} 
+
+#results-search th, #results-search td{
+	height: 50px;
+}
+
+.search{
+	display: block;
+	margin-top: 40px;
+	padding-left: 25%;
+}
+
+.search .input-control{
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+
+.search .input-control .input-control-append{
+	margin-left: 0;
+}
+
+.search form input[type=submit]{
+	margin-left: 10px;
+}
+
+#radio-criteria{
+	margin-left: 10px;
+}
+
+.search form input[type=text]{
+	width: 780px;
+	height: 50px;
+	background-color: inherit;
+	
+	border: 1px solid #00521c;
+}
+
+.search form button[type=submit]{
+	height: 50px;
+	width: 70px;
+	outline: none;
+	border: none;
+	background-color: #437eb8;
+	color: #e6f3ea;
+}
+
+.lockers-section{
+	display:flex;
+	flex-direction: row;
+	height: 400px;
+	margin-top: 15px;
+}
+
+
+.locker-location th, .locker-location td{
+	width: 100px;
+}
+
+.lockers-section .lockers{
+	margin-left: 30px;
+}
+
+.lockers select{
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 14px;
+	outline: none;
+	border: 0;
+	margin-left: 10px;
+	background-color: #e6f3ea;
+	color: #233b53;
+	text-transform: uppercase
+}
+
+#location-list th{
+    font-size: 18px
+}
+
+#lockers-table td{
+	width: 70px;
+}
+
+#location-list td, #location-list th{
+	border: 2px solid #127a35;
+}
+
+#legend-section{
+	margin-bottom: 20px;
+}
+
+.filters #legend{
+	display: flex;
+	flex-direction: row;
+}
+
+.filters #legend th, .filters #legend td{
+	height: 50px;
+	width: 200px;
+}
+
+#legend td[value="green"]{
+    background-color: green;
+}
+
+#legend td[value="red"]{
+    background-color: darkred;
+}
+
+#legend td[value="blue"]{
+    background-color: dodgerblue;
+}
+
+/*admin_manage_lockers.html*/
+.manage-lockers-box, locker-box{
+	background-color: #e6f3ea;
+	display: flex;
+	flex-direction: row;
+	margin: 50px;
+	height: 1000px
+}
+
+.manage-lockers-box .manage-menu{
+	background-color: #00521c;
+	width: 300px;
+}
+
+.manage-lockers-box .locker-manager .term-date-option form{
+	margin-top: 40px;
+}
+
+.manage-lockers-box .locker-manager .term-date-option input[type=button]{
+	height: 60px;
+	width: 150px;
+	border: 0;
+	outline: none;
+	background-color: #366ea4;
+	color: #f6f6f6;
+}
+
+.manage-lockers-box [type=button]{
+	border: 0;
+	outline: none;
+	background-color: #366ea4;
+	color: #f6f6f6;
+}
+
+#table-section input[value=Edit]{
+	width: 100px;
+}
+
+#table-section #edit-options input[type=button]{
+	width: 170px;
+}
+
+#table-section input[type=button]{
+	height: 40px;
+}
+
+.options-chosen-section{
+	margin-top: 20px 
+}
+
+.locations-section form input[type=button], .locations-section select{
+	height: 50px;
+}
+
+.locations-section form{
+	margin-left: 30px;
+}
+
+.locations-section select{
+	background-color: #dde7f1;
+	border-radius: 6px;
+	border: 1px solid #233b53;
+}
+
+.locations-section form input[type=button]{
+	width: 180px;
+	border: 0;
+	outline: none;
+	background-color: #366ea4;
+	color: #f6f6f6;
+}
+
+.manage-lockers-box .locker-manager .term-date-option input[type=datetime], .manage-lockers-box .locker-manager .term-date-option form label{
+	margin-bottom: 30px;
+	height: 70px;
+	width: 400px
+}
+
+.manage-lockers-box .locker-manager{
+	background-color: #e6f3ea;
+	width: 600px;
+	padding: 50px
+}
+
+.manage-lockers-box .manage-options{
+	height: 100%;
+	width: 300px;
+	z-index: auto;
+}
+
+.manage-lockers-box .manage-options a{
+	text-decoration: none;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	font-size: 18px;
+	height: 30px;
+	display: block;
+}
+
+.manage-lockers-box .manage-options a:hover{
+	background-color: #127a35;
+}
+
+.locker-manager{
+	margin: 30px;
+	display: flex;
+	flex-direction: column;
+}
+
+.locker-manager .locations-section{
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px
+}
+
+.locker-manager .locations-section input[type=button]{
+	margin-left: 10px;
+}
+
+.locker-manager .locker-table-section{
+	margin-top: 30px;
+	display: flex;
+	flex-direction: row;
+}
+
+
+
+
+.locker-manager h3{
+	font-size: 28px;
+}
+
+.locker-manager .locker-table-section #table-section{
+	margin-left: 50px;
+}
+
+.locker-manager .locker-table-section #legend{
+	width: 500px;
+	margin-bottom: 10px
+}
+
+.locker-manager .locker-table-section #legend tr th{
+	font-size: 12px
+}
+
+.locker-manager .locker-table-section #legend tr td{
+	height: 50px;
+	font-size: 12px;
+}
+
+.manage-lockers-box .manage-options a, .manage-lockers-box .manage-menu h3{
+	padding-left: 15px;
+	color: #edefee
+}
+
+/*admin_manage_requests.html*/
+#requests-box div[class^="locker-"] table tr{
+	height: 100px;
+	background-color: #e6f3ea;
+	margin: 0;
+}
+
+.owned-locker-section{
+	display: flex;
+	flex-direction: row;
+}
+
+.owned-locker-section table{
+	width: 740px;
+	margin: 0;
+}
+
+.reserve-locker-section #lockers-table{
+	width: 1500px;
+}
+
+#requests-box{
+	margin-top: 30px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#requests-box div[class^="locker-"] table thead{
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#requests-box div[class^="locker-"]{
+	margin-top: 30px;
+}
+
+#requests-box div[class^="locker-"] form, #requests-box div[class^="locker-"] select{
+	margin-left: 30px;
+	margin-top: 10px;
+}
+
+#requests-box div[class^="locker-"] h3{
+	font-size: 18px;
+}
+
+#requests-box div[class^="locker-"] select{
+	height: 40px;
+	background-color: #dde7f1;
+	border-radius: 6px;
+}
+
+#requests-box div[class^="locker-"] form input[type=button]{
+	height: 50px;
+	width: 200px;
+	border: 0;
+	outline: none;
+	background-color: #366ea4;
+	color: #f6f6f6;
+}
+
+#requests-box table th, .locker-reserve-manager table td:first-child, .locker-abandon-manager table td:first-child{
+	max-width: 10px;
+}
+
+.locker-abandon-manager table input[type="checkbox"]{
+	margin-left: 30px;
+}
+
+.c-label{
+	display: block;
+	position: relative;
+	cursor: pointer;
+	margin-top: 30px;
+	margin-left: 50px;
+	font-size: 22px;
+	user-select: none;
+}
+
+#requests-box table input[type="checkbox"]{
+	height: 0;
+	width: 0;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.c-span{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 30px;
+	width: 30px;
+	background-color: inherit;
+	border: 3px solid #127a35;
+	border-radius: 5px;
+}
+
+.c-label:hover input ~ .c-span{
+	border: 3px solid #127a35;
+	background-color: #799883
+}
+
+.c-label input:checked~ .c-span{
+	background-color: #127a35
+}
+
+.c-span::after{
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+.c-label input:checked~ .c-span::after{
+	display: block;
+}
+
+.c-label .c-span::after{
+	left: 5px;
+	top: 7px;
+	width: 15px;
+	height: 15px;
+	border: solid #C9E9C6;
+	border-width: 0 3px 3px 0;
+	transform: rotate(45deg)
+}
+
+#requests-box div[class^="locker-"] table{
+	margin: 30px;
+	border-spacing: 0 5px;
+}
+
+#requests-box div[class^="locker-"] form input[type=button]:hover, .manage-lockers-box .locker-manager .term-date-option input[type=button]:hover, .locations-section form input[type=button]:hover, #table-section [type=button]:hover, .reserve-selector form #reserve-button:hover, #cancel-reservation-button:hover, #abandon:hover, .search form input[type=submit]:hover{
+	background-color: #2d5984;
+}
+
+

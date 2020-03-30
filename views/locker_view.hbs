@@ -1,0 +1,505 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        </script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+		
+        <link rel="stylesheet" type="text/css" href="css/mp1.css">
+        
+        <script src="main.js"></script>
+        
+        <script>
+            $(document).ready(function(){
+                //var statuses = ["available", "reserved", "owned"]
+                var checked = false;
+                var currentReserved;
+                var locationList = $("#location-list");
+                var locationSelect = $("#location-select");
+                
+                //console.log(statuses)
+                
+                $(".modal-quick-reserve").hide()
+                $("#quick-reminder").hide()
+                $("#cancel-reminder").hide()
+
+                $("input[name='status']").prop('checked', true);
+                
+                /*for(let i = 0; i < locations.length; i++){
+                    var nFreeLockers = locations[i].nTotalLockers;
+                    
+                    var tr = $("<tr></tr>")
+                    var tdLocation = $("<td></td>").text(locations[i].locationName)
+                    var tdLockersTotal = $("<td></td>").text(locations[i].nTotalLockers)
+                    var tdLockersAvail = $("<td></td>").text(locations[i].availableLockers)
+                    
+                    var opLocation = $("<option></option>").text(locations[i].locationName)
+                    opLocation.val(locations[i].locationName);
+
+                    tr.append(tdLocation);
+                    tr.append(tdLockersTotal);
+                    tr.append(tdLockersAvail);
+
+                    locationList.append(tr);
+                    //locationSelect.append(opLocation);
+                }*/
+                
+                initTable(locationSelect.val())
+                
+                
+                locationSelect.change(function(){
+                    var selectedLocation = $(this).val();
+                    initTable(selectedLocation)
+                    
+					$("#lockers-table td").hide();
+					$("input[name='status']").each(function(){
+						if($(this)[0].checked){
+							var status = $(this).val();
+							$("[value=" + status + "]").show();
+							
+							//$("." + status).show();
+						}
+					})
+                })
+                
+                $("input[name='criteria']").click(function(){
+                    var checkedStatus;
+                    $("input[name='criteria']").not(this).prop('checked', false);
+                    //
+                    if($(this).is(":checked")){
+                        checkedStatus = $(this).val();
+                        console.log(checkedStatus)
+                    }
+                })
+                
+				
+				
+				$("#legend tr td :checkbox").click(function(){
+					$("#lockers-table td").hide();
+					$("input[name='status']").each(function(){
+						if($(this)[0].checked){
+							var status = $(this).val();
+							$("[value=" + status + "]").show();
+							//$("." + status).show();
+						}
+					})
+				})
+
+                function initTable(currLocation){
+                    var lockersTable = $("#lockers-table");
+                    
+                    $("#cancel-reminder").hide();
+                    
+                    lockersTable.empty();
+                    
+                    var nLockersSelected = 0;
+                    
+                    for(let i = 0; i < locations.length; i++){
+                        if(currLocation == locations[i].locationName){
+                            nLockersSelected = locations[i].nTotalLockers;
+                        }
+                    }
+                    
+                    
+                    var rows = []
+                    for(let row = 0; row < nLockersSelected/5; row++){
+                        var lockerTr = $("<tr></tr>");
+                        rows.push(lockerTr)
+                        lockersTable.append(rows[row]);
+                    }
+                    
+                    var rowCtr = 0;
+                    var ctr = 0;
+                    for(let i = 0; i < lockers.length; i++){
+                        var lockerTd = $("<td></td>");
+                        if(lockers[i].location == currLocation){
+                            var cellButton = $("<input>");
+							cellButton.attr("type", "checkbox")
+                            cellButton.attr("name", "lockerNumber")
+                            cellButton.attr("value", lockers[i].lockerNo)
+                            lockerTd.text(lockers[i].lockerNo);
+                            
+                                
+                            if(lockers[i].owned == true){
+								lockerTd.attr("class", "checkbox-wrapper")
+								lockerTd.attr("data-container", "body")
+								lockerTd.attr("data-toggle", "popover")
+								lockerTd.attr("data-placement", "right")
+								lockerTd.attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is owned. Please pick an available one.")
+                                lockerTd.css({
+                                    "border": "none",
+                                    "height": "140px",
+									"width": "140px",
+									"display": "inline-block",
+                                    "background-color": "darkred",
+                                    "color": "azure"
+                                })
+                            }
+                            else if(lockers[i].reserved == true){
+								lockerTd.attr("class", "checkbox-wrapper")
+								lockerTd.attr("data-container", "body")
+								lockerTd.attr("data-toggle", "popover")
+								lockerTd.attr("data-placement", "right")
+								lockerTd.attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is reserved. Please pick an available one.")
+                                lockerTd.css({
+                                    "border": "none",
+                                    "height": "140px",
+									"width": "140px",
+									"display": "inline-block",
+                                    "background-color": "dodgerblue",
+                                    "color": "azure"
+                                })
+                            }
+                            else{
+								lockerTd.attr("class", "checkbox-wrapper")
+								lockerTd.attr("data-toggle", "modal")
+								lockerTd.attr("data-target", "#validity-confirm")
+                                lockerTd.css({
+									"border": "none",
+                                    "height": "140px",
+									"width": "140px",
+									"display": "inline-block",
+                                    "background-color": "green",
+                                    "color": "azure"
+                                })
+                            }
+                            
+                            lockerTd.attr("name", "status")
+                            if(lockers[i].owned == true && lockers[i].reserved == false){
+                               lockerTd.attr("value", "owned")
+                            }
+                            else if(lockers[i].reserved == true && lockers[i].owned == false){
+                                lockerTd.attr("value", "reserved")
+                            }
+                            else if(lockers[i].owned == false && lockers[i].reserved == false){
+                                lockerTd.attr("value", "available")
+                            }
+                            
+                            lockerTd.append(cellButton)
+                            rows[rowCtr].append(lockerTd)
+                            ctr++;
+                                                                    
+                            if(ctr < 5){
+                            }
+                            else{
+                                rowCtr++;
+                                ctr = 0;
+                            }
+                            
+                        }
+                        
+                    }
+					
+                    $("input[name='lockerNumber']").css({
+						"height": "140px",
+						"width": "140px",
+						"margin-top": "-18px",
+						"margin-left": "1px",
+						"position": "relative",
+						"opacity": "0",
+						"display": "block"
+					})
+                }
+                
+				
+				
+				$("input[name='lockerNumber']").on("change", function(){
+					var checked = $(this)
+
+					$("input[name='lockerNumber']").not(this).prop('checked', false)
+
+					if(checked.is(":checked")){
+						var checkedLocker = checked.val();
+						
+						$("input[name='lockerNumber']").not(this).each(function(){
+							console.log($(this).val())
+							for(let i = 0; i < lockers.length; i++){
+								if(lockers[i].location == locationSelect.val()){
+									if($(this).val() == lockers[i].lockerNo){
+										if(lockers[i].owned == true){
+											$(this).parent().css({
+												"border": "none",
+                                    			"background-color": "darkred",
+												"color": "azure"
+											})
+										}
+										else if(lockers[i].reserved == true){
+											$(this).parent().css({
+												"border": "none",
+                                    			"background-color": "dodgerblue",
+												"color": "azure"
+											})
+										}
+										else if(lockers[i].reserved == false && 
+											   lockers[i].owned == false){
+											$(this).parent().css({
+												"border": "none",
+                                    			"background-color": "green",
+												"color": "azure"
+											})
+										}
+									}
+								}
+							}
+						})
+						
+						$(this).parent().css({
+							"border": "7px solid black"
+						})
+						
+						for(let i = 0; i < lockers.length; i++){
+							if(lockers[i].location == locationSelect.val()){
+								if(lockers[i].lockerNo == checkedLocker){
+									if(lockers[i].reserved == true){
+										$(".btn btn-primary").attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is reserved. Please pick an available one.")
+									}
+									else if(lockers[i].owned == true){
+										$(".btn btn-primary").attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is owned. Please pick an available one.")
+									}
+									else {
+										
+									}
+								}
+							}
+						}
+						
+						
+					}
+				})
+                
+                
+            })
+            
+        </script>
+        
+        
+    </head>
+    
+    <body>
+        <div class="main-menu">
+			<div class="logo">
+				<img src="photo/Logo.PNG">
+			</div>
+
+			<a href="home.html">Home</a>
+			<div class="locker-menu">
+				<button class="locker-menu-button">Locker</button>
+				<div id="locker-menu-contents">
+					<a href="current-locker">View current locker</a>
+					<a href="view-lockers">View lockers and reserve a locker</a>
+				</div>
+			</div>
+
+			<span id="space"></span>
+			<div class="user-menu">
+				<button class="user-menu-button">{{idNo}}</button>
+				<div id="user-menu-contents">
+					<a onclick="goToProfile();">Profile</a>
+					<a href="logout">Log Out</a>
+
+					<form id="profile-hidden" action="profile" method="post">
+						<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
+						<input type="hidden" value="{{password}}" id="password" name="password">
+					</form>
+				</div>
+			</div>
+		</div>
+        
+        <div class="search">
+            <form method="post" action="search">
+				<div class="form-group row">
+					<div class="col-sm-80">
+						<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
+					</div>
+					<div class="col-lg-append">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-search"></i>
+						</button>
+					</div>
+					<div id="radio-criteria">
+						<div class="custom-control custom-radio">
+							<input type="radio" id="radio-search-lc" class="custom-control-input" name="criteria" value="location"><label for="radio-search-lc" class="custom-control-label">Location only</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="radio-search-lk" class="custom-control-input" name="criteria" value="lockerNo"> <label for="radio-search-lk" class="custom-control-label">Locker Number only</label>
+						</div>
+					</div>
+					
+				</div>
+            </form>
+        </div>
+        
+		<div class="locker-box">
+			<div id="term-info">
+				<label><b>Current term dates: </b></label><span id="term-dates"> Date to Date</span>
+			</div>
+			
+			<div class="lockers-section">
+				<div class="locker-view-options">
+					<div class="card" id="legend-section" style="width: 20rem;">
+						<h4 class="card-header">Filters</h4>
+						<div class="card-body">
+							<table class="table" id="legend">
+								<tr>
+									<th>Color</th> 
+									<th>Status</th> 
+									<th>Filter</th>
+								</tr>
+								<tr>
+									<td value="green"></td> 
+									<td>Available</td> 
+									<td>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" id="available-cell" class="custom-control-input" name="status" value="available"> <label for="available-cell" class="custom-control-label"></label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td value="blue"></td> 
+									<td>Reserved</td>
+									<td>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" id="reserved-cell" class="custom-control-input" name="status" value="reserved"> <label for="reserved-cell" class="custom-control-label"></label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td value="red"></td> 
+									<td>Owned</td> 
+									<td>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" id="own-cell" class="custom-control-input" name="status" value="owned"> <label for="own-cell" class="custom-control-label"></label>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>	
+					</div>
+					
+					
+					<div class="card" id="location-select-section" style="width: 20rem;">
+						<h4 class="card-header">Location</h4>
+						<div class="card-body">
+							<table id="location-list">
+								<tr>
+									<th>Location</th>
+									<th>Total Lockers</th>
+									<th>Available</th>
+								</tr>
+								{{#each locations}}
+									<tr>
+										<td>{{this.locationName}}</td>
+										<td>{{this.nTotalLockers}}</td>
+										<td>{{this.availableLockers}}</td>
+									</tr>
+								{{/each}}
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div id="user-locker-section" class="card" style="height: 50rem; width: 50rem;">
+					<h4 class="card-header">Lockers</h4>
+					<div class="card-body">
+						<div class="lockers">
+							<label>Lockers Location </label><select id="location-select" class="btn btn-secondary dropdown-toggle" role="button" name="Select a location">
+								{{#each locations}}
+									<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
+									</option>
+								{{/each}}
+							</select>
+							<table id="lockers-table">
+
+							</table>
+						</div>
+					</div>	
+				</div>
+				
+			</div>
+
+			<div class="modal fade" id="validity-confirm" tabindex="-1" role="dialog" aria-labelledby="validConfirmLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">
+							Reserve available locker</h5>
+							<button class='close' data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							Do you want to reserve this locker?
+						</div>
+						<div class="modal-footer">
+							<form>
+								<input type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#confirm-reminder" name="reply" value="Yes"> 
+								<input type="button" class="btn btn-secondary" data-dismiss="modal" name="reply" value="No"> 
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="confirm-reminder" tabindex="-1" role="dialog" aria-labelledby="validConfirmLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">
+							Reserve available locker</h5>
+							<button class='close' data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							Now please go to the Accounting Office at St. La Salle Hall and then pay P200 for your locker. Your locker code is revealed below.
+							<b id="lock-code-reveal"></b>
+						</div>
+						<div class="modal-footer">
+							<form post="post" action="cofirm-reservation">
+								<input id="id-user-select" name="userIdSelector" type="hidden">
+								
+								<input id="location-name-selected" name="selectedLocation" type="hidden">
+								
+								<input id="locker-selected" name="selectedLocker" type="hidden">
+								
+								
+								<input type="submit" class="btn btn-primary" name="reply" data-dismiss="modal" data-target="#cancel-reminder" value="Confirm Reservation">
+								<input type="button" class="btn btn-secondary" name="reply" data-dismiss="modal" data-toggle="modal" data-target="#cancel-reminder" value="Cancel Reservation">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="cancel-reminder" tabindex="-1" role="dialog" aria-labelledby="validConfirmLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">
+							Reserve available locker</h5>
+							<button class='close' data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							You have cancelled your reservation. You are now free to choose another locker to reserve. Close the window and press on another locker.
+							<b id="lock-code-reveal"></b>
+						</div>
+						<div class="modal-footer">
+							<form action="cancel-reservation" method="get" >
+								<input type="submit" class="btn btn-primary" value="Reserve a locker">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+        
+    </body>
+</html>

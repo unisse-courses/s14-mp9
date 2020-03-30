@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        </script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/mp1.css">
+		
+        <script src="main.js"></script>
+        
+        <script>
+			$(document).ready(function(){
+				var viewLockers = $(".quick-menu-box input[type=submit]")
+				
+				viewLockers.mouseover(function(){
+					$(".quick-menu-box").css({
+						"background-image": "linear-gradient(to bottom, rgba(25, 41, 29, .95), rgba(13, 112, 40, 0.85)), url('../photo/IMG_8368.JPG')",
+						"background-size": "cover"
+					})
+				})
+				viewLockers.mouseout(function(){
+					$(".quick-menu-box").css({
+						"height": "760px",
+						"width": "100%",
+						"margin": '0',
+						"position": "relative",
+						"display": "inline-block",
+						"overflow": "hidden",
+						"background-image": "linear-gradient(to bottom, rgba(25, 41, 29, 0.80), rgba(13, 112, 40, 0.73)), url('../photo/IMG_8368.JPG')",
+						"background-size": "cover",
+						"transition-timing-function": "ease"
+					})
+				})
+			})
+			
+			function goToProfile(){
+				$("#profile-hidden").submit()
+			}
+			
+        </script>
+    </head>
+    
+    <body>
+        <div class="top">
+            <div class="main-menu">
+				<div class="logo">
+					<img src="photo/Logo.PNG">
+				</div>
+				
+                <a href="home.html">Home</a>
+                <div class="locker-menu">
+                    <button class="locker-menu-button">Locker</button>
+                    <div id="locker-menu-contents">
+                        <a href="current-locker">View current locker</a>
+                        <a href="view-lockers">View lockers and reserve a locker</a>
+                    </div>
+                </div>
+
+                <span id="space"></span>
+                <div class="user-menu">
+                    <button class="user-menu-button">{{idNo}}</button>
+                    <div id="user-menu-contents">
+                        <a onclick="goToProfile();">Profile</a>
+                        <a href="logout">Log Out</a>
+						
+						<form id="profile-hidden" action="profile" method="post">
+							<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
+							<input type="hidden" value="{{password}}" id="password" name="password">
+						</form>
+                    </div>
+                </div>
+            </div>
+            
+			<div class="quick-menu-box">
+				<!--<img src="photo/IMG_8368.jpg">---->
+				<div id="reserve-reminder">
+					<h1>Reserve now!</h1>
+					<p>Don't want the burden to bring certain things to campus? Choose a locker to reserve today!</p>
+				</div>
+				<form action="view-lockers" method="get">
+					<input type="submit" value="Start reserving">
+				</form>
+			</div>
+        </div>
+        
+    </body>
+</html>

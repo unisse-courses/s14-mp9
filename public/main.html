@@ -1,0 +1,70 @@
+<html>
+    <head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        </script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+        <link rel="stylesheet" type="text/css" href="css/mp1.css">
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        </script>
+        
+        <script src="main.js"></script>
+		
+        <title>Log In or Sign Up</title>
+        
+		<script>
+			$(document).ready(function(){
+				var login = $(".login")
+				var register = $(".register")
+				
+				register.hide();
+				
+				$("#start-register").click(function(){
+					login.hide();
+					register.show();
+				})
+				
+			})
+		</script>
+    </head>
+    
+    <body class="user-welcome">
+        <div class="user-box">
+			<p>Locker Reservation</p>
+			
+            <div class="login">
+                <form id="login-form" action="login" method="post">
+					<h1>LOGIN</h1>
+                    <input type="text" name="idNo" value="ID Number">
+                    <input type="password" name="password" value="Password">
+                    <input type="submit" name="submit" value="Login" onclick="checkUser()"> 
+                </form>
+				<p>or</p>
+				
+				<input type="button" id="start-register" value="Register">
+				
+            </div>
+
+            
+            <div class="register">
+                <form id="register-form" action="register" method="post">
+					<h1>SIGN UP</h1>
+                    <input type="text" name="newIdNo" value="ID Number">
+                    <input type="password" name="newPassword" value="Password">
+                    <input type="text" name="newFullName" value="Full Name">
+                    <input type="text" name="newDegree" value="Degree Program">
+                    <input type="text" name="newEmail" value="E-mail Address">
+                    <input type="text" name="newMobileNo" value="Mobile Contact Number">
+
+                    <input type="submit" value="Register" onsubmit="registerUser()"> 
+                </form>
+            </div>
+        </div>
+        
+    </body>
+</html>

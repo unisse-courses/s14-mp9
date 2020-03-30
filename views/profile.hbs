@@ -1,0 +1,103 @@
+<html>
+    <head>
+		<title>Profile</title>
+		
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        </script>
+		
+		<script>
+			function goToProfile(){
+				$("#profile-hidden").submit()
+			}
+			
+			function editProfile(){
+				$("#edit-profile-hidden").submit()
+			}
+        </script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+		
+		<link rel="stylesheet" type="text/css" href="css/mp1.css">
+		
+    </head>
+    
+    <body>
+        <div class="main-menu">
+			<div class="logo">
+				<img src="photo/Logo.PNG">
+			</div>
+
+			<a href="home.html">Home</a>
+			<div class="locker-menu">
+				<button class="locker-menu-button">Locker</button>
+				<div id="locker-menu-contents">
+					<a href="current-locker">View current locker</a>
+					<a href="view-lockers">View lockers and reserve a locker</a>
+				</div>
+			</div>
+
+			<span id="space"></span>
+			<div class="user-menu">
+				<button class="user-menu-button">{{idNo}}</button>
+				<div id="user-menu-contents">
+					<a onclick="goToProfile();">Profile</a>
+					<a href="logout">Log Out</a>
+
+					<form id="profile-hidden" action="profile" method="post">
+						<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
+						<input type="hidden" value="{{password}}" id="password" name="password">
+					</form>
+				</div>
+			</div>
+		</div>
+        
+        <div class="profile">
+			<div class="page-box">
+				<div class="profile-box">
+					<div id="image-locker">
+						<div class="card text-center" id="locker-info" style="width: 23rem;">
+							<div class="card-body" id="locker">
+								<h5 class="card-title">Current locker</h5>
+								<div id="locker-address">
+									<h6>110</h6>
+									<p class="card-subtitle mb-3 text-muted">St. La Salle Hall</p>
+								</div><br>
+								<div id="locker-lock-code">
+									<b>Locker Code</b> <span>10239</span>
+								</div>
+								<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
+							</div>
+						</div>
+					</div>
+					
+					<div class="info-section">
+						<div id="name-edit">
+							<h3>{{user.realName}}</h3> <a href="#" class="btn" onclick="editProfile();"><i class="fa fa-pencil fa-lg"></i></a>
+							
+							<form id="edit-profile-hidden" action="edit-profile" method="post">
+								<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
+								<input type="hidden" value="{{password}}" id="password" name="password">
+							</form>
+						</div>
+						
+						<div id="personal-info">
+							<label><b>ID Number</b></label> <p id="id-number">{{user.idNo}}</p>
+							<label><b>Degree Program</b></label> <p id="degree">{{user.degree}}</p>
+							<label><b>E-mail Address</b></label> <p id="email">{{user.email}}</p>
+							<label><b>Mobile Contact Number</b></label> <p id="mobile-no">{{user.mobileNo}}</p>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+            
+        </div>
+        
+    </body>
+</html>
