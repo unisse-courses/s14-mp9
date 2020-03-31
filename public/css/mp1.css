@@ -168,7 +168,7 @@ body{
 	transform: translate(-50%, -50%)
 }
 
-#login-form input[type=text], input[type=password], #register-form input[type=text], .manage-lockers-box .locker-manager .term-date-option form input, #personal-info form input{
+#login-form input[type=text], input[type=password], #register-form input[type=text], .manage-lockers-box .locker-manager .term-date-option form input #personal-info form input[type=text]{
 	background-color: #88ae95;
 	color: #2d4635;
 	font-size: 18px;
@@ -397,25 +397,20 @@ input[type=submit], input[type=button]{
 
 /*profile.html*/
 .page-box{
-	background-color: #e6f3ea;
+	background-color: #cbdad0;
 	height: 100%
 }
 
-.profile-box{
+.profile-box, .edit-profile-box{
 	padding: 80px;
 	display: flex;
 	flex-direction: row;
-}
-
-.profile-box img{
-	max-width: 30%;
 }
 
 .profile-box #personal-info{
 	font-size: 18px;
 	width: 1000px;
 }
-
 
 #image-locker{
 	display: flex;
@@ -430,7 +425,7 @@ input[type=submit], input[type=button]{
 	text-align: center;
 }
 
-.profile-box #locker-info{
+.profile-box #locker-info, .edit-profile-box #locker-info{
 	background-color: #f3f6f4;
 }
 
@@ -480,13 +475,17 @@ input[type=submit], input[type=button]{
 }
 
 
-#personal-info{
+#personal-info, #profile-locker{
 	display: grid;
 	grid-gap: 10px;
+}
+
+#personal-info{
 	grid-template-columns: 250px 250px;
 }
 
-#personal-info label{
+
+#personal-info label, #profile-locker label{
 	display: inline-block;
 	width: 150px;
 	margin-right: 100px;
@@ -495,43 +494,43 @@ input[type=submit], input[type=button]{
 
 
 /*edit_profile.html*/
-.profile-box #personal-info #edit div{
-	margin-top: 50px;
-}
-
-.edit-profile-box{
-	margin-top: 30px;
-	background-color: #e6f3ea
-}
-
-.edit-profile-box #personal-info{
+.edit-profile-box #personal-info, #edit-personal-info{
 	margin-left: 100px
 }
 
-.profile-box #personal-info #edit input[type=submit]{
-	background-color: #437eb8;
-	color: #dde7f1;
-	margin-top: 80px;
-	height: 80px;
-	width: 200px;
+#edit-personal-info{
+	margin-top: 20px
 }
 
-.edit-profile-box #personal-info img{
-	margin-top: 100px;
-	margin-left: 50px;
+.edit-profile-info-box{
+	width: 1500px;
+	display: flex;
+	flex-direction: column;
 }
 
-#personal-info form input{
+.edit-profile-info-box h1{
+	margin-left: 100px
+}
+
+#personal-info form input[type=text]{
 	height: 30px;
 	width: 400px;
 }
 
-
-#personal-info form div{
-	margin-top: 10px;
+#submit-edit-profile{
+	margin-top: 30px;
+	margin-left: 0.2px;
+	height: 60px;
 }
 
 /*current_locker.html*/
+#current-locker-info{
+	display: flex;
+	flex-direction: row;
+	padding-top: 80px;
+	padding-left: 400px;
+}
+
 #abandon-reminder{
 	text-align: center;
 }
@@ -615,16 +614,16 @@ input[type=submit], input[type=button]{
 	margin-left: 0;
 }
 
-.search form input[type=submit]{
-	margin-left: 10px;
-}
-
 #radio-criteria{
 	margin-left: 10px;
 }
 
+.search form input[type=submit]{
+	margin-left: 10px;
+}
+
 .search form input[type=text]{
-	width: 780px;
+	width: 1000px;
 	height: 50px;
 	background-color: inherit;
 	
@@ -656,6 +655,10 @@ input[type=submit], input[type=button]{
 	margin-left: 30px;
 }
 
+.lockers-section .lockers table{
+	margin-top: 20px;
+}
+
 .lockers select{
 	height: 30px;
 	margin-top: 10px;
@@ -672,8 +675,9 @@ input[type=submit], input[type=button]{
     font-size: 18px
 }
 
+
 #lockers-table td{
-	width: 70px;
+	width: 50px;
 }
 
 #location-list td, #location-list th{

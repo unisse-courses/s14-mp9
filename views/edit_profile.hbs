@@ -1,6 +1,21 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="css/mp1.css">
+        <title>Edit Profile</title>
+		
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        </script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+		
+		<script src="js/script.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/mp1.css">
+		
+		<script src="js/script.js"></script>
     </head>
     
     <body>
@@ -34,39 +49,62 @@
 		</div>
         
 		<div class="edit-profile-box">
-			<div class="profile-box">
+			<div id="image-locker">
+				<div class="card text-center" id="locker-info" style="width: 23rem;">
+					<div class="card-body" id="locker">
+						<h5 class="card-title">Current locker</h5>
+						<div id="locker-address">
+							<h6>110</h6>
+							<p class="card-subtitle mb-3 text-muted">St. La Salle Hall</p>
+						</div><br>
+						<div id="locker-lock-code">
+							<b>Locker Code</b> <span>10239</span>
+						</div>
+						<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="edit-profile-info-box">
 				<div class="info-section">
-					<div id="personal-info">
-						<h1>Edit Profile</h1>
-						<h2>{{user.idNo}}</h2>
+					<h1>Edit Profile for {{idNo}}</h1>
+					<div id="edit-personal-info">
 						<form id="edit" action="confirm-edit-profile" method="post">
-							<div><label><b>Full Name</b></label><br> <input type="text" name="realName" value="{{user.realName}}"></div>
-							<div><label><b>Degree Program</b></label><br> <input type="text" name="degree" value="{{user.degree}}"></div>
-							<div><label><b>E-mail Address</b></label><br> <input type="text" name="email" value="{{user.email}}"></div>
-							<div><label><b>Mobile Contact Number</b><br></label><input type="text" name="mobileNo" value="{{user.mobileNo}}"></div>
-							<input type="submit" value="Confirm Edit"><br>
+							<div class="form-group row">
+								<label for="real-name-change" class="col-sm-5 col-form-label"><b>Full Name</b></label> 
+								<div class="col-sm-5">
+									<input class="form-control" type="text" id="real-name-change" name="realName" value="{{user.realName}}">
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label for="degree-change" class="col-sm-5 col-form-label"><b>Degree Program</b></label> 
+								<div class="col-sm-5">
+									<input class="form-control" type="text" id="degree-change" name="degree" value="{{user.degree}}">
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label for="email-change" class="col-sm-5 col-form-label"><b>E-mail Address</b></label> 
+								<div class="col-sm-5">
+									<input class="form-control" type="text" id="email-change" name="email" value="{{user.email}}">
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label for="mobile-change" class="col-sm-5 col-form-label"><b>Mobile Contact Number</b></label>
+								<div class="col-sm-5">
+									<input class="form-control" type="text" id="mobile-change" name="mobileNo" value="{{user.mobileNo}}">
+								</div>
+							</div>
+							
+							<div id="submit-edit-profile" class="form-group row">
+								<input class="btn btn-primary" type="submit" value="Confirm Edit">
+							</div>
 						</form>
 					</div>
 				</div>
 				
-
-				<div id="locker-info">
-					<div id="locker">
-						<h3>Current locker</h3>
-						<table id="locker-visual">
-							<tr>
-								<td><img src="IMG_8380.PNG"></td>
-							</tr>
-							<tr>
-								<td>110,
-								St. La Salle Hall</td>
-							</tr>
-							<tr>
-								<td>Locker Code: 10239</td>
-							</tr>
-						</table>
-					</div>
-				</div>
 			</div>
 
 		</div>

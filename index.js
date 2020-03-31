@@ -4,7 +4,8 @@ const http = require('http')
 const bodyparser = require("body-parser")
 const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
-const handlebars = require("handlebars")
+const path = require("path")
+const hbs = require("handlebars")
 const ehbs = require("express-handlebars")
 
 const {User} = require("./locker_user.js")
@@ -29,6 +30,15 @@ mongoose.connect(url, {
 const urlencoder = bodyparser.urlencoded({
 	extended: true
 });
+
+/*app.engine('hbs', ehbs({
+	extname: 'hbs',
+	defaultView: 'main',
+	layoutsDir: path.join(__dirname, '/views/layouts'),
+	partialsDir: path.join(__dirname, '/views/partials')
+}))
+
+app.set('view engine', 'hbs')*/
 
 app.use(cookieparser())
 app.use(express.static(__dirname + "/public"))
@@ -145,6 +155,307 @@ app.post("/register", urlencoder, function(req, res){
 	);
 })
 
+app.get("/view-lockers", function(req, res){
+	Location.find({
+	
+	},
+	function(err, docs){
+		if(err){
+			res.render("admin_manage_lockers.hbs", {
+				err
+			})
+		}
+		else{
+			var locationList = docs;
+			Locker.find({
+				
+			},
+			function(err, docs){
+				if(err){
+					
+				}
+				else{
+					var err, msg;
+	
+					err = req.session.err;
+					msg = req.session.msg;
+
+					req.session.err = null;
+					req.session.msg = null;
+					
+					res.render("locker_view.hbs", {
+						idNo: req.session.idNo, 
+						password: req.session.password,
+						locations: locationList,
+						err,
+						msg
+					})
+					
+				}
+			})
+			
+		}
+	})
+})
+
+app.get("/get-lockers", function(req, res){
+	Locker.find({
+						
+	},
+	function(err, docs){
+		if(err){
+
+		}
+		else{
+			res.send(docs)
+		}
+	})
+	
+	
+})
+
+app.get("/get-locations", function(req, res){
+	Location.find({
+						
+	},
+	function(err, docs){
+		if(err){
+
+		}
+		else{
+			res.send(docs)
+		}
+	})
+	
+})
+
+
+app.post("/confirm-reservation", urlencoder, function(req, res){
+	var userId, lockerNo,
+	location
+	
+	userId = req.body.userIdSelector;
+	lockerNo = req.body.selectedLocker;
+	location = req.body.selectedLocation;
+	
+	Locker.findOne(
+		{
+		lockerNo: lockerNo,
+		location: location
+		},
+		function(err, doc){
+			if(err){
+			   res.send(err)
+			}
+			else if(!doc){
+				res.send("Location does not exist.")
+			}
+			else{
+				var studentIdNo,
+					Locker,
+					status;
+				
+				studentIdNo = userId;
+				Locker = doc;
+				status = "reserved"
+				
+				let lockerReserve = LockerReservation({
+					studentIdNo,
+					Locker,
+					status
+				})
+
+				lockerReserve.save().then(
+					function(doc){
+						req.session.studentIdNo = doc.studentIdNo;
+						req.session.Locker = doc.Locker;
+						req.session.status = doc.status;
+
+						res.redirect("/view-lockers");
+					},
+					function(err){
+						res.redirect(err)
+					}
+				);
+			}
+	})
+})
+
+app.get("/cancel-reservation", function(req, res){
+	res.redirect("/view-lockers");
+})
+
+app.get("/current-locker", function(req, res){
+	LockerReservation.findOne(
+		{
+		studentIdNo: req.session.idNo
+		},
+		function(err, doc){
+			if(err){
+			   res.send(err)
+			}
+			else if(!doc){
+				res.send("User does not exist.")
+			}
+			else{
+				res.render("current_locker.hbs", {
+					idNo: req.session.idNo, 
+					password: req.session.password,
+					currentLocker: doc
+				})
+			}
+		}
+	)
+	
+	
+})
+
+app.post("/search", urlencoder, function(req, res){
+	var result, criteria;
+	
+	criteria = req.body.criteria
+	result = req.body.searchResult
+	
+	if(criteria == "location"){
+	   	Locker.find({
+			location: result
+		},
+		function(err, docs){
+			if(err){
+
+			}
+			else{
+				res.render("search.hbs", {
+					idNo: req.session.idNo, 
+					password: req.session.password,
+					result: result,
+					lockers: docs
+				})
+			}
+		})
+	}
+	else{
+	   	Locker.find({
+			lockerNo: result
+		},
+		function(err, docs){
+			if(err){
+
+			}
+			else{
+				res.render("search.hbs", {
+					idNo: req.session.idNo, 
+					password: req.session.password,
+					result: result,
+					lockers: docs
+				})
+			}
+		})
+	}
+	
+	
+    
+})
+
+
+app.post("/profile", urlencoder, function(req, res){
+	var idNo,
+	password;
+
+	idNo = req.body.idNo;
+	password = req.body.password;
+	
+	console.log(idNo)
+	console.log(password)
+	
+	User.findOne(
+		{
+		idNo: idNo,
+		password: password
+		},
+		function(err, doc){
+			if(err){
+			   res.send(err)
+			}
+			else if(!doc){
+				res.send("User does not exist.")
+			}
+			else{
+				res.render("profile.hbs", {
+					user: doc,
+					idNo: req.session.idNo,
+					password: req.session.password
+				})
+			}
+		}
+	)
+})
+
+app.post("/edit-profile", urlencoder, function(req, res){
+	var idNo,
+	password;
+
+	idNo = req.body.idNo;
+	password = req.body.password;
+	
+	console.log(idNo)
+	console.log(password)
+	
+	User.findOne(
+		{
+		idNo: idNo,
+		password: password
+		},
+		function(err, doc){
+			if(err){
+			   res.send(err)
+			}
+			else if(!doc){
+				res.send("User does not exist.")
+			}
+			else{
+				res.render("edit_profile.hbs", {
+					user: doc,
+					idNo: req.session.idNo,
+					password: req.session.password
+				})
+			}
+		}
+	)
+})
+
+app.post("/confirm-edit-profile", urlencoder, function(req, res){
+	let user = {
+		idNo: req.session.idNo,
+		password: req.session.password
+	}
+	
+	console.log(user.idNo + " edited.")
+	
+	User.updateOne(user, {
+		realName: req.body.realName,
+		degree: req.body.degree,
+		email: req.body.email,
+		mobileNo: req.body.mobileNo
+	},
+	function(err, result){
+		if(err){
+		   res.send(err)
+		}
+		else if(!result){
+			res.send("User does not exist.")
+		}
+		else{
+			console.log(result)
+			res.render("edit_profile.hbs", {
+				user: req.body,
+				idNo: req.session.idNo,
+				password: req.session.password
+			})
+		}
+	})
+})
+
 app.get("/manage-lockers", function(req, res){
 	var err, msg;
 	
@@ -175,7 +486,7 @@ app.get("/manage-lockers", function(req, res){
 				else{
 					res.render("admin_manage_lockers.hbs", {
 						locations: locationList,
-						lockers: lockers,
+						//lockers: lockers,
 						err,
 						msg
 					})
@@ -339,258 +650,6 @@ app.get("/manage-requests", function(req, res){
 		}
 	})
     
-})
-
-app.get("/view-lockers", function(req, res){
-	Location.find({
-	
-	},
-	function(err, docs){
-		if(err){
-			res.render("admin_manage_lockers.hbs", {
-				err
-			})
-		}
-		else{
-			var locationList = docs;
-			Locker.find({
-				
-			},
-			function(err, docs){
-				if(err){
-					
-				}
-				else{
-					Locker.find({
-						
-					},
-					function(err, docs){
-						if(err){
-							
-						}
-						else{
-							var err, msg;
-	
-							err = req.session.err;
-							msg = req.session.msg;
-
-							req.session.err = null;
-							req.session.msg = null;
-							res.render("locker_view.hbs", {
-								locations: locationList,
-								lockers: docs,
-								err,
-								msg
-							})
-						}
-					})
-					
-				}
-			})
-			
-		}
-	})
-})
-
-app.get("/cofirm-reservation", function(req, res){
-	var userId, lockerNo,
-	location
-	
-	userId = req.body.userIdSelector
-	lockerNo = req.body.selectedLocker;
-	location = req.body.selectedLocation;
-	
-	Locker.findOne(
-		{
-		lockerNo: lockerNo,
-		location: location
-		},
-		function(err, doc){
-			if(err){
-			   res.send(err)
-			}
-			else if(!doc){
-				res.send("Location does not exist.")
-			}
-			else{
-				var studentIdNo,
-					Locker,
-					status;
-				
-				studentIdNo = userId;
-				Locker = doc;
-				status = "reserved"
-				
-				let lockerReserve = LockerReservation({
-					studentIdNo,
-					Locker,
-					status
-				})
-
-				lockerReserve.save().then(
-					function(doc){
-						req.session.studentIdNo = doc.studentIdNo;
-						req.session.Locker = doc.Locker;
-						req.session.status = doc.status;
-
-						res.redirect("/view-lockers");
-					},
-					function(err){
-						res.redirect(err)
-					}
-				);
-			}
-	})
-})
-
-app.get("/cancel-reservation", function(req, res){
-	res.redirect("/view-lockers");
-})
-
-app.get("/current-locker", function(req, res){
-    res.render("current_locker.hbs")
-})
-
-app.post("/search", urlencoder, function(req, res){
-	var result, criteria;
-	
-	criteria = req.body.criteria
-	result = req.body.searchResult
-	
-	if(criteria == "location"){
-	   	Locker.find({
-			location: result
-		},
-		function(err, docs){
-			if(err){
-
-			}
-			else{
-				res.render("search.hbs", {
-					result: result,
-					lockers: docs
-				})
-			}
-		})
-	}
-	else{
-	   	Locker.find({
-			lockerNo: result
-		},
-		function(err, docs){
-			if(err){
-
-			}
-			else{
-				res.render("search.hbs", {
-					result: result,
-					lockers: docs
-				})
-			}
-		})
-	}
-	
-	
-    
-})
-
-
-app.post("/profile", urlencoder, function(req, res){
-	var idNo,
-	password;
-
-	idNo = req.body.idNo;
-	password = req.body.password;
-	
-	console.log(idNo)
-	console.log(password)
-	
-	User.findOne(
-		{
-		idNo: idNo,
-		password: password
-		},
-		function(err, doc){
-			if(err){
-			   res.send(err)
-			}
-			else if(!doc){
-				res.send("User does not exist.")
-			}
-			else{
-				res.render("profile.hbs", {
-					user: doc,
-					idNo: req.session.idNo,
-					password: req.session.password
-				})
-			}
-		}
-	)
-})
-
-app.post("/edit-profile", urlencoder, function(req, res){
-	var idNo,
-	password;
-
-	idNo = req.body.idNo;
-	password = req.body.password;
-	
-	console.log(idNo)
-	console.log(password)
-	
-	User.findOne(
-		{
-		idNo: idNo,
-		password: password
-		},
-		function(err, doc){
-			if(err){
-			   res.send(err)
-			}
-			else if(!doc){
-				res.send("User does not exist.")
-			}
-			else{
-				res.render("edit_profile.hbs", {
-					user: doc,
-					idNo: req.session.idNo,
-					password: req.session.password
-				})
-			}
-		}
-	)
-})
-
-app.post("/confirm-edit-profile", urlencoder, function(req, res){
-	let user = {
-		idNo: req.session.idNo,
-		password: req.session.password
-	}
-	
-	console.log(user.idNo + " edited.")
-	
-	User.updateOne(user, {
-		realName: req.body.realName,
-		degree: req.body.degree,
-		email: req.body.email,
-		mobileNo: req.body.mobileNo
-	},
-	function(err, result){
-		if(err){
-		   res.send(err)
-		}
-		else if(!result){
-			res.send("User does not exist.")
-		}
-		else{
-			console.log(result)
-			res.render("edit_profile.hbs", {
-				user: req.body,
-				idNo: req.session.idNo,
-				password: req.session.password
-			})
-		}
-	})
 })
 
 

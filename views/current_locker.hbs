@@ -1,11 +1,23 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="css/mp1.css">
         
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
         </script>
-        
-        <script type="text/javascript" src="main.js"></script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+		
+		<script src="main.js"></script>
+		
+		<script src="js/script.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/mp1.css">
+		
         
         <script>
             $(document).ready(function(){
@@ -25,49 +37,56 @@
     <body>
         <div class="main-menu">
 			<div class="logo">
-					<img src="Logo.PNG">
-				</div>
-            <a href="home.html">Home</a>
-            <div class="locker-menu">
-                <button class="locker-menu-button">Locker</button>
-                <div id="locker-menu-contents">
-                    <a href="reserve_locker_form.html">Reserve locker</a>
-                    <a href="current_locker.html">View current locker</a>
-                    <a href="locker_view.html">View lockers</a>
-                </div>
-            </div>
+				<img src="photo/Logo.PNG">
+			</div>
 
-            <span id="space"></span>
-            <div class="user-menu">
-                <button class="user-menu-button">User</button>
-                <div id="user-menu-contents">
-                    <a href="profile.html">Profile</a>
-                    <a href="main.html">Log Out</a>
-                </div>
-            </div>
-        </div>
-        
-		<div class="current-locker-box">
-			<div id="locker-info">
-				<div id="locker">
-					<p id="abandon-reminder">Your abandon request is now pending.</p>
-					<h3>Current locker</h3>
-					<table id="locker-visual">
-						<tr>
-							<td><img src="IMG_8380.PNG"></td>
-						</tr>
-						<tr>
-							<td>110,
-							St. La Salle Hall</td>
-						</tr>
-						<tr>
-							<td>Locker Code: 10239</td>
-						</tr>
-					</table>
+			<a href="home.html">Home</a>
+			<div class="locker-menu">
+				<button class="locker-menu-button">Locker</button>
+				<div id="locker-menu-contents">
+					<a href="current-locker">View current locker</a>
+					<a href="view-lockers">View lockers and reserve a locker</a>
 				</div>
-				<button id="abandon">Abandon Locker</button>
+			</div>
+
+			<span id="space"></span>
+			<div class="user-menu">
+				<button class="user-menu-button">{{idNo}}</button>
+				<div id="user-menu-contents">
+					<a onclick="goToProfile();">Profile</a>
+					<a href="logout">Log Out</a>
+
+					<form id="profile-hidden" action="profile" method="post">
+						<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
+						<input type="hidden" value="{{password}}" id="password" name="password">
+					</form>
+				</div>
 			</div>
 		</div>
-        
+	
+        <div id="current-locker-info">
+			<div class="card" style="height: 25rem; width: 23rem;">
+				<div class="card-body">
+					<h5 class="card-title">Current locker</h5>
+					<div id="locker-address">
+						<h6>{{currentLocker.Locker.lockerNo}}</h6>
+						<p class="card-subtitle mb-3 text-muted">{{currentLocker.Locker.location}}</p>
+					</div><br>
+				</div>
+			</div>
+
+			<div class="card" id="current-locker-more-info" style="height: 25rem; width: 50rem;">
+				<div class="card-body">
+					<div id="profile-locker">
+						<label><b>Ownership Span</b></label> <p id="own-span"></p>
+						<label><b>Locker Status</b></label> <p id="locker-code-current">{{currentLocker.status}}</p>
+						<label><b>Locker Code</b></label> <p id="locker-code-current">{{currentLocker.Locker.lockCode}}</p>
+						<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
     </body>
 </html>

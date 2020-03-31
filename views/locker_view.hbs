@@ -11,9 +11,10 @@
 		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
 		
         <link rel="stylesheet" type="text/css" href="css/mp1.css">
-        
-        <script src="main.js"></script>
-        
+		
+        <!--<script src="main.js"></script>--->
+        <script src="js/script.js"></script>
+		
         <script>
             $(document).ready(function(){
                 //var statuses = ["available", "reserved", "owned"]
@@ -21,7 +22,8 @@
                 var currentReserved;
                 var locationList = $("#location-list");
                 var locationSelect = $("#location-select");
-                
+					
+				//console.log(lockerCopy)
                 //console.log(statuses)
                 
                 $(".modal-quick-reserve").hide()
@@ -49,10 +51,10 @@
                     //locationSelect.append(opLocation);
                 }*/
                 
-                initTable(locationSelect.val())
+                //initTable(locationSelect.val())
                 
                 
-                locationSelect.change(function(){
+                /*locationSelect.change(function(){
                     var selectedLocation = $(this).val();
                     initTable(selectedLocation)
                     
@@ -65,7 +67,7 @@
 							//$("." + status).show();
 						}
 					})
-                })
+                })*/
                 
                 $("input[name='criteria']").click(function(){
                     var checkedStatus;
@@ -90,7 +92,7 @@
 					})
 				})
 
-                function initTable(currLocation){
+                /*function initTable(currLocation){
                     var lockersTable = $("#lockers-table");
                     
                     $("#cancel-reminder").hide();
@@ -204,8 +206,7 @@
 						"opacity": "0",
 						"display": "block"
 					})
-                }
-                
+                }*/                
 				
 				
 				$("input[name='lockerNumber']").on("change", function(){
@@ -335,13 +336,15 @@
         </div>
         
 		<div class="locker-box">
-			<div id="term-info">
-				<label><b>Current term dates: </b></label><span id="term-dates"> Date to Date</span>
+			<div class="card" id="term-info" style="width: 80.5rem;">
+				<div class="card-body">
+					<label><b>Current term dates: </b></label><span id="term-dates"> Date to Date</span>
+				</div>
 			</div>
 			
 			<div class="lockers-section">
 				<div class="locker-view-options">
-					<div class="card" id="legend-section" style="width: 20rem;">
+					<div class="card" id="legend-section" style="width: 23rem;">
 						<h4 class="card-header">Filters</h4>
 						<div class="card-body">
 							<table class="table" id="legend">
@@ -382,10 +385,10 @@
 					</div>
 					
 					
-					<div class="card" id="location-select-section" style="width: 20rem;">
+					<div class="card" id="location-select-section" style="height: 29.9rem; width: 23rem;">
 						<h4 class="card-header">Location</h4>
 						<div class="card-body">
-							<table id="location-list">
+							<table class="table" id="location-list">
 								<tr>
 									<th>Location</th>
 									<th>Total Lockers</th>
@@ -407,7 +410,7 @@
 					<h4 class="card-header">Lockers</h4>
 					<div class="card-body">
 						<div class="lockers">
-							<label>Lockers Location </label><select id="location-select" class="btn btn-secondary dropdown-toggle" role="button" name="Select a location">
+							<label class="card-title"><b>Lockers Location </b></label><select id="location-select" class="btn btn-secondary dropdown-toggle" role="button" name="Select a location">
 								{{#each locations}}
 									<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
 									</option>
@@ -460,15 +463,14 @@
 							<b id="lock-code-reveal"></b>
 						</div>
 						<div class="modal-footer">
-							<form post="post" action="cofirm-reservation">
-								<input id="id-user-select" name="userIdSelector" type="hidden">
+							<form method="post" action="confirm-reservation">
+								<input id="id-user-select" name="userIdSelector" value="{{idNo}}" type="hidden">
 								
 								<input id="location-name-selected" name="selectedLocation" type="hidden">
 								
 								<input id="locker-selected" name="selectedLocker" type="hidden">
 								
-								
-								<input type="submit" class="btn btn-primary" name="reply" data-dismiss="modal" data-target="#cancel-reminder" value="Confirm Reservation">
+								<input type="submit" class="btn btn-primary" name="reply" value="Confirm Reservation">
 								<input type="button" class="btn btn-secondary" name="reply" data-dismiss="modal" data-toggle="modal" data-target="#cancel-reminder" value="Cancel Reservation">
 							</form>
 						</div>
