@@ -14,7 +14,9 @@
 		
 		<link rel="stylesheet" type="text/css" href="css/mp1.css">
         
-        <script type="text/javascript" src="main.js"></script>
+        <!---<script type="text/javascript" src="main.js"></script>-->
+		
+		<script src="js/script.js"></script>
         
         <script>
             $(document).ready(function(){
@@ -66,9 +68,9 @@
 					
 				})*/
                 
-                locationSelect.val(locations[0].locationName)
+                //locationSelect.val(locations[0].locationName)
                 
-                initTable(locations[0].locationName)
+                //initTable(locations[0].locationName)
                 
                 locationSelect.change(function(){
                     var selectedLocation = $(this).val();
@@ -136,7 +138,7 @@
 				})
 				
 				
-                function initTable(currLocation){
+                /*function initTable(currLocation){
                     lockersTable.empty();
                     
                     var nLockersSelected = 0;
@@ -222,7 +224,7 @@
 						"display": "block"
 					})
                     
-                }
+                }*/
 				
 				$(".edit-locker-button").on("click", function(){
 					$("input[name='lockerName']").on("change", function(){

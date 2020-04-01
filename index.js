@@ -229,6 +229,21 @@ app.get("/get-locations", function(req, res){
 	
 })
 
+app.get("/get-locker-reserves", function(req, res){
+	LockerReservation.find({
+						
+	},
+	function(err, docs){
+		if(err){
+
+		}
+		else{
+			res.send(docs)
+		}
+	})
+	
+})
+
 
 app.post("/confirm-reservation", urlencoder, function(req, res){
 	var userId, lockerNo,
@@ -486,7 +501,6 @@ app.get("/manage-lockers", function(req, res){
 				else{
 					res.render("admin_manage_lockers.hbs", {
 						locations: locationList,
-						//lockers: lockers,
 						err,
 						msg
 					})

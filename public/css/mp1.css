@@ -524,7 +524,7 @@ input[type=submit], input[type=button]{
 }
 
 /*current_locker.html*/
-#current-locker-info{
+/*#current-locker-info{
 	display: flex;
 	flex-direction: row;
 	padding-top: 80px;
@@ -553,7 +553,7 @@ input[type=submit], input[type=button]{
 	margin-left: 100px;
 	margin-right: 400px;
 	margin-top: 40px
-}
+}*/
 
 
 

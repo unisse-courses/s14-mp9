@@ -66,11 +66,41 @@
 	
         <div id="current-locker-info">
 			<div class="card" style="height: 25rem; width: 23rem;">
+				<h5 class="card-header">Current locker address</h5>
+				<div class="card-body">
+					<h1 class="card-title">{{currentLocker.Locker.lockerNo}}</h1>
+					<span class="card-subtitle mb-3 text-muted">{{currentLocker.Locker.location}}</span>
+				</div>
+			</div>
+			
+			<div class="card" style="height: 25rem; width: 50rem;">
+				<div class="row">
+					<div class="col col-sm-3">
+						<label><b>Ownership Span</b></label> 
+						<label><b>Locker Status</b></label>
+						<label><b>Locker Code</b></label> 
+					</div>
+					<div class="col col-sm-3">
+						<span></span>
+						<span>{{currentLocker.status}}</span>
+						<span>{{currentLocker.Locker.lockCode}}</span>
+					</div>
+				</div>
+				<div class="row-sm">
+					<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
+				</div>
+				
+				
+				
+				
+			</div>
+			
+			<!--<div class="card" style="height: 25rem; width: 23rem;">
 				<div class="card-body">
 					<h5 class="card-title">Current locker</h5>
 					<div id="locker-address">
-						<h6>{{currentLocker.Locker.lockerNo}}</h6>
-						<p class="card-subtitle mb-3 text-muted">{{currentLocker.Locker.location}}</p>
+						<h6></h6>
+						<p class="card-subtitle mb-3 text-muted"></p>
 					</div><br>
 				</div>
 			</div>
@@ -79,13 +109,13 @@
 				<div class="card-body">
 					<div id="profile-locker">
 						<label><b>Ownership Span</b></label> <p id="own-span"></p>
-						<label><b>Locker Status</b></label> <p id="locker-code-current">{{currentLocker.status}}</p>
-						<label><b>Locker Code</b></label> <p id="locker-code-current">{{currentLocker.Locker.lockCode}}</p>
+						<label><b>Locker Status</b></label> <p id="locker-code-current"></p>
+						<label><b>Locker Code</b></label> <p id="locker-code-current"></p>
 						<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
 					</div>
 					
 				</div>
-			</div>
+			</div>--->
 		</div>
 		
     </body>
