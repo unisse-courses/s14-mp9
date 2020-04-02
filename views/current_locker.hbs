@@ -21,15 +21,31 @@
         
         <script>
             $(document).ready(function(){
-                $("p").hide()
+                var lockerStatus = $("#status-locker").val()
+				var reserveExists = $("#reserve-exists").val()
+				var cancelTypeButton = $(".btn btn-primary").val()
 				
-                $("#abandon").click(function(){
-                   var abandonLocker = new AbandonedLocker("110", "St. La Salle Hal", "10239", "11739937");
-                    abandonLockerRequests.push(abandonLocker);
-                    
-                    $("p").show()
-                    
-                })
+				if(reserveExists == "true"){
+				   if(lockerStatus == "reserved"){
+					   	$("#current-locker-info").show()
+						$("#no-locker").hide()
+					   	
+						$("form [method='post']").attr("action", "cancel-reservation")
+					   	cancelTypeButton.attr("cancelType", "Cancel Reservation")
+					}
+					else if(lockerStatus == "owned"){
+						$("#current-locker-info").show()
+						$("#no-locker").hide()
+						
+						$("form [method='post']").attr("action", "abandon-locker")
+						cancelTypeButton.attr("cancelType", "Abandon Locker")
+					}
+				}
+				else{
+					$("#current-locker-info").hide()
+					$("#no-locker").show()
+				}
+				   
             })
         </script>
     </head>
@@ -64,6 +80,8 @@
 			</div>
 		</div>
 	
+		<input type="hidden" value="{{reserveExists}}" id="reserve-exists" name="reserveExists">
+		
         <div id="current-locker-info">
 			<div class="card" style="height: 25rem; width: 23rem;">
 				<h5 class="card-header">Current locker address</h5>
@@ -82,41 +100,29 @@
 					</div>
 					<div class="col col-sm-3">
 						<span></span>
-						<span>{{currentLocker.status}}</span>
+						<span id="status-locker">{{currentLocker.status}}</span>
 						<span>{{currentLocker.Locker.lockCode}}</span>
 					</div>
 				</div>
 				<div class="row-sm">
-					<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
-				</div>
-				
-				
-				
-				
-			</div>
-			
-			<!--<div class="card" style="height: 25rem; width: 23rem;">
-				<div class="card-body">
-					<h5 class="card-title">Current locker</h5>
-					<div id="locker-address">
-						<h6></h6>
-						<p class="card-subtitle mb-3 text-muted"></p>
-					</div><br>
+					<form action="cancel-reservation" method="post">
+						<input type="hidden" class="btn btn-primary" name="status" value="{{currentLocker.status}}">
+						<input type="submit" class="btn btn-primary" name="cancelType" value="Cancel Reservation">  
+					</form>
 				</div>
 			</div>
-
-			<div class="card" id="current-locker-more-info" style="height: 25rem; width: 50rem;">
-				<div class="card-body">
-					<div id="profile-locker">
-						<label><b>Ownership Span</b></label> <p id="own-span"></p>
-						<label><b>Locker Status</b></label> <p id="locker-code-current"></p>
-						<label><b>Locker Code</b></label> <p id="locker-code-current"></p>
-						<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
-					</div>
-					
-				</div>
-			</div>--->
 		</div>
 		
+		<div id="no-locker">
+			<div class="card" style="height: 25rem; width: 50rem;">
+				<h5 class="card-header">Current locker address</h5>
+				<div class="card-body">
+					<span>You neither reserved or currently own a locker. You may pick a desired location and reserve a locker by exploring the lockers page through either pickeing Lockers > View lockers and reserve a locker or clicking the button below:</span>
+					<form action="view-lockers" method="get">
+						<input type="submit" class="btn btn-primary" value="Find and Reserve a locker"> 
+					</form>
+				</div>
+			</div>
+		</div>
     </body>
 </html>

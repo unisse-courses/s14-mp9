@@ -296,10 +296,6 @@ app.post("/confirm-reservation", urlencoder, function(req, res){
 	})
 })
 
-app.get("/cancel-reservation", function(req, res){
-	res.redirect("/view-lockers");
-})
-
 app.get("/current-locker", function(req, res){
 	LockerReservation.findOne(
 		{
@@ -310,19 +306,69 @@ app.get("/current-locker", function(req, res){
 			   res.send(err)
 			}
 			else if(!doc){
-				res.send("User does not exist.")
+				res.render("current_locker.hbs", {
+					idNo: req.session.idNo, 
+					password: req.session.password,
+					reserveExists: false
+				})
 			}
 			else{
 				res.render("current_locker.hbs", {
 					idNo: req.session.idNo, 
 					password: req.session.password,
+					reserveExists: true, 
 					currentLocker: doc
 				})
 			}
 		}
 	)
+})
+
+app.post("/cancel-reservation", urlencoder, function(req, res){
+	var userId, lockerNo,
+	location
 	
+	LockerReservation.deleteOne({
+		studentIdNo: req.session.idNo
+		},
+		function(err, obj){
+			if(err){
+			   res.send(err)
+			}
+			else if(!result){
+				res.send("User does not exist.")
+			}
+			else{
+				console.log(result)
+				res.redirect("/current-locker");
+			}
+		}
+	);
+})
+
+app.post("/abandon-locker", urlencoder, function(req, res){
+	var userId, lockerNo,
+	location
 	
+	LockerReservation.updateOne({
+		studentIdNo: req.session.idNo
+		},
+		{
+			status: "abandoned"
+		},
+		function(err, obj){
+			if(err){
+			   res.send(err)
+			}
+			else if(!result){
+				res.send("User does not exist.")
+			}
+			else{
+				console.log(result)
+				res.redirect("/current-locker");
+			}
+		}
+	);
 })
 
 app.post("/search", urlencoder, function(req, res){
@@ -533,7 +579,7 @@ app.post("/add-location", urlencoder, function(req, res){
 			req.session.nTotalLockers = doc.nTotalLockers;
 			req.session.availableLockers = doc.availableLockers;
 			
-			res.redirect("/manage-lockers");
+			res.redirect("/manage-lockers")
 		},
 		function(err){
 			res.redirect(err)
@@ -568,7 +614,7 @@ app.post("/delete-location", urlencoder, function(req, res){
 			}
 			else{
 				console.log(result)
-				res.redirect("/manage-lockers");
+				res.redirect("/manage-lockers")
 			}
 		}
 	);
@@ -633,7 +679,7 @@ app.post("/add-locker", urlencoder, function(req, res){
 									req.session.lockCode = doc.lockCode;
 									req.session.location = doc.location;
 
-									res.redirect("/manage-lockers");
+									res.redirect("/manage-lockers")
 								},
 								function(err){
 									res.redirect(err)
@@ -644,8 +690,59 @@ app.post("/add-locker", urlencoder, function(req, res){
 			}
 		}
 	)
+})
+
+app.post("/edit-locker", urlencoder, function(req, res){
+	let locker = {
+		location: req.body.selectedLocation,
+		lockerNo: req.body.selectedLocationLockersNo
+	}
+	console.log(locker.location)
+	console.log(locker.lockerNo)
+	/*
+	let user = {
+		idNo: req.session.idNo,
+		password: req.session.password
+	}
 	
+	User.updateOne(user, {
+		realName: req.body.realName,
+		degree: req.body.degree,
+		email: req.body.email,
+		mobileNo: req.body.mobileNo
+	},
+	function(err, result){
+		if(err){
+		   res.send(err)
+		}
+		else if(!result){
+			res.send("User does not exist.")
+		}
+		else{
+			console.log(result)
+			res.render("edit_profile.hbs", {
+				user: req.body,
+				idNo: req.session.idNo,
+				password: req.session.password
+			})
+		}
+	})*/
 	
+	Locker.updateOne(locker, {
+		lockCode: req.body.newLockerCode
+	},
+	function(err, result){
+		if(err){
+		   res.send(err)
+		}
+		else if(!result){
+			res.send("Locker does not exist.")
+		}
+		else{
+			console.log(result)
+			res.redirect("/manage-lockers")
+		}
+	})
 })
 
 

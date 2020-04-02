@@ -26,8 +26,8 @@
 				var statuses = ["available", "reserved", "owned"]
 				
                 var locationList = $("#location-list");
-                var locationSelect = $(".manage-location-select");
 				var lockersTable = $("#lockers-table");
+				//var copyLocationSelect = $("#location-select");
 				
 				$("input[name='status']").prop('checked', true);
                 
@@ -72,7 +72,7 @@
                 
                 //initTable(locations[0].locationName)
                 
-                locationSelect.change(function(){
+                /*copyLocationSelect.change(function(){
                     var selectedLocation = $(this).val();
 					console.log(selectedLocation)
 					
@@ -83,8 +83,6 @@
 						console.log(selectedLocation)
 					})
 					
-                    initTable(selectedLocation)
-					
 					$("#lockers-table td").hide();
 					$("input[name='status']").each(function(){
 						if($(this)[0].checked){
@@ -92,7 +90,7 @@
 							$("." + status).show();
 						}
 					})
-                })
+                })*/
                 
                 $("#delete-location").click(function(){
                     for(let i = 0; i < locations.length; i++){
@@ -471,7 +469,7 @@
 
 				<div class="ll-section">
 					<div class="locations-section">
-						<select class="manage-location-select">
+						<select id="location-select">
 							{{#each locations}}
 								<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
 								</option>
@@ -604,6 +602,34 @@
 												</div>
 												<div class="modal-footer">
 													<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLocker" aria="true" id="edit-selected-locker">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Edit Locker</h5>
+											<button class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form action="edit-locker" method="post">
+												<div class="form-group col-md-6">
+													<h5 class="modal-title">Location: </h5>
+													<label>Locker Code:</label> <span id="locker-code-current"></span>
+													
+													<input id="edit-location-name-selected" name="selectedLocation" type="hidden">
+													<input id="edit-locker-no-selected" name="selectedLocationLockersNo" type="hidden">
+													<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
+												</div>
+												<div class="modal-footer">
+													<input type="submit" class="btn btn-primary" value="Edit Location">
 												</div>
 											</form>
 										</div>

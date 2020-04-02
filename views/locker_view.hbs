@@ -16,57 +16,16 @@
 		
         <script>
             $(document).ready(function(){
-                //var statuses = ["available", "reserved", "owned"]
                 var checked = false;
                 var currentReserved;
                 var locationList = $("#location-list");
                 var locationSelect = $("#location-select");
-					
-				//console.log(lockerCopy)
-                //console.log(statuses)
                 
                 $(".modal-quick-reserve").hide()
                 $("#quick-reminder").hide()
                 $("#cancel-reminder").hide()
 
                 $("input[name='status']").prop('checked', true);
-                
-                /*for(let i = 0; i < locations.length; i++){
-                    var nFreeLockers = locations[i].nTotalLockers;
-                    
-                    var tr = $("<tr></tr>")
-                    var tdLocation = $("<td></td>").text(locations[i].locationName)
-                    var tdLockersTotal = $("<td></td>").text(locations[i].nTotalLockers)
-                    var tdLockersAvail = $("<td></td>").text(locations[i].availableLockers)
-                    
-                    var opLocation = $("<option></option>").text(locations[i].locationName)
-                    opLocation.val(locations[i].locationName);
-
-                    tr.append(tdLocation);
-                    tr.append(tdLockersTotal);
-                    tr.append(tdLockersAvail);
-
-                    locationList.append(tr);
-                    //locationSelect.append(opLocation);
-                }*/
-                
-                //initTable(locationSelect.val())
-                
-                
-                /*locationSelect.change(function(){
-                    var selectedLocation = $(this).val();
-                    initTable(selectedLocation)
-                    
-					$("#lockers-table td").hide();
-					$("input[name='status']").each(function(){
-						if($(this)[0].checked){
-							var status = $(this).val();
-							$("[value=" + status + "]").show();
-							
-							//$("." + status).show();
-						}
-					})
-                })*/
                 
                 $("input[name='criteria']").click(function(){
                     var checkedStatus;
@@ -91,123 +50,6 @@
 					})
 				})
 
-                /*function initTable(currLocation){
-                    var lockersTable = $("#lockers-table");
-                    
-                    $("#cancel-reminder").hide();
-                    
-                    lockersTable.empty();
-                    
-                    var nLockersSelected = 0;
-                    
-                    for(let i = 0; i < locations.length; i++){
-                        if(currLocation == locations[i].locationName){
-                            nLockersSelected = locations[i].nTotalLockers;
-                        }
-                    }
-                    
-                    
-                    var rows = []
-                    for(let row = 0; row < nLockersSelected/5; row++){
-                        var lockerTr = $("<tr></tr>");
-                        rows.push(lockerTr)
-                        lockersTable.append(rows[row]);
-                    }
-                    
-                    var rowCtr = 0;
-                    var ctr = 0;
-                    for(let i = 0; i < lockers.length; i++){
-                        var lockerTd = $("<td></td>");
-                        if(lockers[i].location == currLocation){
-                            var cellButton = $("<input>");
-							cellButton.attr("type", "checkbox")
-                            cellButton.attr("name", "lockerNumber")
-                            cellButton.attr("value", lockers[i].lockerNo)
-                            lockerTd.text(lockers[i].lockerNo);
-                            
-                                
-                            if(lockers[i].owned == true){
-								lockerTd.attr("class", "checkbox-wrapper")
-								lockerTd.attr("data-container", "body")
-								lockerTd.attr("data-toggle", "popover")
-								lockerTd.attr("data-placement", "right")
-								lockerTd.attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is owned. Please pick an available one.")
-                                lockerTd.css({
-                                    "border": "none",
-                                    "height": "140px",
-									"width": "140px",
-									"display": "inline-block",
-                                    "background-color": "darkred",
-                                    "color": "azure"
-                                })
-                            }
-                            else if(lockers[i].reserved == true){
-								lockerTd.attr("class", "checkbox-wrapper")
-								lockerTd.attr("data-container", "body")
-								lockerTd.attr("data-toggle", "popover")
-								lockerTd.attr("data-placement", "right")
-								lockerTd.attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is reserved. Please pick an available one.")
-                                lockerTd.css({
-                                    "border": "none",
-                                    "height": "140px",
-									"width": "140px",
-									"display": "inline-block",
-                                    "background-color": "dodgerblue",
-                                    "color": "azure"
-                                })
-                            }
-                            else{
-								lockerTd.attr("class", "checkbox-wrapper")
-								lockerTd.attr("data-toggle", "modal")
-								lockerTd.attr("data-target", "#validity-confirm")
-                                lockerTd.css({
-									"border": "none",
-                                    "height": "140px",
-									"width": "140px",
-									"display": "inline-block",
-                                    "background-color": "green",
-                                    "color": "azure"
-                                })
-                            }
-                            
-                            lockerTd.attr("name", "status")
-                            if(lockers[i].owned == true && lockers[i].reserved == false){
-                               lockerTd.attr("value", "owned")
-                            }
-                            else if(lockers[i].reserved == true && lockers[i].owned == false){
-                                lockerTd.attr("value", "reserved")
-                            }
-                            else if(lockers[i].owned == false && lockers[i].reserved == false){
-                                lockerTd.attr("value", "available")
-                            }
-                            
-                            lockerTd.append(cellButton)
-                            rows[rowCtr].append(lockerTd)
-                            ctr++;
-                                                                    
-                            if(ctr < 5){
-                            }
-                            else{
-                                rowCtr++;
-                                ctr = 0;
-                            }
-                            
-                        }
-                        
-                    }
-					
-                    $("input[name='lockerNumber']").css({
-						"height": "140px",
-						"width": "140px",
-						"margin-top": "-18px",
-						"margin-left": "1px",
-						"position": "relative",
-						"opacity": "0",
-						"display": "block"
-					})
-                }*/                
-				
-				
 				$("input[name='lockerNumber']").on("change", function(){
 					var checked = $(this)
 
@@ -267,7 +109,6 @@
 								}
 							}
 						}
-						
 						
 					}
 				})
