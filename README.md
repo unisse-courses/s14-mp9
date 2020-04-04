@@ -32,11 +32,16 @@ Directly entering cmd on the File Explorer folder of your directory.
     * handlebars
     * express-handlebars
 
-The format to install the frameworks:
-
+The format to install the frameworks
 ```
 npm install _____
 ```
+
+Example:
+```
+npm install express
+```
+
 ### Installing Database Tools
 1. Install Robo 3T through this link: https://robomongo.org/download
 2. Log in or register an acccount for MongoDB Atlas
