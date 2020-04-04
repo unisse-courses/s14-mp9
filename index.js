@@ -20,7 +20,7 @@ const {LockerReservation} = require("./locker.js")
 const app = express();
 const port = 3000;
 
-const url = "mongodb://127.0.0.1:27017/lockerdb"
+const url = "mongodb+srv://TilapiaRoger:depeche||N0D3@cluster0-lsr8q.mongodb.net/lockerdb"
 
 mongoose.Promise = global.Promise;
 mongoose.connect(url, {
@@ -211,7 +211,6 @@ app.get("/get-lockers", function(req, res){
 		}
 	})
 	
-	
 })
 
 app.get("/get-locations", function(req, res){
@@ -296,6 +295,28 @@ app.post("/confirm-reservation", urlencoder, function(req, res){
 	})
 })
 
+app.post("/cancel-reservation", urlencoder, function(req, res){
+	var userId, lockerNo,
+	location
+	
+	LockerReservation.deleteOne({
+		studentIdNo: req.session.idNo
+		},
+		function(err, obj){
+			if(err){
+			   res.send(err)
+			}
+			else if(!result){
+				res.send("User does not exist.")
+			}
+			else{
+				console.log(result)
+				res.redirect("/current-locker");
+			}
+		}
+	);
+})
+
 app.get("/current-locker", function(req, res){
 	LockerReservation.findOne(
 		{
@@ -322,28 +343,6 @@ app.get("/current-locker", function(req, res){
 			}
 		}
 	)
-})
-
-app.post("/cancel-reservation", urlencoder, function(req, res){
-	var userId, lockerNo,
-	location
-	
-	LockerReservation.deleteOne({
-		studentIdNo: req.session.idNo
-		},
-		function(err, obj){
-			if(err){
-			   res.send(err)
-			}
-			else if(!result){
-				res.send("User does not exist.")
-			}
-			else{
-				console.log(result)
-				res.redirect("/current-locker");
-			}
-		}
-	);
 })
 
 app.post("/abandon-locker", urlencoder, function(req, res){
@@ -699,34 +698,6 @@ app.post("/edit-locker", urlencoder, function(req, res){
 	}
 	console.log(locker.location)
 	console.log(locker.lockerNo)
-	/*
-	let user = {
-		idNo: req.session.idNo,
-		password: req.session.password
-	}
-	
-	User.updateOne(user, {
-		realName: req.body.realName,
-		degree: req.body.degree,
-		email: req.body.email,
-		mobileNo: req.body.mobileNo
-	},
-	function(err, result){
-		if(err){
-		   res.send(err)
-		}
-		else if(!result){
-			res.send("User does not exist.")
-		}
-		else{
-			console.log(result)
-			res.render("edit_profile.hbs", {
-				user: req.body,
-				idNo: req.session.idNo,
-				password: req.session.password
-			})
-		}
-	})*/
 	
 	Locker.updateOne(locker, {
 		lockCode: req.body.newLockerCode
@@ -747,7 +718,7 @@ app.post("/edit-locker", urlencoder, function(req, res){
 
 
 app.get("/manage-requests", function(req, res){
-	Locker.find({
+	Location.find({
 		
 	},
 	function(err, docs){
@@ -756,11 +727,62 @@ app.get("/manage-requests", function(req, res){
 		}
 		else{
 			res.render("admin_manage_requests.hbs", {
-				lockerReserves: docs
+				locations: docs
 			})
 		}
 	})
     
+})
+
+app.get("/get-requests", function(req, res){
+	LockerReservation.find({
+						
+	},
+	function(err, docs){
+		if(err){
+
+		}
+		else{
+			res.send(docs)
+		}
+	})
+	
+})
+
+app.post("/own-request-results", urlencoder, function(req, res){
+	let lockerReserve = {
+		studentIdNo: req.body.reserveCheck
+	}
+	
+	var request = req.body.request;
+	
+	if(request = "Accept Request(s)"){
+	   	LockerReservation.updateMany({studentIdNo: req.body.reserveCheck}, {
+			status: "owned"
+		},
+		function(err, docs){
+			if(err){
+
+			}
+			else{
+				res.redirect("/manage-requests")
+			}
+		})
+	}
+	else{
+	   
+	}
+})
+
+app.post("/abandon-accept-results", urlencoder, function(req, res){
+	var request = req.body.request;
+	
+	if(request = "Accept Request(s)"){
+	   
+	}
+	else{
+	   
+	}
 })
 
 
