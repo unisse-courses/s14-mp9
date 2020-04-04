@@ -11,18 +11,28 @@ Before actually using the application, the user is required to do the following:
 2. Install Database Tools.
 
 ### Installing Node Packaging Manager, or NPM Frameworks
-The following should be installed:
-1. express
-2. express-session
-3. http
-4. body-parser
-5. cookie-parser
-6. mongoose
-7. path
-8. handlebars
-9. express-handlebars
 
-The format to install the frameworks
+1. Access the directory of the application by
+Using this command on cmd or git-bash.
+```
+cd ___________
+```
+
+or
+Directly entering cmd on the File Explorer folder of your directory.
+
+2. The following should be installed:
+..* express
+..* express-session
+..* http
+..* body-parser
+..* cookie-parser
+..* mongoose
+..* path
+..* handlebars
+..* express-handlebars
+The format to install the frameworks:
+
 ```
 npm install _____
 ```
