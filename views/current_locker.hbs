@@ -21,24 +21,31 @@
         
         <script>
             $(document).ready(function(){
-                var lockerStatus = $("#status-locker").val()
+                var lockerStatus = $("#cur-locker-reserve-status")
 				var reserveExists = $("#reserve-exists").val()
-				var cancelTypeButton = $(".btn btn-primary").val()
+				var cancelTypeButton = $("#current-locker-status-form input[type=submit]")
+				
+				console.log(lockerStatus.val())
 				
 				if(reserveExists == "true"){
-				   if(lockerStatus == "reserved"){
-					   	$("#current-locker-info").show()
-						$("#no-locker").hide()
-					   	
-						$("form [method='post']").attr("action", "cancel-reservation")
-					   	cancelTypeButton.attr("cancelType", "Cancel Reservation")
+					$("#current-locker-info").show()
+					$("#no-locker").hide()
+					
+				   if(lockerStatus.val() == "owned"){
+						$("#current-locker-status-form").attr("action", "abandon-locker")
+						cancelTypeButton.val("Abandon Locker")
+					   
+					   	console.log($("#current-locker-status-form").attr("action"))
 					}
-					else if(lockerStatus == "owned"){
-						$("#current-locker-info").show()
-						$("#no-locker").hide()
-						
-						$("form [method='post']").attr("action", "abandon-locker")
-						cancelTypeButton.attr("cancelType", "Abandon Locker")
+					else if(lockerStatus.val() == "reserved"){
+						$("#current-locker-status-form").attr("action", "cancel-reservation")
+						cancelTypeButton.val("Cancel Reservation")
+						console.log($("#current-locker-status-form").attr("action"))
+					}
+					else if(lockerStatus.val() == "abandoned"){
+						$("#current-locker-status-form").attr("action", "cancel-abandonment")
+						cancelTypeButton.val("Cancel Abandonment")
+						console.log($("#current-locker-status-form").attr("action"))
 					}
 				}
 				else{
@@ -81,6 +88,7 @@
 		</div>
 	
 		<input type="hidden" value="{{reserveExists}}" id="reserve-exists" name="reserveExists">
+		<input type="hidden" value="{{currentLocker.status}}" id="cur-locker-reserve-status" name="resStatus">
 		
         <div id="current-locker-info">
 			<div class="card" style="height: 25rem; width: 23rem;">
@@ -105,7 +113,7 @@
 					</div>
 				</div>
 				<div class="row-sm">
-					<form action="cancel-reservation" method="post">
+					<form id="current-locker-status-form" method="post">
 						<input type="hidden" class="btn btn-primary" name="status" value="{{currentLocker.status}}">
 						<input type="submit" class="btn btn-primary" name="cancelType" value="Cancel Reservation">  
 					</form>

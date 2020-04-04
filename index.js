@@ -295,28 +295,6 @@ app.post("/confirm-reservation", urlencoder, function(req, res){
 	})
 })
 
-app.post("/cancel-reservation", urlencoder, function(req, res){
-	var userId, lockerNo,
-	location
-	
-	LockerReservation.deleteOne({
-		studentIdNo: req.session.idNo
-		},
-		function(err, obj){
-			if(err){
-			   res.send(err)
-			}
-			else if(!result){
-				res.send("User does not exist.")
-			}
-			else{
-				console.log(result)
-				res.redirect("/current-locker");
-			}
-		}
-	);
-})
-
 app.get("/current-locker", function(req, res){
 	LockerReservation.findOne(
 		{
@@ -345,6 +323,28 @@ app.get("/current-locker", function(req, res){
 	)
 })
 
+app.post("/cancel-reservation", urlencoder, function(req, res){
+	var userId, lockerNo,
+	location
+	
+	LockerReservation.deleteOne({
+		studentIdNo: req.session.idNo
+		},
+		function(err, result){
+			if(err){
+			   res.send(err)
+			}
+			else if(!result){
+				res.send("User does not exist.")
+			}
+			else{
+				console.log(result)
+				res.redirect("/current-locker");
+			}
+		}
+	);
+})
+
 app.post("/abandon-locker", urlencoder, function(req, res){
 	var userId, lockerNo,
 	location
@@ -355,7 +355,32 @@ app.post("/abandon-locker", urlencoder, function(req, res){
 		{
 			status: "abandoned"
 		},
-		function(err, obj){
+		function(err, result){
+			if(err){
+			   res.send(err)
+			}
+			else if(!result){
+				res.send("User does not exist.")
+			}
+			else{
+				console.log(result)
+				res.redirect("/current-locker");
+			}
+		}
+	);
+})
+
+app.post("/cancel-abandonment", urlencoder, function(req, res){
+	var userId, lockerNo,
+	location
+	
+	LockerReservation.updateOne({
+		studentIdNo: req.session.idNo
+		},
+		{
+			status: "owned"
+		},
+		function(err, result){
 			if(err){
 			   res.send(err)
 			}
@@ -428,6 +453,8 @@ app.post("/profile", urlencoder, function(req, res){
 	console.log(idNo)
 	console.log(password)
 	
+	
+	
 	User.findOne(
 		{
 		idNo: idNo,
@@ -441,11 +468,37 @@ app.post("/profile", urlencoder, function(req, res){
 				res.send("User does not exist.")
 			}
 			else{
-				res.render("profile.hbs", {
-					user: doc,
-					idNo: req.session.idNo,
-					password: req.session.password
-				})
+				var user = doc
+				
+				LockerReservation.findOne(
+					{
+					studentIdNo: idNo
+					},
+					function(err, doc){
+						if(err){
+						   res.send(err)
+						}
+						else if(!doc){
+							res.render("profile.hbs", {
+								reserved: false,
+								user: user,
+								idNo: req.session.idNo,
+								password: req.session.password
+							})
+						}
+						else{
+							res.render("profile.hbs", {
+								reserved: true,
+								user: user,
+								locker: doc,
+								idNo: req.session.idNo,
+								password: req.session.password
+							})
+						}
+					}
+				)
+				
+				
 			}
 		}
 	)
@@ -756,7 +809,7 @@ app.post("/own-request-results", urlencoder, function(req, res){
 	
 	var request = req.body.request;
 	
-	if(request = "Accept Request(s)"){
+	if(request == "Accept Request(s)"){
 	   	LockerReservation.updateMany({studentIdNo: req.body.reserveCheck}, {
 			status: "owned"
 		},
@@ -770,19 +823,66 @@ app.post("/own-request-results", urlencoder, function(req, res){
 		})
 	}
 	else{
-	   
+	   LockerReservation.deleteMany({studentIdNo: req.body.reserveCheck}, 
+		function(err, docs){
+			if(err){
+
+			}
+			else{
+				res.redirect("/manage-requests")
+			}
+		})
 	}
 })
 
 app.post("/abandon-accept-results", urlencoder, function(req, res){
+	let lockerReserve = {
+		studentIdNo: req.body.abandonCheck
+	}
+	
 	var request = req.body.request;
 	
-	if(request = "Accept Request(s)"){
-	   
+	if(request == "Accept Request(s)"){
+	   	LockerReservation.deleteMany({studentIdNo: req.body.abandonCheck}, 
+		function(err, docs){
+			if(err){
+
+			}
+			else{
+				res.redirect("/manage-requests")
+			}
+		})
 	}
 	else{
-	   
+	   LockerReservation.updateMany({studentIdNo: req.body.abandonCheck}, {
+			status: "owned"
+		},
+		function(err, docs){
+			if(err){
+
+			}
+			else{
+				res.redirect("/manage-requests")
+			}
+		})
 	}
+	
+	/*Location.deleteOne({
+		locationName: req.body.locationName
+		},
+		function(err, obj){
+			if(err){
+			   res.send(err)
+			}
+			else if(!result){
+				res.send("User does not exist.")
+			}
+			else{
+				console.log(result)
+				res.redirect("/manage-lockers")
+			}
+		}
+	);*/
 })
 
 
