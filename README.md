@@ -36,3 +36,7 @@ The format to install the frameworks:
 ```
 npm install _____
 ```
+### Installing Database Tools
+1. Install Robo 3T through this link: https://robomongo.org/download
+2. Log in or register an acccount for MongoDB Atlas
+3. Connect Robo 3T with MongoDB Atlas
