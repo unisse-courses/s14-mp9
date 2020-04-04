@@ -7,11 +7,10 @@
 
 ## Setting Up the Application
 Before actually using the application, the user is required to do the following:
-1. Install NPM Frameworks
+1. Install NPM/Node Packaging Manager and its Frameworks
 2. Install Database Tools.
 
-### Installing Node Packaging Manager, or NPM Frameworks
-
+### Install NPM/Node Packaging Manager and its Framework
 1. Access the directory of the application by
 Using this command on cmd or git-bash.
 ```
@@ -21,7 +20,15 @@ cd ___________
 or
 Directly entering cmd on the File Explorer folder of your directory.
 
-2. The following should be installed:
+
+2. Initialize NPM.
+```
+npm init
+```
+You can enter without modifying values as you install until you reach this question:
+
+
+3. The following should be installed:
     * express
     * express-session
     * http
@@ -46,3 +53,10 @@ npm install express
 1. Install Robo 3T through this link: https://robomongo.org/download
 2. Log in or register an acccount for MongoDB Atlas
 3. Connect Robo 3T with MongoDB Atlas
+
+Create a new project in MongoDB Atlas.
+Create a new cluster in MongoDB Atlas.
+
+
+Create or use an existing connection in Robo 3T.
+
