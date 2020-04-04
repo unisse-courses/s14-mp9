@@ -22,15 +22,15 @@ or
 Directly entering cmd on the File Explorer folder of your directory.
 
 2. The following should be installed:
-⋅⋅ * express
-⋅⋅ * express-session
-⋅⋅ * http
-⋅⋅ * body-parser
-⋅⋅ * cookie-parser
-⋅⋅ * mongoose
-⋅⋅ * path
-⋅⋅ * handlebars
-⋅⋅ * express-handlebars
+    * express
+    * express-session
+    * http
+    * body-parser
+    * cookie-parser
+    * mongoose
+    * path
+    * handlebars
+    * express-handlebars
 The format to install the frameworks:
 
 ```
