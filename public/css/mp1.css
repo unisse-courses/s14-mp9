@@ -240,8 +240,22 @@ hr #divide{
 	height: 100%;
 }
 
+#image-admin-home-user-1{
+	background-image: linear-gradient(to bottom, rgba(133, 3, 3, 0.80), rgba(54, 71, 77, 0.73)), url('../photo/screenie1.png');
+	height: 100%;
+}
+
+#image-admin-home-user-2{
+	background-image: linear-gradient(to bottom, rgba(45, 92, 57, 0.80), rgba(46, 75, 89, 0.73)), url('../photo/screenie2.png');
+	height: 100%;
+}
+
 #quick-menu-box{
 	font-size: 34px;
+}
+
+#quick-admin-1 .carousel-caption, #quick-admin-2 .carousel-caption{
+	margin-bottom: 300px
 }
 
 #quick-menu-box .carousel-caption{
@@ -254,7 +268,7 @@ hr #divide{
 	font-size: 24px;
 }
 
-.quick-menu-box #reserve-reminder{
+.quick-menu-box #reserve-reminder. #admin-options p{
 	margin-left: 550px;
 	margin-right: 500px;
 	margin-top: 180px;
@@ -704,6 +718,10 @@ input[type=submit], input[type=button]{
 .ll-section #locations-section .card-body form{
 	margin-left: 30px;
 	padding-top: 10px
+}
+
+form[action=delete-locker]{
+	margin-top: 30px;
 }
 
 #term-date-option{

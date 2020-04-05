@@ -5,7 +5,6 @@ const bodyparser = require("body-parser")
 const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
 const path = require("path")
-const moment = require("moment")
 const hbs = require("handlebars")
 const ehbs = require("express-handlebars")
 
@@ -895,6 +894,11 @@ app.post("/add-locker", urlencoder, function(req, res){
 			}
 		}
 	)
+})
+
+app.post("/delete-locker", urlencoder, function(req, res){
+	res.redirect("/manage-lockers");
+	//to be expanded in Phase 3
 })
 
 app.post("/edit-locker", urlencoder, function(req, res){

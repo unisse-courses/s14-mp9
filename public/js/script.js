@@ -253,15 +253,13 @@ $(document).ready(function(){
 		$('#dates-term').text(formattedStart + " - " + formattedEnd)
 	})
 
-	//$("#edit-options").hide()
-	/*$("#start-edit").click(function(){
-		$("#edit-options").show()
-	})*/
+	$("form[action='delete-locker']").hide()
 
+	$("#delete-locker-button").on("click", function(){
+		$("form[action='delete-locker']").show()
 
-	/*$(".delete-locker-button").on("click", function(){
-		$(".delete-locker-option").show()
-
+		$("input[name='lockerName']").parent().attr("data-target", "")
+		
 		$("input[name='lockerName']").on("click", function(){
 			var checked = $(this)
 
@@ -269,8 +267,7 @@ $(document).ready(function(){
 				var checkedLockers = checked.val();
 
 				checked.parent().css({
-					"background-color": "yellow",
-					"color": "dimgray"
+					"border": "3px solid #233b53"
 				})
 
 				$("#delete-form #confirm-delete").on("click", function(){
@@ -290,6 +287,7 @@ $(document).ready(function(){
 							if(lockers[i].lockerNo == checked.val()){
 								if(lockers[i].owned == true){
 									checked.parent().css({
+										"border": "none",
 										"background-color": "darkred",
 										"color": "azure"
 									})
@@ -297,6 +295,7 @@ $(document).ready(function(){
 								}
 								else if(lockers[i].reserved == true){
 									checked.parent().css({
+										"border": "none",
 										"background-color": "dodgerblue",
 										"color": "azure"
 									})
@@ -304,6 +303,7 @@ $(document).ready(function(){
 								else if(lockers[i].reserved == false && 
 									   lockers[i].owned == false){
 									checked.parent().css({
+										"border": "none",
 										"background-color": "green",
 										"color": "azure"
 									})
@@ -320,6 +320,7 @@ $(document).ready(function(){
 						if(lockers[i].lockerNo == checked.val()){
 							if(lockers[i].owned == true){
 								checked.parent().css({
+									"border": "none",
 									"background-color": "darkred",
 									"color": "azure"
 								})
@@ -327,6 +328,7 @@ $(document).ready(function(){
 							}
 							else if(lockers[i].reserved == true){
 								checked.parent().css({
+									"border": "none",
 									"background-color": "dodgerblue",
 									"color": "azure"
 								})
@@ -334,6 +336,7 @@ $(document).ready(function(){
 							else if(lockers[i].reserved == false && 
 								   lockers[i].owned == false){
 								checked.parent().css({
+									"border": "none",
 									"background-color": "green",
 									"color": "azure"
 								})
@@ -344,7 +347,7 @@ $(document).ready(function(){
 			}
 		})
 
-	})*/
+	})
 	
 	$(".reserve-locker-section").show()
 	$(".owned-locker-section").hide()

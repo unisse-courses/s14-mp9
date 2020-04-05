@@ -1,18 +1,37 @@
 <div class="top">
-	<div class="admin-options">
-		<div id="#admin-lockers-option">
-			<img src="screenie1.png">
-			<p>Did La Salle build new lockers? A new term started and you need to specify the start and end dates of locker reservation? Click below to manage locker options.</p>
-			<form action="admin_manage_lockers.html">
-				<input type="submit" value="Start managing lockers">
-			</form>
+	<div class="carousel slide" id="admin-options">
+		<div class="carousel-inner">
+			<div id="quick-admin-1" class="carousel-item active">
+				<div id="image-admin-home-user-1">
+				</div>
+				<div class="carousel-caption d-none d-md-block">
+					<h1>Did La Salle build new lockers?</h1>
+					<p>A new term started and you need to specify the start and end dates of locker reservation? Click below to manage locker options.</p>
+					<form action="manage-lockers" method="get">
+						<input type="submit" class="btn btn-light btn-lg" value="Start managing lockers">
+					</form>
+				</div>
+			</div>
+			<div id="quick-admin-2" class="carousel-item">
+				<div id="image-admin-home-user-2">
+				</div>
+				<div class="carousel-caption d-none d-md-block">
+					<h1>Did students reserve a locker?</h1>
+					<p>Some students are awaiting to have their lockers finally owned. Some paid, and some haven't yet. Others had abandoned a locker. Click below to manage student requests for ownership or abandonment. Maybe just view the currently owned lockers.</p>
+					<form action="manage-requests" method="get">
+						<input type="submit" class="btn btn-light btn-lg" value="Start managing requests">
+					</form>
+				</div>
+			</div>
 		</div>
-		<div id="#admin-requests-option">
-			<img src="screenie2.png">
-			<p>Need to approve reserve or abandonment requests? Click below to manage locker requests here.</p>
-			<form action="admin_manage_requests.html">
-				<input type="submit" value="Start managing requests">
-			</form>
-		</div>
+		<a class="carousel-control-prev" href="#admin-options" role='button' data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		
+		<a class="carousel-control-next" href="#admin-options" role='button' data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
 	</div>
 </div>
