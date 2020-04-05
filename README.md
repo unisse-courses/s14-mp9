@@ -59,7 +59,8 @@ npm install express
 ### Installing Database Tools
 1. Install Robo 3T through this link: https://robomongo.org/download
 2. Log in or register an acccount for MongoDB Atlas
-3. Connect Robo 3T with MongoDB Atlas
+3. Create an account for your MongoDB Atlas project
+4. Connect Robo 3T with MongoDB Atlas
 
 **Create a new project in MongoDB Atlas.**
 Of course, name your project.
@@ -92,9 +93,17 @@ Copy the link of the connection string, and then replace the "<password>" segmen
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/connect3.png)
 
 **Create or use an existing connection in Robo 3T.**
-Paste the link to the From SRV text field below, and then click the From SRV button. 
+Set type to Replica Set.
+Name the database anything.
+Paste the link to the From SRV text field below, and then click the From SRV button. The clusters will then show up.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo.png)
+
+Check personal authentication.
+Databse should be named "admin"
+Enter your Database username and password.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo2.png)
+
+Authentication Method is "Use CA Certificate"
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo3.png)
 
 ### Adding Default Data to MongoDB Atlas
@@ -102,9 +111,13 @@ Paste the link to the From SRV text field below, and then click the From SRV but
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/datadef.png)
 
 2. Create a new collection called "termdates" 
-"test" was used a sample. However, "termdates" is, of course, created with the same method.
+Click on Add My Own Data button
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas8.png)
+
+"test" was used a sample. However, "termdates" is, of course, created with the same method.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas9.png)
+
+Done! Now you can add data.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas10.png)
 
 The only datum in the "termdates" database because it only stores the start and end dates of locker reservation. Everytime new dates are entered, the old dates are deleted and then the datum for the new dates are entered.
