@@ -60,3 +60,26 @@ Create a new cluster in MongoDB Atlas.
 
 Create or use an existing connection in Robo 3T.
 
+## Using and Exploring the Application
+After initializing the necessary tools to run the application, you can now use the application itself. 
+
+For the current phase, zoom your web browser to 80% for better navigation of the application.
+
+### User Mode
+
+#### View Current Locker
+
+#### View Lockers and Reserve One
+
+#### Profile
+The profile shows the credentials of the user such as their full name, ID number, degree program, e-mail address, and mobile number. 
+Everything except for the ID number can be edited in Edit Profile. 
+
+### Admin Mode
+The admin has the control on locker management. Not only they can add, edit, and delete lockers, but also set the start and end dates for locker reservation. The admin is the very first user registered in the application, as previously demonstrated.
+The admin may be a user, but unlike a regular one, the admin does not have a profile of their own.
+
+#### Managing lockers
+
+
+#### Managing Pending Locker Reservations
