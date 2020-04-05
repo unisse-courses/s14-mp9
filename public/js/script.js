@@ -21,7 +21,7 @@ $(document).ready(function(){
 			locationSelect.val(locations[0].locationName)
 			
 			var currLocation = locationSelect.val();
-			//console.log(currLocation)
+			
 			$("#location-name-selected").attr("value", currLocation)
 			$("#location-name-selected").text(currLocation)
 
@@ -59,7 +59,6 @@ $(document).ready(function(){
 						lockerReserves.push(lockerReserve)
 					})
 					initTable(currLocation, item, lockerReserves, lockersTable, rows[rowCtr], ctr)
-					//initTable(currLocation, item, lockerReserves, manageLockersTable, rows[rowCtr], ctr-5)
 					
 					if(ctr < 5){
 					}
@@ -101,7 +100,6 @@ $(document).ready(function(){
 					var lockerTr = $("<tr></tr>");
 					rows.push(lockerTr)
 					lockersTable.append(rows[row]);
-					//manageLockersTable.append(rows[row]);
 				}
 				
 			
@@ -116,7 +114,6 @@ $(document).ready(function(){
 							lockerReserves.push(lockerReserve)
 						})
 						initTable(currLocation, item, lockerReserves, lockersTable, rows[rowCtr], ctr)
-						//initTable(currLocation, item, lockerReserves, manageLockersTable, rows[rowCtr], ctr-5)
 
 						if(ctr < 5){
 						}
@@ -139,10 +136,6 @@ $(document).ready(function(){
 
 				$("#location-name-selected").attr("value", currLocation)
 				$("#location-name-selected").text(currLocation)
-
-				/*$("#add-locker-button").on("click", function(){
-					console.log(currLocation)
-				})*/
 				
 				$("#lockers-table td").hide();
 				$("input[name='status']").each(function(){
@@ -162,6 +155,9 @@ $(document).ready(function(){
 		var abandonLocationSelect = $(".locker-abandon-manager #reserve-location-select");
 
 		var ridHeader, rlockerNoHeader, rlocationHeader, rcheckHeader;
+		var rCtr = 0, oCtr = 0, aCtr = 0;
+		
+		var marker = "reserved";
 
 		resLocationSelect.val("all");
 		ownLocationSelect.val("all");
@@ -180,36 +176,301 @@ $(document).ready(function(){
 		hrow.append(rlockerNoHeader);
 		hrow.append(rlocationHeader);
 		thead.append(hrow);
+		
+		$("#reserve-select").click(function(){
+			$("#reserve-select").attr("class", "nav-link active")
+			$("#own-select").attr("class", "nav-link")
 
-
-		//$(".reserve-locker-section #lockers-reserve-table").append(thead)
-
-		//$(".locker-own-manager #lockers-reserve-table").append(thead)
-
-		//$(".locker-abandon-manager #lockers-reserve-table").append(thead)
-
-		data.forEach(function(item, index){
-			//console.log(item)
-			initReserveAllTable(item)
-		})
-
-		resLocationSelect.change(function(){
-			var selectedLocation = $(this).val();
-			
 			$(".reserve-locker-section #lockers-reserve-table > tr").remove();
+			$(".locker-own-manager #lockers-reserve-table > tr").remove();
+			$(".locker-abandon-manager #lockers-reserve-table > tr").remove();
 			
-			if(selectedLocation == "all"){
+			$(".reserve-locker-section").show()
+			$(".owned-locker-section").hide()
+			
+			rCtr = 0; 
+			oCtr = 0; 
+			aCtr = 0;
+		
+			
+			if(resLocationSelect.val() == "all"){
 				data.forEach(function(item, index){
-					initReserveAllTable(item)
+					initReserveAllTable(item, "reserved")
+
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
 				})
 				
 			}
 			else{
 				data.forEach(function(item, index){
-					initReserveTable(selectedLocation, item)
+					initReserveTable(resLocationSelect.val(), item, "reserved")
+
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
 				})
 			   	
 			}
+			
+			if(ownLocationSelect.val() == "all"){
+				data.forEach(function(item, index){
+					initReserveAllTable(item, "owned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			}
+			else{
+				data.forEach(function(item, index){
+					initReserveTable(ownLocationSelect.val(), item, "owned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			   	
+			}
+			
+			if(abandonLocationSelect.val() == "all"){
+				data.forEach(function(item, index){
+					initReserveAllTable(item, "abandoned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			}
+			else{
+				data.forEach(function(item, index){
+					initReserveTable(abandonLocationSelect.val(), item, "abandoned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			   	
+			}
+			
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+		})
+
+		$("#own-select").click(function(){
+			$("#reserve-select").attr("class", "nav-link")
+			$("#own-select").attr("class", "nav-link active")
+
+			console.log("select")
+			
+			
+			$(".reserve-locker-section #lockers-reserve-table > tr").remove();
+			$(".locker-own-manager #lockers-reserve-table > tr").remove();
+			$(".locker-abandon-manager #lockers-reserve-table > tr").remove();
+			
+			$(".reserve-locker-section").hide()
+			$(".owned-locker-section").show()
+			
+			rCtr = 0; 
+			oCtr = 0; 
+			aCtr = 0;
+			
+			if(resLocationSelect.val() == "all"){
+				data.forEach(function(item, index){
+					initReserveAllTable(item, "reserved")
+
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+				
+			}
+			else{
+				data.forEach(function(item, index){
+					initReserveTable(resLocationSelect.val(), item, "reserved")
+
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			   	
+			}
+			
+			if(ownLocationSelect.val() == "all"){
+				data.forEach(function(item, index){
+					initReserveAllTable(item, "owned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			}
+			else{
+				data.forEach(function(item, index){
+					initReserveTable(ownLocationSelect.val(), item, "owned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			   	
+			}
+			
+			if(abandonLocationSelect.val() == "all"){
+				data.forEach(function(item, index){
+					initReserveAllTable(item, "abandoned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			}
+			else{
+				data.forEach(function(item, index){
+					initReserveTable(abandonLocationSelect.val(), item, "abandoned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			   	
+			}
+			
+			
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+		})
+		
+		data.forEach(function(item, index){
+			initReserveAllTable(item, "reserved")
+
+			if(item.status == "reserved" ){
+				rCtr++;
+			}
+			else if(item.status == "owned"){
+				oCtr++;
+			}
+			else if(item.status == "abandoned"){
+				aCtr++;
+			}
+
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+		})
+
+		resLocationSelect.change(function(){
+			var selectedLocation = $(this).val();
+			
+			$(".locker-reserve-manager #lockers-reserve-table > tr").remove();
+			
+			rCtr = 0; 
+			oCtr = 0; 
+			aCtr = 0;
+			
+			if(selectedLocation == "all"){
+				data.forEach(function(item, index){
+					initReserveAllTable(item, "reserved")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+
+				})
+				
+			}
+			else{
+				data.forEach(function(item, index){
+					initReserveTable(selectedLocation, item, "reserved")
+
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			   	
+			}
+			
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
 			
 		})
 
@@ -217,15 +478,48 @@ $(document).ready(function(){
 			var selectedLocation = $(this).val();
 		
 			$(".locker-own-manager #lockers-reserve-table > tr").remove();
+			
+			rCtr = 0; 
+			oCtr = 0; 
+			aCtr = 0;
+			
+			if(selectedLocation == "all"){
+				data.forEach(function(item, index){
+					initReserveAllTable(item, "owned")
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
 
-			data.forEach(function(item, index){
-				if(selectedLocation == "all"){
-				   initReserveAllTable(item)
-				}
-				else{
-				   initReserveTable(selectedLocation, item)
-				}
-			})
+				})
+				
+			}
+			else{
+				data.forEach(function(item, index){
+					initReserveTable(selectedLocation, item, "owned")
+
+					if(item.status == "reserved" ){
+						rCtr++;
+					}
+					else if(item.status == "owned"){
+						oCtr++;
+					}
+					else if(item.status == "abandoned"){
+						aCtr++;
+					}
+				})
+			   	
+			}
+			
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+			
 		})
 
 		abandonLocationSelect.change(function(){
@@ -233,14 +527,33 @@ $(document).ready(function(){
 
 			$(".locker-abandon-manager #lockers-reserve-table > tr").remove();
 			
+			rCtr = 0; 
+			oCtr = 0; 
+			aCtr = 0;
+									 
 			data.forEach(function(item, index){
 				if(selectedLocation == "all"){
-				   initReserveAllTable(item)
+				   	initReserveAllTable(item, "abandoned")
 				}
 				else{
-				   initReserveTable(selectedLocation, item)
+				   	initReserveTable(selectedLocation, item, "abandoned")
 				}
+				
+				if(item.status == "reserved" ){
+					rCtr++;
+				}
+				else if(item.status == "owned"){
+					oCtr++;
+				}
+				else if(item.status == "abandoned"){
+					aCtr++;
+				}
+
+				$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+				$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+				$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
 			})
+			
 		})
 
 		$("input[name='reserveCheck']").click(function(){
@@ -307,8 +620,9 @@ $(document).ready(function(){
 			lockerTd.attr("class", "btn btn-primary")
 			lockerTd.attr("data-toggle", "modal")
 			
-			if(lockersTable.closest(".manage-lockers-box") == true){
-				lockerTd.attr("data-target", "#edit-selected-locker")
+			if(lockersTable.attr("class") == "manage-table"){
+				console.log(lockersTable.val())
+				lockerTd.attr("data-target", "#manage-edit-selected-locker")
 			}
 			else{
 				lockerTd.attr("data-target", "#validity-confirm")
@@ -420,11 +734,11 @@ $(document).ready(function(){
 		
 	}
 	
-	function initReserveTable(currLocation, lockerReserve){
+	function initReserveTable(currLocation, lockerReserve, marker){
 		var row;
 		var idNoTd, lockerNoTd, lockerLocTd, check;
 		var checkForm, checkbox;
-		var rCtr = 0, oCtr = 0, aCtr = 0;
+		
 		
 		if(currLocation == lockerReserve.Locker.location){
 			row = $("<tr></tr>");
@@ -437,6 +751,7 @@ $(document).ready(function(){
 
 			checkbox = $("<input>");
 			checkbox.attr("type", "checkbox")
+			checkbox.attr("name", "reserveCheck");
 			checkbox.attr("value", lockerReserve.studentIdNo);
 
 			idNoTd = $("<td></td>").text(lockerReserve.studentIdNo);
@@ -456,37 +771,31 @@ $(document).ready(function(){
 				row.append(cLabel)
 			}
 			
-			row.append(cLabel)
+			//row.append(cLabel)
 			row.append(idNoTd)
 			row.append(lockerNoTd)
 			row.append(lockerLocTd)
 
-			if(lockerReserve.status == "reserved"){
+			if(lockerReserve.status == "reserved" && marker == "reserved"){
 				checkbox.attr("name", "reserveCheck");
-				$(".reserve-locker-section #lockers-reserve-table").append(row)
-				rCtr++;
+				$(".locker-reserve-manager #lockers-reserve-table").append(row)
 			}
-			else if(lockerReserve.status == "owned"){
+			else if(lockerReserve.status == "owned" && marker == "owned"){
 				checkbox.attr("name", "reserveCheck");
 				$(".locker-own-manager #lockers-reserve-table").append(row)
-				oCtr++;
 			}
-			else if(lockerReserve.status == "abandoned"){
+			else if(lockerReserve.status == "abandoned" && marker == "abandoned"){
 				checkbox.attr("name", "abandonCheck");
 				$(".locker-abandon-manager #lockers-reserve-table").append(row)
-				aCtr++;
 			}
-			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
-			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
-			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+			
 		}
 	}
 	
-	function initReserveAllTable(lockerReserve){
+	function initReserveAllTable(lockerReserve, marker){
 		var row;
 		var idNoTd, lockerNoTd, lockerLocTd, check;
 		var checkForm, checkbox;
-		var rCtr = 0, oCtr = 0, aCtr = 0;
 		
 		row = $("<tr></tr>");
 
@@ -522,24 +831,18 @@ $(document).ready(function(){
 		row.append(lockerNoTd)
 		row.append(lockerLocTd)
 
-		if(lockerReserve.status == "reserved"){
+		if(lockerReserve.status == "reserved" && marker == "reserved"){
 			checkbox.attr("name", "reserveCheck");
-			$(".reserve-locker-section #lockers-reserve-table").append(row)
-				rCtr++;
+			$(".locker-reserve-manager #lockers-reserve-table").append(row)
 		}
-		else if(lockerReserve.status == "owned"){
+		else if(lockerReserve.status == "owned" && marker == "owned"){
 			checkbox.attr("name", "reserveCheck");
 			$(".locker-own-manager #lockers-reserve-table").append(row)
-				oCtr++;
 		}
-		else if(lockerReserve.status == "abandoned"){
+		else if(lockerReserve.status == "abandoned" && marker == "abandoned"){
 			checkbox.attr("name", "abandonCheck");
 			$(".locker-abandon-manager #lockers-reserve-table").append(row)
-				aCtr++;
 		}
-		$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
-		$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
-		$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
 	}
 })
 

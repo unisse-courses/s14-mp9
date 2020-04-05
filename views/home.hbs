@@ -1,5 +1,7 @@
 <html>
     <head>
+		<title>Home</title>
+		
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
@@ -8,11 +10,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		
-		<link rel="stylesheet" type="text/css" href="css/mp1.css">
+		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
 		
 		<script src="js/script.js"></script>
-        <script src="main.js"></script>
-        
+		<link rel="stylesheet" type="text/css" href="css/mp1.css">
+		
         <script>
 			$(document).ready(function(){
 				var viewLockers = $(".quick-menu-box input[type=submit]")
@@ -76,8 +78,26 @@
                 </div>
             </div>
             
-			<div class="quick-menu-box">
-				<!--<img src="photo/IMG_8368.jpg">---->
+			<div id="quick-menu-box" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<div id="image-home-user">
+							<!---<img class="d-block w-100 h-75" src="photo/IMG_8368.jpg">--->
+						</div>
+						
+						<div class="carousel-caption d-none d-md-block">
+							<h1>Reserve now!</h1>
+							<p>Don't want the burden to bring certain things to campus? Choose a locker to reserve today!</p>
+							<form action="view-lockers" method="get">
+								<input type="submit" class="btn btn-light btn-lg" value="Start reserving">
+							</form>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			<!---<div class="quick-menu-box">
+				<!--<img src="photo/IMG_8368.jpg">
 				<div id="reserve-reminder">
 					<h1>Reserve now!</h1>
 					<p>Don't want the burden to bring certain things to campus? Choose a locker to reserve today!</p>
@@ -85,7 +105,7 @@
 				<form action="view-lockers" method="get">
 					<input type="submit" value="Start reserving">
 				</form>
-			</div>
+			</div>--->
         </div>
         
     </body>

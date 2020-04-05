@@ -17,17 +17,37 @@
 		
 		<script>
 			$(document).ready(function(){
-				console.log($("input[name='lockerOwned']").val())
+				var statusForm = $(".profile-current-locker-info form[method='post']")
+				var statusFormButton = $(".profile-current-locker-info form[method='post'] input[type='submit']")
+				var profileLockerStatus = $("input[name='profileLockerStatus']")
+				
+				//console.log(profileLockerStatus.val())
+				
 				if($("input[name='lockerOwned']").val() == 'true'){
-				   	$("#profile-current-locker-info").show();
-					$("#reminder-current-locker-info").hide();
+				   	$(".profile-current-locker-info").show();
+					$(".reminder-current-locker-info").hide();
+					
+					if(profileLockerStatus.val() == 'reserved'){
+					  	statusForm.attr("action", "cancel-reservation")
+						statusFormButton.val("Cancel Reservation")
+					}
+					else if(profileLockerStatus.val() == 'owned'){
+						statusForm.attr("action", "abandon-locker")
+						statusFormButton.val("Abandon")
+					}
+					else if(profileLockerStatus.val() == 'abandoned'){
+						statusForm.attr("action", "cancel-abandonment")
+						statusFormButton.val("Cancel Abandoment")
+					}
+					/*else{
+						statusForm.attr("action", "view-lockers")
+						statusFormButton.val("Reserve A Locker")
+					}*/
 				}
 				else{
-					$("#reminder-current-locker-info").show();
-				   	$("#profile-current-locker-info").hide();
+					$(".reminder-current-locker-info").show();
+				   	$(".profile-current-locker-info").hide();
 				}
-				
-				
 				
 			})
 			
@@ -73,32 +93,35 @@
 		</div>
         
 		<input type="hidden" name="lockerOwned" value="{{reserved}}">
+		<input type="hidden" name="profileLockerStatus" value="{{locker.status}}">
 		
         <div class="profile">
 			<div class="page-box">
 				<div class="profile-box">
 					<div id="image-locker">
 						<div class="card text-center" id="locker-info" style="width: 23rem;">
+							<h5 class="card-header">Current locker</h5>
 							<div class="card-body" id="locker">
 								
-								<div id="reminder-current-locker-info">
+								<div class="reminder-current-locker-info">
 									<span class="card-subtitle mb-3 text">You current do not have a locker reserved nor owned</span>
 									<form method="get" action="view-lockers">
 										<input type="submit" class="btn btn-primary" value="Reserve">
 									</form>
 								</div>
 								
-								<div id="profile-current-locker-info">
-									<h5 class="card-title">Current locker</h5>
-									<div id="locker-address">
-										<h6>{{locker.Locker.lockerNo}}</h6>
-										<p class="card-subtitle mb-3 text-muted">{{locker.Locker.location}}</p>
+								<div class="profile-current-locker-info">
+									
+									<div id="profile-locker-address">
+										<h4 class="card-title">{{locker.Locker.lockerNo}}</h4>
+										<p id="profile-locker-location" class="card-subtitle mb-3 text-muted">{{locker.Locker.location}}</p>
 										<p id="profile-locker-status" class="card-subtitle mb-3 text-muted">{{locker.status}}</p>
-									</div><br>
+									</div>
 									<div id="locker-lock-code">
 										<b>Locker Code</b> <span>{{locker.Locker.lockCode}}</span>
 									</div>
-									<form method="post" action="abandon-locker">
+									<form method="post" action="view-lockers">
+										<input type="hidden" name="pageCur" value="profile">
 										<input type="submit" class="btn btn-primary" value="Reserve">
 									</form>
 								</div>

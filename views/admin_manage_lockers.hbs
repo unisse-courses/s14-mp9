@@ -224,7 +224,7 @@
                     
                 }*/
 				
-				$(".edit-locker-button").on("click", function(){
+				/*$(".edit-locker-button").on("click", function(){
 					$("input[name='lockerName']").on("change", function(){
 						var checked = $(this)
 						
@@ -314,7 +314,7 @@
 						}
 						
 					})
-				})
+				})*/
 				
 				$(".delete-locker-button").on("click", function(){
 					$(".delete-locker-option").show()
@@ -444,7 +444,7 @@
 			</div>
 		</div>
 		
-		<h1>Manage Lockers</h1>
+		
 		<div class="manage-lockers-box">
 			<div class="manage-menu">
 				<h3>Manage Options</h3>
@@ -462,14 +462,14 @@
 						<label><b>Start </b></label><br>
 						<input type="datetime" value="2020-2-30 10:30" name="termStart"><br>
 						<label><b>End </b></label><br>
-						<input type="datetime"  value="2020-2-30 13:30"  name="termEnd"><br>
+						<input type="datetime"  value="2020-2-30 13:30" name="termEnd"><br>
 						<input id="set-dates" type="button" value="Set Dates"><br>
 					</form>
 				</div>
 
 				<div class="ll-section">
 					<div class="locations-section">
-						<select id="location-select">
+						<select id="location-select" value="manage">
 							{{#each locations}}
 								<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
 								</option>
@@ -519,7 +519,7 @@
 
 							<span id="edit-reminder"></span><b id='edit-reminder-code'></b>
 
-							<table id="lockers-table">
+							<table id="lockers-table" class="manage-table">
 							</table>
 							
 							<div class="options-chosen-section">
@@ -609,7 +609,7 @@
 								</div>
 							</div>
 							
-							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLocker" aria="true" id="edit-selected-locker">
+							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLocker" aria="true" id="manage-edit-selected-locker">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
 										<div class="modal-header">

@@ -1,5 +1,6 @@
 <html>
     <head>
+		<title>Current Locker</title>
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		
@@ -91,7 +92,7 @@
 		<input type="hidden" value="{{currentLocker.status}}" id="cur-locker-reserve-status" name="resStatus">
 		
         <div id="current-locker-info">
-			<div class="card" style="height: 25rem; width: 23rem;">
+			<div class="card text-center" id="locker-address" style="height: 25rem; width: 23rem;">
 				<h5 class="card-header">Current locker address</h5>
 				<div class="card-body">
 					<h1 class="card-title">{{currentLocker.Locker.lockerNo}}</h1>
@@ -99,35 +100,51 @@
 				</div>
 			</div>
 			
-			<div class="card" style="height: 25rem; width: 50rem;">
-				<div class="row">
-					<div class="col col-sm-3">
-						<label><b>Ownership Span</b></label> 
-						<label><b>Locker Status</b></label>
-						<label><b>Locker Code</b></label> 
+			<div class="container" id="current-locker-details" style="height: 25rem; width: 50rem; background-color: white;">
+				<div id="body">
+					<div class="row">
+						<div class="col-sm">
+							<label><b>Ownership Span</b></label> 
+						</div>
+						<div class="col-8">
+							
+						</div>
 					</div>
-					<div class="col col-sm-3">
-						<span></span>
-						<span id="status-locker">{{currentLocker.status}}</span>
-						<span>{{currentLocker.Locker.lockCode}}</span>
+					<div class="row">
+						<div class="col-sm">
+							<label><b>Locker Status</b></label> 
+						</div>
+						<div class="col-8">
+							{{currentLocker.Locker.lockCode}}
+						</div>
 					</div>
-				</div>
-				<div class="row-sm">
-					<form id="current-locker-status-form" method="post">
-						<input type="hidden" class="btn btn-primary" name="status" value="{{currentLocker.status}}">
-						<input type="submit" class="btn btn-primary" name="cancelType" value="Cancel Reservation">  
-					</form>
+					<div class="row">
+						<div class="col-sm">
+							<label><b>Locker Code</b></label> 
+						</div>
+						<div class="col-8">
+							{{currentLocker.status}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm">
+							<form id="current-locker-status-form" action="view-lockers" method="post">
+								<input type="submit" class="btn btn-primary btn-lg btn-block h-50" value="Find and Reserve a locker"> 
+							</form>
+						</div>
+						
+					</div>
 				</div>
 			</div>
 		</div>
 		
 		<div id="no-locker">
-			<div class="card" style="height: 25rem; width: 50rem;">
+			<div class="card" style="height: 25rem; width: 60rem;">
 				<h5 class="card-header">Current locker address</h5>
 				<div class="card-body">
 					<span>You neither reserved or currently own a locker. You may pick a desired location and reserve a locker by exploring the lockers page through either pickeing Lockers > View lockers and reserve a locker or clicking the button below:</span>
 					<form action="view-lockers" method="get">
-						<input type="submit" class="btn btn-primary" value="Find and Reserve a locker"> 
+						<input type="submit" class="btn btn-primary btn-lg btn-block h-25" value="Find and Reserve a locker"> 
 					</form>
 				</div>
 			</div>

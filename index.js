@@ -325,7 +325,9 @@ app.get("/current-locker", function(req, res){
 
 app.post("/cancel-reservation", urlencoder, function(req, res){
 	var userId, lockerNo,
-	location
+	location, currentPage
+	
+	currentPage = req.body.pageCur;
 	
 	LockerReservation.deleteOne({
 		studentIdNo: req.session.idNo
@@ -339,7 +341,14 @@ app.post("/cancel-reservation", urlencoder, function(req, res){
 			}
 			else{
 				console.log(result)
-				res.redirect("/current-locker");
+				if(currentPage == "profile"){
+					res.redirect(307, "/profile");
+					
+				}
+				else{
+				   res.redirect("/current-locker");
+				}
+				
 			}
 		}
 	);
@@ -347,7 +356,9 @@ app.post("/cancel-reservation", urlencoder, function(req, res){
 
 app.post("/abandon-locker", urlencoder, function(req, res){
 	var userId, lockerNo,
-	location
+	location, currentPage
+	
+	currentPage = req.body.pageCur;
 	
 	LockerReservation.updateOne({
 		studentIdNo: req.session.idNo
@@ -364,7 +375,15 @@ app.post("/abandon-locker", urlencoder, function(req, res){
 			}
 			else{
 				console.log(result)
-				res.redirect("/current-locker");
+				var locker = result
+				
+				if(currentPage == "profile"){
+					res.redirect(307, "/profile");
+				}
+				else{
+				   res.redirect("/current-locker");
+				}
+				
 			}
 		}
 	);
@@ -372,7 +391,9 @@ app.post("/abandon-locker", urlencoder, function(req, res){
 
 app.post("/cancel-abandonment", urlencoder, function(req, res){
 	var userId, lockerNo,
-	location
+	location, currentPage
+	
+	currentPage = req.body.pageCur;
 	
 	LockerReservation.updateOne({
 		studentIdNo: req.session.idNo
@@ -389,7 +410,14 @@ app.post("/cancel-abandonment", urlencoder, function(req, res){
 			}
 			else{
 				console.log(result)
-				res.redirect("/current-locker");
+				var locker = result
+				
+				if(currentPage == "profile"){
+					res.redirect(307, "/profile");
+				}
+				else{
+				   res.redirect("/current-locker");
+				}
 			}
 		}
 	);
@@ -447,13 +475,11 @@ app.post("/profile", urlencoder, function(req, res){
 	var idNo,
 	password;
 
-	idNo = req.body.idNo;
-	password = req.body.password;
+	idNo = req.session.idNo;
+	password = req.session.password;
 	
 	console.log(idNo)
 	console.log(password)
-	
-	
 	
 	User.findOne(
 		{
@@ -527,11 +553,35 @@ app.post("/edit-profile", urlencoder, function(req, res){
 				res.send("User does not exist.")
 			}
 			else{
-				res.render("edit_profile.hbs", {
-					user: doc,
-					idNo: req.session.idNo,
-					password: req.session.password
-				})
+				var user = doc
+				
+				LockerReservation.findOne(
+					{
+					studentIdNo: idNo
+					},
+					function(err, doc){
+						if(err){
+						   res.send(err)
+						}
+						else if(!doc){
+							res.render("edit_profile.hbs", {
+								reserved: false,
+								user: user,
+								idNo: req.session.idNo,
+								password: req.session.password
+							})
+						}
+						else{
+							res.render("edit_profile.hbs", {
+								reserved: true,
+								user: user,
+								locker: doc,
+								idNo: req.session.idNo,
+								password: req.session.password
+							})
+						}
+					}
+				)
 			}
 		}
 	)

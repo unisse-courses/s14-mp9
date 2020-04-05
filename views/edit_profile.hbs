@@ -16,6 +16,36 @@
 		<link rel="stylesheet" type="text/css" href="css/mp1.css">
 		
 		<script src="js/script.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+				var statusForm = $(".profile-current-locker-info form[method='post']")
+				var statusFormButton = $(".profile-current-locker-info form[method='post'] input[type='submit']")
+				var profileLockerStatus = $("input[name='profileLockerStatus']")
+
+				if($("input[name='lockerOwned']").val() == 'true'){
+					$(".profile-current-locker-info").show();
+					$(".reminder-current-locker-info").hide();
+
+					if(profileLockerStatus.val() == 'reserved'){
+						statusForm.attr("action", "cancel-reservation")
+						statusFormButton.val("Cancel Reservation")
+					}
+					else if(profileLockerStatus.val() == 'owned'){
+						statusForm.attr("action", "abandon-locker")
+						statusFormButton.val("Abandon")
+					}
+					else if(profileLockerStatus.val() == 'abandoned'){
+						statusForm.attr("action", "cancel-abandonment")
+						statusFormButton.val("Cancel Abandoment")
+					}
+				}
+				else{
+					$(".reminder-current-locker-info").show();
+					$(".profile-current-locker-info").hide();
+				}
+			})
+		</script>
     </head>
     
     <body>
@@ -48,20 +78,39 @@
 			</div>
 		</div>
         
+		<input type="hidden" name="lockerOwned" value="{{reserved}}">
+		<input type="hidden" name="profileLockerStatus" value="{{locker.status}}">
+		
 		<div class="edit-profile-box">
 			<div id="image-locker">
 				<div class="card text-center" id="locker-info" style="width: 23rem;">
-					<div class="card-body" id="locker">
-						<h5 class="card-title">Current locker</h5>
-						<div id="locker-address">
-							<h6>110</h6>
-							<p class="card-subtitle mb-3 text-muted">St. La Salle Hall</p>
-						</div><br>
-						<div id="locker-lock-code">
-							<b>Locker Code</b> <span>10239</span>
+					<h5 class="card-header">Current locker</h5>
+						<div class="card-body" id="locker">
+
+							<div class="reminder-current-locker-info">
+								<span class="card-subtitle mb-3 text">You current do not have a locker reserved nor owned</span>
+								<form method="get" action="view-lockers">
+									<input type="submit" class="btn btn-primary" value="Reserve">
+								</form>
+							</div>
+
+							<div class="profile-current-locker-info">
+
+								<div id="profile-locker-address">
+									<h4 class="card-title">{{locker.Locker.lockerNo}}</h4>
+									<p id="profile-locker-location" class="card-subtitle mb-3 text-muted">{{locker.Locker.location}}</p>
+									<p id="profile-locker-status" class="card-subtitle mb-3 text-muted">{{locker.status}}</p>
+								</div>
+								<div id="locker-lock-code">
+									<b>Locker Code</b> <span>{{locker.Locker.lockCode}}</span>
+								</div>
+								<form method="post" action="view-lockers">
+									<input type="hidden" name="pageCur" value="profile">
+									<input type="submit" class="btn btn-primary" value="Reserve">
+								</form>
+							</div>
+
 						</div>
-						<a id="abandon-button" href="#" class="btn btn-primary">Abandon</a>
-					</div>
 				</div>
 			</div>
 			
@@ -99,7 +148,7 @@
 							</div>
 							
 							<div id="submit-edit-profile" class="form-group row">
-								<input class="btn btn-primary" type="submit" value="Confirm Edit">
+								<input class="btn btn-primary w-100" type="submit" value="Confirm Edit">
 							</div>
 						</form>
 					</div>
