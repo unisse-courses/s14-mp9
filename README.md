@@ -19,6 +19,8 @@ cd ___________
 ```
 
 or
+
+
 Directly entering cmd on the File Explorer folder of your directory.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/cmd.png)
 
@@ -26,8 +28,11 @@ Directly entering cmd on the File Explorer folder of your directory.
 ```
 npm init
 ```
-You can enter without modifying values as you install until you reach this question:
 
+You can enter without modifying values as you install until you reach this question:
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/cmd3.png)
+
+Type in "yes", and your packages are installed.
 
 3. The following should be installed:
     * express
@@ -36,11 +41,12 @@ You can enter without modifying values as you install until you reach this quest
     * body-parser
     * cookie-parser
     * mongoose
+    * mongodb
     * path
     * handlebars
     * express-handlebars
 
-The format to install the frameworks
+The format to install the frameworks in cmd or git-bash:
 ```
 npm install _____
 ```
@@ -61,7 +67,11 @@ Create a new cluster in MongoDB Atlas.
 
 Create or use an existing connection in Robo 3T.
 
-### Adding to MongoDB Atlas
+### Adding Default Data to MongoDB Atlas
+1. Add the admin's credentials, as listed below.
+
+
+2. Create a new collection called "termdates"
 
 ## Using and Exploring the Application
 After initializing the necessary tools to run the application, you can now use the application itself. 
