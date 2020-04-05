@@ -188,11 +188,22 @@ The admin may be a user, but unlike a regular one, the admin does not have a pro
 #### Managing lockers
 The admin can do the following when managing lockers:
 1. Add Locker
-2. Delete Lockers (still incomplete function
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web19.png)
+
+2. Delete Lockers (still incomplete function)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web20.png)
+
 3. Editing Lockers by clicking directly on a locker
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web24.png)
+
 4. Adding New Locations
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web22.png)
+
 5. Deletng Locations
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web25.png)
+
 6. Setting the Term Dates to mark the span allowed to reserve a locker.
+
 
 Locker Manager
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web13.png)
