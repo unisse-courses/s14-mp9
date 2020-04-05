@@ -131,7 +131,7 @@
                 })
                 
 				$("#edit-options").hide()
-				$(".start-edit").click(function(){
+				$("#start-edit").click(function(){
 					$("#edit-options").show()
 				})
 				
@@ -468,184 +468,166 @@
 				</div>
 
 				<div class="ll-section">
-					<div class="locations-section">
-						<select id="location-select" value="manage">
-							{{#each locations}}
-								<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-								</option>
-							{{/each}}
-						</select>
-						<form>
-							<input type="button" id="delete-location" name="edit" value="Delete Location">
-							<input type="button" id="add-location" name="edit" data-toggle="modal" data-target="#add-new-location" value="Add New Location">
-						</form>
-					</div>
-
-
-					<div class="locker-table-section">
-						<table id="legend">
-							<tr>
-								<th>Color</th> 
-								<th>Status</th> 
-								<th>Filter</th>
-							</tr>
-							<tr>
-								<td value="green"></td> 
-								<td>Available</td> 
-								<td><input type="checkbox" name="status" value="available"></td>
-							</tr>
-							<tr>
-								<td value="blue"></td> 
-								<td>Reserved</td> 
-								<td><input type="checkbox" name="status" value="reserved"></td>
-							</tr>
-							<tr>
-								<td value="red"></td> 
-								<td>Owned</td> 
-								<td><input type="checkbox" name="status" value="owned"></td>
-							</tr>
-						</table>
-
-						<div id="table-section">
+					<div class="card" id="locations-section">
+						<h4 class="card-header">Location</h4>
+						<div class="card-body">
+							<select class="btn btn-secondary dropdown-toggle btn-lg" role="button" id="location-select" value="manage">
+								{{#each locations}}
+									<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
+									</option>
+								{{/each}}
+							</select>
 							<form>
-								<input type="button" class="start-edit" name="edit" value="Edit">
+								<input type="button"  class="btn btn-danger btn-lg" id="delete-location" name="edit" value="Delete Location">
+								<input type="button"  class="btn btn-primary btn-lg" id="add-location" name="edit" data-toggle="modal" data-target="#add-new-location" value="Add New Location">
 							</form>
-
-							<form id="edit-options">
-								<input type="button" id="add-locker-button" name="edit" data-toggle="modal" data-target="#add-new-locker" value="Add Locker">
-								<input type="button" class="edit-locker-button" name="edit" value="Edit 1 Selected Locker">
-								<input type="button" class="delete-locker-button" name="edit" value="Select and Delete Lockers">
-							</form>
-
-							<span id="edit-reminder"></span><b id='edit-reminder-code'></b>
-
-							<table id="lockers-table" class="manage-table">
-							</table>
-							
-							<div class="options-chosen-section">
-								<div class="add-new-locker">
-									<label><b>Add New Locker</b></label>
-									<label><b>Locker Number</b></label> <small id="new-locker-number">111</small>
-									<form id="new-locker-form">
-										<label><b>Locker Code </b></label><input type="type" id="new-locker-code" value="Locker code...">
-										<input type="button" id="confirm-add" value="Add Locker">
-									</form>
-								</div>
-
-								<div class="edit-locker-option">
-									<label><b>Edit Locker</b></label>
-									<label><b>Locker number selected and Location </b></label><span id="locker-id"></span>
-									<form id="edit-form">
-										<label><b>Locker Code </b></label><input type="type" id="edit-code" value="Locker code...">
-										<input type="button" id="confirm-add" value="Add Locker">
-									</form>
-								</div>
-
-								<div class="delete-locker-option">
-									<form id="delete-form">
-										<input type="button" id="confirm-delete" value="Delete">
-										<input type="button" id="deselect-all-delete" value="Deselect All">
-									</form>
-								</div>
-
-								<div class="delete-locker-confirm-option">
-									<p id="delete-reminder"></p>
-									<label><b>Are you sure?</b></label>
-									<form id="delete-confirm-form">
-										<input type="button" id="confirm-yes" value="Yes">
-										<input type="button" id="confirm-no" value="No">
-									</form>
-								</div>
-							</div>
-							
-							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocation" aria="true" id="add-new-location">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title">Add New Location</h5>
-											<button class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<form action="add-location" method="post">
-												<div class="form-group col-md-6">
-													<input name="newLocationName" type="text" class="form-control" id="new-location-name">
-												</div>
-												<div class="modal-footer">
-													<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocker" aria="true" id="add-new-locker">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title">Add New Locker</h5>
-											<button class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<form action="add-locker" method="post">
-												<div class="form-group col-md-6">
-													<h5 class="modal-title">Location: </h5>
-													<label>Locker Code</label>
-													
-													<input id="location-name-selected" name="selectedLocation" type="hidden">
-													<input id="location-name-lockers-selected" name="selectedLocationLockersNo" type="hidden">
-													<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
-												</div>
-												<div class="modal-footer">
-													<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLocker" aria="true" id="manage-edit-selected-locker">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title">Edit Locker</h5>
-											<button class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<form action="edit-locker" method="post">
-												<div class="form-group col-md-6">
-													<h5 class="modal-title">Location: </h5>
-													<label>Locker Code:</label> <span id="locker-code-current"></span>
-													
-													<input id="edit-location-name-selected" name="selectedLocation" type="hidden">
-													<input id="edit-locker-no-selected" name="selectedLocationLockersNo" type="hidden">
-													<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
-												</div>
-												<div class="modal-footer">
-													<input type="submit" class="btn btn-primary" value="Edit Location">
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							
 						</div>
-
 					</div>
 
 
-					
+					<div id="locker-table-section">
+						<div class="card">
+							<h4 class="card-header">Filters</h4>
+							<div class="card-body">
+								<table class="table" id="legend">
+									<tr>
+										<th>Color</th> 
+										<th>Status</th> 
+										<th>Filter</th>
+									</tr>
+									<tr>
+										<td value="green"></td> 
+										<td>Available</td> 
+										<td>
+											<div class="custom-control custom-checkbox">
+												<input type="checkbox" id="available-cell" class="custom-control-input" name="status" value="available"> <label for="available-cell" class="custom-control-label"></label>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td value="blue"></td> 
+										<td>Reserved</td> 
+										<td>
+											<div class="custom-control custom-checkbox">
+												<input type="checkbox" id="reserved-cell" class="custom-control-input" name="status" value="reserved"> <label for="reserved-cell" class="custom-control-label"></label>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td value="red"></td> 
+										<td>Owned</td> 
+										<td>
+											<div class="custom-control custom-checkbox">
+												<input type="checkbox" id="own-cell" class="custom-control-input" name="status" value="owned"> <label for="own-cell" class="custom-control-label"></label>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						
+
+						<div class="card" style="height: 50rem; width: 45rem;" id="table-section">
+							<h4 class="card-header">Lockers</h4>
+							<div class="card-body">
+								<form>
+									<input type="button" class="btn btn-primary" id="start-edit" name="edit" value="Edit">
+								</form>
+
+								<form id="edit-options">
+									<input type="button" id="add-locker-button" name="edit" data-toggle="modal" data-target="#add-new-locker" value="Add Locker">
+									<input type="button" class="edit-locker-button" name="edit" value="Edit 1 Selected Locker">
+									<input type="button" class="delete-locker-button" name="edit" value="Select and Delete Lockers">
+								</form>
+
+								<span id="edit-reminder"></span><b id='edit-reminder-code'></b>
+
+								<table id="lockers-table" class="manage-table">
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			
+			<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocation" aria="true" id="add-new-location">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Add New Location</h5>
+							<button class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form action="add-location" method="post">
+								<div class="form-group col-md-6">
+									<input name="newLocationName" type="text" class="form-control" id="new-location-name">
+								</div>
+								<div class="modal-footer">
+									<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocker" aria="true" id="add-new-locker">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Add New Locker</h5>
+							<button class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form action="add-locker" method="post">
+								<div class="form-group col-md-6">
+									<h5 class="modal-title">Location: </h5>
+									<label>Locker Code</label>
+
+									<input id="location-name-selected" name="selectedLocation" type="hidden">
+									<input id="location-name-lockers-selected" name="selectedLocationLockersNo" type="hidden">
+									<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
+								</div>
+								<div class="modal-footer">
+									<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLocker" aria="true" id="manage-edit-selected-locker">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Edit Locker</h5>
+							<button class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form action="edit-locker" method="post">
+								<div class="form-group col-md-6">
+									<h5 class="modal-title">Location: </h5>
+									<label>Locker Code:</label> <span id="locker-code-current"></span>
+
+									<input id="edit-location-name-selected" name="selectedLocation" type="hidden">
+									<input id="edit-locker-no-selected" name="selectedLocationLockersNo" type="hidden">
+									<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
+								</div>
+								<div class="modal-footer">
+									<input type="submit" class="btn btn-primary" value="Edit Location">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
     </body>
 </html>

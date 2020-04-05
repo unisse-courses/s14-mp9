@@ -636,16 +636,16 @@ input[type=submit], input[type=button]{
 	border: 2px solid #127a35;
 }
 
-#user-legend-section{
+#user-legend-section, #legend{
 	margin-bottom: 20px;
 }
 
-#user-legend-section .filters #legend{
+.filters #legend{
 	display: flex;
 	flex-direction: row;
 }
 
-#user-legend-section .filters #legend th, .filters #legend td{
+.filters #legend th, .filters #legend td{
 	height: 50px;
 	width: 200px;
 }
@@ -669,10 +669,34 @@ input[type=submit], input[type=button]{
 	display: flex;
 	flex-direction: row;
 	margin: 50px;
-	height: 1000px
+	height: 1300px
 }
 
-.manage-lockers-box .manage-menu{
+.manage-lockers-box #locker-table-section{
+	display: flex;
+	flex-direction: row;
+	margin-top: 50px;
+}
+
+.manage-lockers-box #table-section{
+	margin-left: 30px
+}
+
+.ll-section{
+	margin: 80px;
+}
+
+.ll-section #locations-section .card-body{
+	display: flex;
+	flex-direction: row;
+}
+
+.ll-section #locations-section .card-body form{
+	margin-left: 30px;
+	padding-top: 10px
+}
+
+/*.manage-lockers-box .manage-menu{
 	background-color: #00521c;
 	width: 300px;
 }
@@ -783,7 +807,7 @@ input[type=submit], input[type=button]{
 .manage-lockers-box .manage-options a, .manage-lockers-box .manage-menu h3{
 	padding-left: 15px;
 	color: #edefee
-}
+}*/
 
 /*admin_manage_requests.html*/
 #requests-box div[class^="locker-"] table tr{
