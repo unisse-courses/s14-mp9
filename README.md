@@ -72,10 +72,14 @@ Create a new cluster in MongoDB Atlas.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas6.png)
 
 Connect to the cluster
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas7.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/connect.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/connect2.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/connect3.png)
 
 Create or use an existing connection in Robo 3T.
-
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo2.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo3.png)
 
 ### Adding Default Data to MongoDB Atlas
 1. Add the admin's credentials, as listed below.
@@ -87,7 +91,7 @@ Create or use an existing connection in Robo 3T.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas9.png)
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas10.png)
 
-The only datum in the database because it only stores the start and end dates of locker reservation.
+The only datum in the "termdates" database because it only stores the start and end dates of locker reservation. Everytime new dates are entered, the old dates are deleted and then the datum for the new dates are entered.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/datadef2.png)
 
 ## Using and Exploring the Application
