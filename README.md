@@ -20,7 +20,7 @@ cd ___________
 
 or
 Directly entering cmd on the File Explorer folder of your directory.
-
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/cmd.png)
 
 2. Initialize NPM.
 ```
