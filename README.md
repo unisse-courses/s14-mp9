@@ -61,22 +61,38 @@ npm install express
 2. Log in or register an acccount for MongoDB Atlas
 3. Connect Robo 3T with MongoDB Atlas
 
-Create a new project in MongoDB Atlas.
+**Create a new project in MongoDB Atlas.**
+Of course, name your project.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas.png)
+
+Then add your groupmates' addresses to the MongoDB Atlas Project
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas2.png)
 
-Create a new cluster in MongoDB Atlas.
+**Create a new cluster in MongoDB Atlas.**
+Click on the 'Build a Cluster' button.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas3.png)
+
+Choose the free Shared Clusters
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas4.png)
+
+Choose a region to host your cluster, or don't do anything at all.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas5.png)
+
+Wait for the cluster to be fully created.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas6.png)
 
+**Connect to the cluster**
 Connect to the cluster
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/connect.png)
+
+Connect to your application. In this case, Robo3T
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/connect2.png)
+
+Copy the link of the connection string, and then replace the "<password>" segment with your own. 
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/connect3.png)
 
-Create or use an existing connection in Robo 3T.
+**Create or use an existing connection in Robo 3T.**
+Paste the link to the From SRV text field below, and then click the From SRV button. 
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo.png)
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo2.png)
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo3.png)
