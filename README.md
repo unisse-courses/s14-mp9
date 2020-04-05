@@ -133,24 +133,53 @@ The typical person using the application. Only has control of viewing, reserving
 
 ### Login and Register
 For the users' conveniency, both the log in and register features are in the same page.
+Login
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web1.png)
+Register
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web2.png)
+
+#### Home
+The main page of the logged in user.
+
+User Home
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web3.png)
 
 #### View Current Locker
 This page is a quick view of the user's current locker, whether reserved, owned, or abandoned. 
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web4.png)
 
 If the user does not own a locker, the user is given a quick button to the View Lockers page to find a locker to reserve.
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web17.png)
 
 Otherwise, the current locker of the user and its details like its locker code and address are shown.
 
 #### View Lockers and Reserve One
 The user can view a catalog of lockers from a selected location to seek one to reserve. 
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web5.png)
 
 Unless already reserved, owned, or the user already owns/reserves/abandons a locker, the user can reserve a locker in a location of their choice. 
 
 After reserving the locker, the user either had the option to reserve or cancel the reservation. 
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web18.png)
+
+#### Search Lockers
+The search function for the lockers is currently very limited. Only select one of the radio boxes and then type an exact locker number or an exact location name. You cannot even reserve lockers in the search page yet.
+
+Location Results
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web7.png)
+
+Locker Results
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web8.png)
 
 #### Profile
 The profile shows the credentials of the user such as their full name, ID number, degree program, e-mail address, and mobile number. 
 Everything except for the ID number can be edited in Edit Profile. 
+
+Profile
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web9.png)
+
+Edit Profile
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web10.png)
 
 ### Admin Mode
 The admin has the control on locker management. Not only they can add, edit, and delete lockers, but also set the start and end dates for locker reservation. The admin is the very first user registered in the application, as previously demonstrated.
@@ -159,14 +188,25 @@ The admin may be a user, but unlike a regular one, the admin does not have a pro
 #### Managing lockers
 The admin can do the following when managing lockers:
 1. Add Locker
-2. Delete Lockers
-3. Editing Lockers
+2. Delete Lockers (still incomplete function
+3. Editing Lockers by clicking directly on a locker
 4. Adding New Locations
 5. Deletng Locations
 6. Setting the Term Dates to mark the span allowed to reserve a locker.
+
+Locker Manager
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web13.png)
+
+Date Manager
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web14.png)
 
 #### Managing Pending Locker Reservations
 This page shows users' reservation and abandonment requests and views all the currently owned lockers. To organize the tables more neatly, two dividers for the tables of reserved lockers and owned and abandoned lockers. The reservation table is separated from the owned and abandoned tables, which are grouped together.
 
 Two buttons for accepting and rejecting requests are in the reservation and abandonment tables.
 
+Reserved Locker Requests
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web15.png)
+
+View Owned Lockers and Abandon Locker Requests
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web16.png)
