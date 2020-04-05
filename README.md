@@ -62,16 +62,30 @@ npm install express
 3. Connect Robo 3T with MongoDB Atlas
 
 Create a new project in MongoDB Atlas.
-Create a new cluster in MongoDB Atlas.
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas2.png)
 
+Create a new cluster in MongoDB Atlas.
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas3.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas4.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas5.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas6.png)
+
+Connect to the cluster
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas7.png)
 
 Create or use an existing connection in Robo 3T.
 
 ### Adding Default Data to MongoDB Atlas
+
+
 1. Add the admin's credentials, as listed below.
 
 
 2. Create a new collection called "termdates"
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas8.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas9.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas10.png)
 
 ## Using and Exploring the Application
 After initializing the necessary tools to run the application, you can now use the application itself. 
