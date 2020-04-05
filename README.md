@@ -9,6 +9,7 @@
 Before actually using the application, the user is required to do the following:
 1. Install NPM/Node Packaging Manager and its Frameworks
 2. Install Database Tools.
+3. Add certain data to MongoDB Atlas
 
 ### Install NPM/Node Packaging Manager and its Framework
 1. Access the directory of the application by
@@ -60,16 +61,32 @@ Create a new cluster in MongoDB Atlas.
 
 Create or use an existing connection in Robo 3T.
 
+### Adding to MongoDB Atlas
+
 ## Using and Exploring the Application
 After initializing the necessary tools to run the application, you can now use the application itself. 
 
 For the current phase, zoom your web browser to 80% for better navigation of the application.
 
 ### User Mode
+The typical person using the application. Only has control of viewing, reserving, and abandoning a locker and viewing and editing their profile.
+
+### Login and Register
+For the users' conveniency, both the log in and register features are in the same page.
 
 #### View Current Locker
+This page is a quick view of the user's current locker, whether reserved, owned, or abandoned. 
+
+If the user does not own a locker, the user is given a quick button to the View Lockers page to find a locker to reserve.
+
+Otherwise, the current locker of the user and its details like its locker code and address are shown.
 
 #### View Lockers and Reserve One
+The user can view a catalog of lockers from a selected location to seek one to reserve. 
+
+Unless already reserved, owned, or the user already owns/reserves/abandons a locker, the user can reserve a locker in a location of their choice. 
+
+After reserving the locker, the user either had the option to reserve or cancel the reservation. 
 
 #### Profile
 The profile shows the credentials of the user such as their full name, ID number, degree program, e-mail address, and mobile number. 
@@ -80,6 +97,16 @@ The admin has the control on locker management. Not only they can add, edit, and
 The admin may be a user, but unlike a regular one, the admin does not have a profile of their own.
 
 #### Managing lockers
-
+The admin can do the following when managing lockers:
+1. Add Locker
+2. Delete Lockers
+3. Editing Lockers
+4. Adding New Locations
+5. Deletng Locations
+6. Setting the Term Dates to mark the span allowed to reserve a locker.
 
 #### Managing Pending Locker Reservations
+This page shows users' reservation and abandonment requests and views all the currently owned lockers. To organize the tables more neatly, two dividers for the tables of reserved lockers and owned and abandoned lockers. The reservation table is separated from the owned and abandoned tables, which are grouped together.
+
+Two buttons for accepting and rejecting requests are in the reservation and abandonment tables.
+
