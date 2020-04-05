@@ -76,16 +76,19 @@ Connect to the cluster
 
 Create or use an existing connection in Robo 3T.
 
+
 ### Adding Default Data to MongoDB Atlas
-
-
 1. Add the admin's credentials, as listed below.
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/datadef.png)
 
-
-2. Create a new collection called "termdates"
+2. Create a new collection called "termdates" 
+"test" was used a sample. However, "termdates" is, of course, created with the same method.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas8.png)
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas9.png)
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas10.png)
+
+The only datum in the database because it only stores the start and end dates of locker reservation.
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/datadef2.png)
 
 ## Using and Exploring the Application
 After initializing the necessary tools to run the application, you can now use the application itself. 
