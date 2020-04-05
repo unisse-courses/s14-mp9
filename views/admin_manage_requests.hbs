@@ -1,190 +1,115 @@
-<html>
-    <head>
-        <title>Manage Locker Requests</title>
-		
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
-        </script>
-		
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		
-		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
-		
-		<link rel="stylesheet" type="text/css" href="css/mp1.css">
-        
-        <script type="text/javascript" src="main.js"></script>
-		
-		<script src="js/script.js"></script>
-        
-        <script>
-            $(document).ready(function(){
-				
-				$(".reserve-locker-section").show()
-				$(".owned-locker-section").hide()
-                
 
-				$("#reserve-select").click(function(){
-                    $("#reserve-select").attr("class", "nav-link active")
-					$("#own-select").attr("class", "nav-link")
-					
-					$(".reserve-locker-section").show()
-					$(".owned-locker-section").hide()
-                })
-				
-				$("#own-select").click(function(){
-                    $("#reserve-select").attr("class", "nav-link")
-					$("#own-select").attr("class", "nav-link active")
-					
-					$(".reserve-locker-section").hide()
-					$(".owned-locker-section").show()
-                })
-                
-            })
-        </script>
-    </head>
-    
-    <body>
-        <div class="main-menu">
-			<div class="logo">
-					<img src="photo/Logo.PNG">
-				</div>
-			<a href="home">Home</a>
-			<div class="locker-menu">
-				<button class="locker-menu-button">Locker</button>
-				<div id="locker-menu-contents">
-					<a href="manage-lockers">Manage all lockers</a>
-					<a href="manage-requests">Manage locker requests and current lockers</a>
-				</div>
-			</div>
+<div class="table" id="requests-box">
+	<nav>
+		<ul class="nav nav-tabs"> 
+			<li class="nav-item">
+				<a id="reserve-select" class="nav-link active">Reservations</a>
+			</li>
+			<li class="nav-item">
+				<a id="own-select" class="nav-link">Owned Lockers</a>
+			</li>
+		</ul>
+	</nav>
 
-			<span id="space"></span>
+	<div class="reserve-locker-section">
+		<div class="locker-reserve-manager">
+			<h3 id="reserve-label">Manage Reservations (6)</h3>
 
-			<div class="user-menu">
-				<button class="user-menu-button">Admin</button>
-				<div id="user-menu-contents">
-					<a href="logout">Log Out</a>
-				</div>
-			</div>
+			<select id="reserve-location-select" name="Select a location">
+				<option name="currentSelectedLocation" value="all">All</option>
+				{{#each locations}}
+					<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
+					</option>
+				{{/each}}
+			</select>
+
+			<form method="post" action="own-request-results" "option-buttons">
+				<table class="table" id="lockers-reserve-table">
+					<thead>
+						<tr>
+							<th>
+							</th>
+							<td>ID Number
+							</td>
+							<td>Reserved Locker Number
+							</td>
+							<td>Reserved Locker Location
+							</td>
+
+						</tr>
+					</thead>
+				</table>
+
+
+				<input id="accept" type="submit" class="btn btn-primary btn-lg" name="request" value="Accept Request(s)">
+				<input id="reject" type="submit" class="btn btn-secondary btn-lg" name="request" value="Reject Request(s)">
+			</form>
 		</div>
-		
-		
-        
-		<div class="table" id="requests-box">
-			<nav>
-				<ul class="nav nav-tabs"> 
-					<li class="nav-item">
-						<a id="reserve-select" class="nav-link active">Reservations</a>
-					</li>
-					<li class="nav-item">
-						<a id="own-select" class="nav-link">Owned Lockers</a>
-					</li>
-				</ul>
-			</nav>
-			
-			<div class="reserve-locker-section">
-				<div class="locker-reserve-manager">
-					<h3 id="reserve-label">Manage Reservations (6)</h3>
+	</div>
 
-					<select id="reserve-location-select" name="Select a location">
-						<option name="currentSelectedLocation" value="all">All</option>
-						{{#each locations}}
-							<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-							</option>
-						{{/each}}
-					</select>
-					
-					<form method="post" action="own-request-results" "option-buttons">
-						<table class="table" id="lockers-reserve-table">
-							<thead>
-								<tr>
-									<th>
-									</th>
-									<td>ID Number
-									</td>
-									<td>Reserved Locker Number
-									</td>
-									<td>Reserved Locker Location
-									</td>
 
-								</tr>
-							</thead>
-						</table>
+	<div class="owned-locker-section">	
+		<div class="locker-own-manager">
+			<h3 id="own-label">View Owned Lockers (5)</h3>
 
-					
-						<input id="accept" type="submit" class="btn btn-primary btn-lg" name="request" value="Accept Request(s)">
-						<input id="reject" type="submit" class="btn btn-secondary btn-lg" name="request" value="Reject Request(s)">
-					</form>
-				</div>
-			</div>
-			
+			<select id="reserve-location-select" name="Select a location">
+				<option name="currentSelectedLocation" value="all">All</option>
+				{{#each locations}}
+					<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
+					</option>
+				{{/each}}
+			</select>
 
-			<div class="owned-locker-section">	
-				<div class="locker-own-manager">
-					<h3 id="own-label">View Owned Lockers (5)</h3>
+			<table class="table" id="lockers-reserve-table">
+				<thead>
+					<tr>
+						<td>ID Number
+						</td>
+						<td>Reserved Locker Number
+						</td>
+						<td>Reserved Locker Location
+						</td>
+					</tr>
+				</thead>
+			</table>
 
-					<select id="reserve-location-select" name="Select a location">
-						<option name="currentSelectedLocation" value="all">All</option>
-						{{#each locations}}
-							<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-							</option>
-						{{/each}}
-					</select>
-
-					<table class="table" id="lockers-reserve-table">
-						<thead>
-							<tr>
-								<td>ID Number
-								</td>
-								<td>Reserved Locker Number
-								</td>
-								<td>Reserved Locker Location
-								</td>
-							</tr>
-						</thead>
-					</table>
-					
-				</div>
-				
-				<div class="locker-abandon-manager">
-					<h3 id="abandon-label">Manage Abandon Requests (1)</h3>
-
-					<select class="dropdown" id="reserve-location-select" name="Select a location">
-						<option name="currentSelectedLocation" value="all">All</option>
-						{{#each locations}}
-							<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-							</option>
-						{{/each}}
-					</select>
-
-					<form method="post" action="abandon-accept-results" id="option-buttons">
-						<table class="table" id="lockers-reserve-table">
-							<thead>
-								<tr>
-									<th>
-									</th>
-									<td>ID Number
-									</td>
-									<td>Reserved Locker Number
-									</td>
-									<td>Reserved Locker Location
-									</td>
-								</tr>
-							</thead>
-						</table>
-
-					
-						<input id="accept" type="submit" class="btn btn-primary btn-lg" name="request" value="Accept Request(s)">
-						<input id="reject" type="submit" class="btn btn-secondary btn-lg" name="request" value="Reject Request(s)">
-					</form>
-
-				</div>
-
-				
-				
-			</div>
 		</div>
-        
-    </body>
-</html>
+
+		<div class="locker-abandon-manager">
+			<h3 id="abandon-label">Manage Abandon Requests (1)</h3>
+
+			<select class="dropdown" id="reserve-location-select" name="Select a location">
+				<option name="currentSelectedLocation" value="all">All</option>
+				{{#each locations}}
+					<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
+					</option>
+				{{/each}}
+			</select>
+
+			<form method="post" action="abandon-accept-results" id="option-buttons">
+				<table class="table" id="lockers-reserve-table">
+					<thead>
+						<tr>
+							<th>
+							</th>
+							<td>ID Number
+							</td>
+							<td>Reserved Locker Number
+							</td>
+							<td>Reserved Locker Location
+							</td>
+						</tr>
+					</thead>
+				</table>
+
+
+				<input id="accept" type="submit" class="btn btn-primary btn-lg" name="request" value="Accept Request(s)">
+				<input id="reject" type="submit" class="btn btn-secondary btn-lg" name="request" value="Reject Request(s)">
+			</form>
+
+		</div>
+
+
+
+	</div>
+</div>

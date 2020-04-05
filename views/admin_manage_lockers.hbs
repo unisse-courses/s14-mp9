@@ -1,633 +1,195 @@
-<html>
-    <head>
-        <title>Manage Lockers</title>
+
 		
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
-        </script>
-		
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		
-		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
-		
-		<link rel="stylesheet" type="text/css" href="css/mp1.css">
-        
-        <!---<script type="text/javascript" src="main.js"></script>-->
-		
-		<script src="js/script.js"></script>
-        
-        <script>
-            $(document).ready(function(){
-				var termDates = $(".term-date-option")
-				var llSection = $(".ll-section")
-				
-				var statuses = ["available", "reserved", "owned"]
-				
-                var locationList = $("#location-list");
-				var lockersTable = $("#lockers-table");
-				//var copyLocationSelect = $("#location-select");
-				
-				$("input[name='status']").prop('checked', true);
-                
-				termDates.hide()
-				$(".locker-options").hide();
-                $(".edit-locker").hide();
-				
-                $(".add-new-locker").hide();
-				
-				$(".edit-locker-option").hide()
-				$(".delete-locker-option").hide()
-				$(".delete-locker-confirm-option").hide()
-				
-				$("#term-dates").click(function(){
-					termDates.show();
-					llSection.hide();
-				})
-				
-				$("#ll-options").click(function(){
-					termDates.hide();
-					llSection.show();
-				})
-
-                /*for(let i = 0; i < locations.length; i++){
-                    var opLocation = $("<option></option>").text(locations[i].locationName)
-                    opLocation.val(locations[i].locationName);
-
-                    locationSelect.append(opLocation);
-                }*/
-				
-				
-				/*Handlebars.registerHelper('selected', function(option, value){
-					if(option === value)
-						return ' selected';
-					
-					else
-						return '';
-					
-				})*/
-                
-                //locationSelect.val(locations[0].locationName)
-                
-                //initTable(locations[0].locationName)
-                
-                /*copyLocationSelect.change(function(){
-                    var selectedLocation = $(this).val();
-					console.log(selectedLocation)
-					
-					$("#location-name-selected").attr("value", selectedLocation)
-					$("#location-name-selected").text(selectedLocation)
-					
-					$("#add-locker-button").on("click", function(){
-						console.log(selectedLocation)
-					})
-					
-					$("#lockers-table td").hide();
-					$("input[name='status']").each(function(){
-						if($(this)[0].checked){
-							var status = $(this).val();
-							$("." + status).show();
-						}
-					})
-                })*/
-                
-                $("#delete-location").click(function(){
-                    for(let i = 0; i < locations.length; i++){
-						if(locationSelect.val() == locations[i].locationName){
-							locations.splice(i, 1)
-						}
-					}
-					
-					locationSelect.empty()
-					
-					for(let i = 0; i < locations.length; i++){
-						var opLocation = $("<option></option>").text(locations[i].locationName)
-						opLocation.val(locations[i].locationName);
-
-						
-						locationSelect.append(opLocation);
-					}
-					
-					locationSelect.val(locations[0].locationName)
-					initTable(locations[0].locationName)
-                })
-                
-                $("#set-dates").click(function(){
-                    var termStart, termEnd;
-                    
-                    termStart = new Date($("input[name='termStart']").val())
-                    termEnd = new Date($("input[name='termEnd']").val())
-                    
-                    formattedStart = (termStart.getMonth()+1).toString() + "/" + termStart.getDate().toString() + "/" + termStart.getFullYear().toString() + " at " + termStart.getHours() + ":" + termStart.getMinutes()
-                    
-                    formattedEnd = (termEnd.getMonth()+1).toString() + "/" + termEnd.getDate().toString() + "/" + termEnd.getFullYear().toString() + " at " + termEnd.getHours() + ":" + termEnd.getMinutes()
-                    
-                    start = termStart;
-                    end = termEnd;
-                    
-                    term(start.toDateString(), end.toDateString())
-                    $('#dates-term').text(formattedStart + " - " + formattedEnd)
-                })
-                
-				$("#edit-options").hide()
-				$("#start-edit").click(function(){
-					$("#edit-options").show()
-				})
-				
-				
-                /*function initTable(currLocation){
-                    lockersTable.empty();
-                    
-                    var nLockersSelected = 0;
-                    
-                    for(let i = 0; i < locations.length; i++){
-                        if(currLocation == locations[i].locationName){
-                            nLockersSelected = locations[i].nTotalLockers;
-                        }
-                    }
-                    
-                    var rows = []
-                    for(let row = 0; row < nLockersSelected/5; row++){
-                        var lockerTr = $("<tr></tr>");
-                        rows.push(lockerTr)
-                        lockersTable.append(rows[row]);
-                    }
-                    
-                    var rowCtr = 0;
-                    var ctr = 0;
-                    for(let i = 0; i < lockers.length; i++){
-                        var lockerTd = $("<td></td>");
-                        if(lockers[i].location == currLocation){ 
-                            var button = $("<input>");
-							button.attr("type", "checkbox")
-							button.attr("name", "lockerName")
-							button.attr("value", lockers[i].lockerNo)
-                            lockerTd.text(lockers[i].lockerNo);
-                            lockerTd.append(button);
-                                
-                            if(lockers[i].reserved == true){
-								lockerTd.attr("class", "reserved")
-                                lockerTd.css({
-									"height": "130px",
-									"width": "130px",
-									"display": "inline-block",
-                                    "background-color": "dodgerblue",
-                                    "color": "azure"
-                                })
-                            }
-                            else if(lockers[i].owned == true){
-								lockerTd.attr("class", "owned")
-                                lockerTd.css({
-									"height": "130px",
-									"width": "130px",
-									"display": "inline-block",
-                                    "background-color": "darkred",
-                                    "color": "azure"
-                                })
-								
-                            }
-                            else{
-								lockerTd.attr("class", "available")
-                                lockerTd.css({
-									"height": "130px",
-									"width": "130px",
-									"display": "inline-block",
-                                    "background-color": "green",
-                                    "color": "azure"
-                                })
-								
-                            }
-							console.log(lockerTd.attr("id"))
-                                                                
-                            rows[rowCtr].append(lockerTd)
-                            ctr++;
-                                                                    
-                            if(ctr < 5){
-                            }
-                            else{
-                                rowCtr++;
-                                ctr = 0;
-                            }
-                        }
-                    }
-					
-					$("input[name='lockerName']").css({
-						"height": "130px",
-						"width": "130px",
-						"margin-top": "-18px",
-						"margin-left": "1px",
-						"position": "relative",
-						"opacity": "0",
-						"display": "block"
-					})
-                    
-                }*/
-				
-				/*$(".edit-locker-button").on("click", function(){
-					$("input[name='lockerName']").on("change", function(){
-						var checked = $(this)
-						
-						$("input[name='lockerName']").not(this).prop('checked', false)
-						
-						if(checked.is(":checked")){
-							var currentEdit = checked;
-							var checkedLocker = checked.val();
-							
-							$("input[name='lockerName']").not(this).each(function(){
-								for(let i = 0; i < lockers.length; i++){
-									if(lockers[i].location == locationSelect.val()){
-										if($(this).val() == lockers[i].lockerNo){
-											if(lockers[i].owned == true){
-												$(this).parent().css({
-													"background-color": "darkred",
-													"color": "azure"
-												})
-											}
-											else if(lockers[i].reserved == true){
-												$(this).parent().css({
-													"background-color": "dodgerblue",
-													"color": "azure"
-												})
-											}
-											else if(lockers[i].reserved == false && 
-												   lockers[i].owned == false){
-												$(this).parent().css({
-													"background-color": "green",
-													"color": "azure"
-												})
-											}
-										}
-									}
-								}
-							})
-							
-							$(this).parent().css({
-								"background-color": "orange",
-								"color": "dimgray"
-							})
-							
-							if($(this).parent().css('background-color') == 'orange'){
-								checkedLocker = $(this).val()
-								console.log(checkedLocker)
-							}
-												 
-							$(".edit-locker-option").show()
-							
-							var temp = {
-								lockerNo: "",
-								loc: ""
-							}
-							
-							for(let i = 0; i < lockers.length; i++){
-								if(lockers[i].location == locationSelect.val()){
-									if(lockers[i].lockerNo == checkedLocker){
-										$("#locker-id").text(lockers[i].lockerNo + ", " + lockers[i].location)
-										temp.lockerNo = lockers[i].lockerNo
-										temp.loc = lockers[i].location
-									}
-								}
-							}
-							
-							
-							
-							$("#edit-form #confirm-add").click(function(){
-								for(let i = 0; i < lockers.length; i++){
-									if(lockers[i].location == locationSelect.val() &&
-									  temp.loc == lockers[i].location){
-										if(lockers[i].lockerNo == checkedLocker &&
-										  lockers[i].lockerNo == temp.lockerNo){
-											lockers[i].lockCode = $("#edit-code").val();
-											console.log("Locker" + lockers[i].lockerNo + ": " + lockers[i].lockCode)
-											$(".edit-locker").hide()
-											$("#edit-reminder").text("Locker number of " + lockers[i].lockerNo + ", " + lockers[i].location + " is: ");
-											$("#edit-reminder-code").text(lockers[i].lockCode);
-											$(".edit-locker-option").hide()
-
-											$("#locker-id").text("Locker " + lockers[i].lockerNo + ", " + lockers[i].location + ". Locker code: " + lockers[i].lockCode)
-										}
-									}
-								}
-
-							})
-							
-						}
-						
-					})
-				})*/
-				
-				$(".delete-locker-button").on("click", function(){
-					$(".delete-locker-option").show()
-					
-					$("input[name='lockerName']").on("click", function(){
-						var checked = $(this)
-						
-						if(checked.is(":checked")){
-							var checkedLockers = checked.val();
-
-							checked.parent().css({
-								"background-color": "yellow",
-								"color": "dimgray"
-							})
-							
-							$("#delete-form #confirm-delete").on("click", function(){
-								for(let i = 0; i < lockers.length; i++){
-									if(checkedLockers == lockers[i].lockerNo){
-									   	lockers.splice(i, 1)
-										initTable(locationSelect.val())
-									}
-								}
-							})
-							
-							$("#delete-form #deselect-all-delete").on("click", function(){
-								$("input[name='lockerName']").prop("checked", false)
-								
-								for(let i = 0; i < lockers.length; i++){
-									if(lockers[i].location == locationSelect.val()){
-										if(lockers[i].lockerNo == checked.val()){
-											if(lockers[i].owned == true){
-												checked.parent().css({
-													"background-color": "darkred",
-													"color": "azure"
-												})
-
-											}
-											else if(lockers[i].reserved == true){
-												checked.parent().css({
-													"background-color": "dodgerblue",
-													"color": "azure"
-												})
-											}
-											else if(lockers[i].reserved == false && 
-												   lockers[i].owned == false){
-												checked.parent().css({
-													"background-color": "green",
-													"color": "azure"
-												})
-											}
-										}
-									}
-								}
-							})
-							
-						}
-						else if(checked.not(":checked")){
-							for(let i = 0; i < lockers.length; i++){
-								if(lockers[i].location == locationSelect.val()){
-									if(lockers[i].lockerNo == checked.val()){
-										if(lockers[i].owned == true){
-											checked.parent().css({
-												"background-color": "darkred",
-												"color": "azure"
-											})
-
-										}
-										else if(lockers[i].reserved == true){
-											checked.parent().css({
-												"background-color": "dodgerblue",
-												"color": "azure"
-											})
-										}
-										else if(lockers[i].reserved == false && 
-											   lockers[i].owned == false){
-											checked.parent().css({
-												"background-color": "green",
-												"color": "azure"
-											})
-										}
-									}
-								}
-							}
-						}
-					})
-					
-				})
-				
-				
-				$("#legend tr td :checkbox").click(function(){
-					$("#lockers-table td").hide();
-					$("input[name='status']").each(function(){
-						if($(this)[0].checked){
-							var status = $(this).val();
-							$("." + status).show();
-						}
-					})
-				})
-
-				
-            })
-            
-        </script>
-    </head>
-    
-    <body>
-        <div class="main-menu">
-			<div class="logo">
-					<img src="photo/Logo.PNG">
-				</div>
-			<a href="home">Home</a>
-			<div class="locker-menu">
-				<button class="locker-menu-button">Locker</button>
-				<div id="locker-menu-contents">
-					<a href="manage-lockers">Manage all lockers</a>
-					<a href="manage-requests">Manage locker requests and current lockers</a>
-				</div>
-			</div>
-
-			<span id="space"></span>
-
-			<div class="user-menu">
-				<button class="user-menu-button">Admin</button>
-				<div id="user-menu-contents">
-					<a href="logout">Log Out</a>
-				</div>
-			</div>
+<div class="manage-lockers-box">
+	<nav class="nav flex-column bg-success">
+		<h1>Locker Options</h1>
+		<div id="nav-link-sections">
+			<a class="nav-link active" id="ll-options" href="#">Location and Locker Options <span></span></a>
+			<a class="nav-link" id="term-dates" href="#">Term Dates<span></span></a>
 		</div>
-		
-		
-		<div class="manage-lockers-box">
-			<div class="manage-menu">
-				<h3>Manage Options</h3>
-				<div class="manage-options">
-					<a id="ll-options" href="#">Location and Locker Options <span></span></a>
-					<a id="term-dates" href="#">Term Dates <span></span></a>
-				</div>
+	</nav>
+
+	<div class="locker-manager">
+		<div class="card" style="width: 75rem;" id="term-date-option">
+			<h3 class="card-header text-center">Term Dates</h3>
+			<div class="card-body">
+				<h5 class="card-title text-center">Current Term Date Range</h5>
+				<p class="card-subtitle mb-3 text-center">{{dateRange.[0]}} to {{dateRange.[1]}}</p>
+				<form action="set-dates" method="post" id="term-option">
+					<div class="form-group">
+						<label for="term-start">Start</label>
+						<input id="term-start" class="form-control" type="date" value="" name="termStart">
+					</div>
+					
+					<div class="form-group">
+						<label for="term-end"><b>End </b></label>
+						<input id="term-end" class="form-control" type="date" value="" name="termEnd">
+					</div>
+					<div id="set-date-button" class="form-group">
+						<input id="set-dates" class="btn btn-primary w-100 btn-lg" type="submit" value="Set Dates">
+					</div>
+				</form>
 			</div>
 			
-			<div class="locker-manager">
-				<div class="term-date-option">
-					<h3>Term Dates</h3>
-					<label><b>Current Term Date Range </b></label><span id="dates-term">Dates</span>
-					<form class="term-option">
-						<label><b>Start </b></label><br>
-						<input type="datetime" value="2020-2-30 10:30" name="termStart"><br>
-						<label><b>End </b></label><br>
-						<input type="datetime"  value="2020-2-30 13:30" name="termEnd"><br>
-						<input id="set-dates" type="button" value="Set Dates"><br>
+		</div>
+
+		<div class="ll-section">
+			<div class="card" id="locations-section">
+				<h4 class="card-header">Location</h4>
+				<div class="card-body">
+					<select class="btn btn-secondary dropdown-toggle btn-lg" role="button" id="location-select" value="manage">
+						{{#each locations}}
+							<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
+							</option>
+						{{/each}}
+					</select>
+					<form>
+						<input type="button"  class="btn btn-danger btn-lg" id="delete-location" name="edit" value="Delete Location">
+						<input type="button"  class="btn btn-primary btn-lg" id="add-location" name="edit" data-toggle="modal" data-target="#add-new-location" value="Add New Location">
 					</form>
 				</div>
-
-				<div class="ll-section">
-					<div class="card" id="locations-section">
-						<h4 class="card-header">Location</h4>
-						<div class="card-body">
-							<select class="btn btn-secondary dropdown-toggle btn-lg" role="button" id="location-select" value="manage">
-								{{#each locations}}
-									<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-									</option>
-								{{/each}}
-							</select>
-							<form>
-								<input type="button"  class="btn btn-danger btn-lg" id="delete-location" name="edit" value="Delete Location">
-								<input type="button"  class="btn btn-primary btn-lg" id="add-location" name="edit" data-toggle="modal" data-target="#add-new-location" value="Add New Location">
-							</form>
-						</div>
-					</div>
-
-
-					<div id="locker-table-section">
-						<div class="card">
-							<h4 class="card-header">Filters</h4>
-							<div class="card-body">
-								<table class="table" id="legend">
-									<tr>
-										<th>Color</th> 
-										<th>Status</th> 
-										<th>Filter</th>
-									</tr>
-									<tr>
-										<td value="green"></td> 
-										<td>Available</td> 
-										<td>
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" id="available-cell" class="custom-control-input" name="status" value="available"> <label for="available-cell" class="custom-control-label"></label>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td value="blue"></td> 
-										<td>Reserved</td> 
-										<td>
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" id="reserved-cell" class="custom-control-input" name="status" value="reserved"> <label for="reserved-cell" class="custom-control-label"></label>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td value="red"></td> 
-										<td>Owned</td> 
-										<td>
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" id="own-cell" class="custom-control-input" name="status" value="owned"> <label for="own-cell" class="custom-control-label"></label>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-						
-
-						<div class="card" style="height: 50rem; width: 45rem;" id="table-section">
-							<h4 class="card-header">Lockers</h4>
-							<div class="card-body">
-								<form>
-									<input type="button" class="btn btn-primary" id="start-edit" name="edit" value="Edit">
-								</form>
-
-								<form id="edit-options">
-									<input type="button" id="add-locker-button" name="edit" data-toggle="modal" data-target="#add-new-locker" value="Add Locker">
-									<input type="button" class="edit-locker-button" name="edit" value="Edit 1 Selected Locker">
-									<input type="button" class="delete-locker-button" name="edit" value="Select and Delete Lockers">
-								</form>
-
-								<span id="edit-reminder"></span><b id='edit-reminder-code'></b>
-
-								<table id="lockers-table" class="manage-table">
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocation" aria="true" id="add-new-location">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Add New Location</h5>
-							<button class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form action="add-location" method="post">
-								<div class="form-group col-md-6">
-									<input name="newLocationName" type="text" class="form-control" id="new-location-name">
-								</div>
-								<div class="modal-footer">
-									<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
 			</div>
 
-			<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocker" aria="true" id="add-new-locker">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Add New Locker</h5>
-							<button class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form action="add-locker" method="post">
-								<div class="form-group col-md-6">
-									<h5 class="modal-title">Location: </h5>
-									<label>Locker Code</label>
 
-									<input id="location-name-selected" name="selectedLocation" type="hidden">
-									<input id="location-name-lockers-selected" name="selectedLocationLockersNo" type="hidden">
-									<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
-								</div>
-								<div class="modal-footer">
-									<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
-								</div>
-							</form>
-						</div>
+			<div id="locker-table-section">
+				<div class="card">
+					<h4 class="card-header">Filters</h4>
+					<div class="card-body">
+						<table class="table" id="legend">
+							<tr>
+								<th>Color</th> 
+								<th>Status</th> 
+								<th>Filter</th>
+							</tr>
+							<tr>
+								<td value="green"></td> 
+								<td>Available</td> 
+								<td>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" id="available-cell" class="custom-control-input" name="status" value="available"> <label for="available-cell" class="custom-control-label"></label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td value="blue"></td> 
+								<td>Reserved</td> 
+								<td>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" id="reserved-cell" class="custom-control-input" name="status" value="reserved"> <label for="reserved-cell" class="custom-control-label"></label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td value="red"></td> 
+								<td>Owned</td> 
+								<td>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" id="own-cell" class="custom-control-input" name="status" value="owned"> <label for="own-cell" class="custom-control-label"></label>
+									</div>
+								</td>
+							</tr>
+						</table>
 					</div>
 				</div>
-			</div>
 
-			<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLocker" aria="true" id="manage-edit-selected-locker">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Edit Locker</h5>
-							<button class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form action="edit-locker" method="post">
-								<div class="form-group col-md-6">
-									<h5 class="modal-title">Location: </h5>
-									<label>Locker Code:</label> <span id="locker-code-current"></span>
 
-									<input id="edit-location-name-selected" name="selectedLocation" type="hidden">
-									<input id="edit-locker-no-selected" name="selectedLocationLockersNo" type="hidden">
-									<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
-								</div>
-								<div class="modal-footer">
-									<input type="submit" class="btn btn-primary" value="Edit Location">
-								</div>
-							</form>
-						</div>
+				<div class="card" style="height: 50rem; width: 45rem;" id="table-section">
+					<h4 class="card-header">Lockers</h4>
+					<div class="card-body">
+						<p>To edit a locker, just simply click on it.</p>
+
+						<form id="edit-options">
+							<input type="button" id="add-locker-button" class="btn btn-primary" name="edit" data-toggle="modal" data-target="#add-new-locker" value="Add Locker">
+							
+							<input type="button" id="delete-locker-button" class="btn btn-primary" name="edit" value="Select and Delete Lockers">
+						</form>
+
+						<span id="edit-reminder"></span><b id='edit-reminder-code'></b>
+
+						<table id="lockers-table" class="manage-table">
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-    </body>
-</html>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocation" aria="true" id="add-new-location">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add New Location</h5>
+					<button class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="add-location" method="post">
+						<div class="form-group col-md-6">
+							<input name="newLocationName" type="text" class="form-control" id="new-location-name">
+						</div>
+						<div class="modal-footer">
+							<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newLocker" aria="true" id="add-new-locker">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add New Locker</h5>
+					<button class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="add-locker" method="post">
+						<div class="form-group col-md-6">
+							<h5 class="modal-title">Location: </h5>
+							<label>Locker Code</label>
+
+							<input id="location-name-selected" name="selectedLocation" type="hidden">
+							<input id="location-name-lockers-selected" name="selectedLocationLockersNo" type="hidden">
+							<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
+						</div>
+						<div class="modal-footer">
+							<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLocker" aria="true" id="manage-edit-selected-locker">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Locker</h5>
+					<button class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="edit-locker" method="post">
+						<div class="form-group col-md-6">
+							<h5 class="modal-title">Location: </h5>
+							<label>Locker Code:</label> <span id="locker-code-current"></span>
+
+							<input id="edit-location-name-selected" name="selectedLocation" type="hidden">
+							<input id="edit-locker-no-selected" name="selectedLocationLockersNo" type="hidden">
+							<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
+						</div>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary" value="Edit Location">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

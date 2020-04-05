@@ -1,4 +1,371 @@
 $(document).ready(function(){
+	var viewLockers = $(".quick-menu-box input[type=submit]")
+				
+	viewLockers.mouseover(function(){
+		$(".quick-menu-box").css({
+			"background-image": "linear-gradient(to bottom, rgba(25, 41, 29, .95), rgba(13, 112, 40, 0.85)), url('../photo/IMG_8368.JPG')",
+			"background-size": "cover"
+		})
+	})
+	viewLockers.mouseout(function(){
+		$(".quick-menu-box").css({
+			"height": "760px",
+			"width": "100%",
+			"margin": '0',
+			"position": "relative",
+			"display": "inline-block",
+			"overflow": "hidden",
+			"background-image": "linear-gradient(to bottom, rgba(25, 41, 29, 0.80), rgba(13, 112, 40, 0.73)), url('../photo/IMG_8368.JPG')",
+			"background-size": "cover",
+			"transition-timing-function": "ease"
+		})
+	})
+	
+	
+	var checked = false;
+	var currentReserved;
+	var locationList = $("#location-list");
+	var locationSelect = $("#location-select");
+
+	$(".modal-quick-reserve").hide()
+	$("#quick-reminder").hide()
+	$("#cancel-reminder").hide()
+
+	$("input[name='status']").prop('checked', true);
+
+	$("input[name='criteria']").click(function(){
+		var checkedStatus;
+		$("input[name='criteria']").not(this).prop('checked', false);
+		//
+		if($(this).is(":checked")){
+			checkedStatus = $(this).val();
+			console.log(checkedStatus)
+		}
+	})
+
+
+
+	$("#legend tr td :checkbox").click(function(){
+		$("#lockers-table td").hide();
+		$("input[name='status']").each(function(){
+			if($(this)[0].checked){
+				var status = $(this).val();
+				$("[value=" + status + "]").show();
+			}
+		})
+	})
+
+	$("input[name='lockerNumber']").on("change", function(){
+		var checked = $(this)
+
+		$("input[name='lockerNumber']").not(this).prop('checked', false)
+
+		if(checked.is(":checked")){
+			var checkedLocker = checked.val();
+
+			$("input[name='lockerNumber']").not(this).each(function(){
+				console.log($(this).val())
+				for(let i = 0; i < lockers.length; i++){
+					if(lockers[i].location == locationSelect.val()){
+						if($(this).val() == lockers[i].lockerNo){
+							if(lockers[i].owned == true){
+								$(this).parent().css({
+									"border": "none",
+									"background-color": "darkred",
+									"color": "azure"
+								})
+							}
+							else if(lockers[i].reserved == true){
+								$(this).parent().css({
+									"border": "none",
+									"background-color": "dodgerblue",
+									"color": "azure"
+								})
+							}
+							else if(lockers[i].reserved == false && 
+								   lockers[i].owned == false){
+								$(this).parent().css({
+									"border": "none",
+									"background-color": "green",
+									"color": "azure"
+								})
+							}
+						}
+					}
+				}
+			})
+
+			$(this).parent().css({
+				"border": "7px solid black"
+			})
+
+			for(let i = 0; i < lockers.length; i++){
+				if(lockers[i].location == locationSelect.val()){
+					if(lockers[i].lockerNo == checkedLocker){
+						if(lockers[i].reserved == true){
+							$(".btn btn-primary").attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is reserved. Please pick an available one.")
+						}
+						else if(lockers[i].owned == true){
+							$(".btn btn-primary").attr("data-content", "Locker " + lockers[i].lockerNo + ", " + lockers[i].location + " is owned. Please pick an available one.")
+						}
+						else {
+
+						}
+					}
+				}
+			}
+
+		}
+	})
+	
+	var statusForm = $(".profile-current-locker-info form[method='post']")
+	var statusFormButton = $(".profile-current-locker-info form[method='post'] input[type='submit']")
+	var profileLockerStatus = $("input[name='profileLockerStatus']")
+
+
+	if($("input[name='lockerOwned']").val() == 'true'){
+		$(".profile-current-locker-info").show();
+		$(".reminder-current-locker-info").hide();
+
+		if(profileLockerStatus.val() == 'reserved'){
+			statusForm.attr("action", "cancel-reservation")
+			statusFormButton.val("Cancel Reservation")
+		}
+		else if(profileLockerStatus.val() == 'owned'){
+			statusForm.attr("action", "abandon-locker")
+			statusFormButton.val("Abandon")
+		}
+		else if(profileLockerStatus.val() == 'abandoned'){
+			statusForm.attr("action", "cancel-abandonment")
+			statusFormButton.val("Cancel Abandoment")
+		}
+	}
+	else{
+		$(".reminder-current-locker-info").show();
+		$(".profile-current-locker-info").hide();
+	}
+	
+	var resultsTable = $("#results-search");
+                
+	$("input[name='criteria']").click(function(){
+		var checkedStatus;
+		$("input[name='criteria']").not(this).prop('checked', false);
+		//
+		if($(this).is(":checked")){
+			checkedStatus = $(this).val();
+			console.log(checkedStatus)
+		}
+	})
+	
+	var lockerStatus = $("#cur-locker-reserve-status")
+	var reserveExists = $("#reserve-exists").val()
+	var cancelTypeButton = $("#current-locker-status-form input[type=submit]")
+
+	console.log(lockerStatus.val())
+
+	if(reserveExists == "true"){
+		$("#current-locker-info").show()
+		$("#no-locker").hide()
+
+	   if(lockerStatus.val() == "owned"){
+			$("#current-locker-status-form").attr("action", "abandon-locker")
+			cancelTypeButton.val("Abandon Locker")
+
+			console.log($("#current-locker-status-form").attr("action"))
+		}
+		else if(lockerStatus.val() == "reserved"){
+			$("#current-locker-status-form").attr("action", "cancel-reservation")
+			cancelTypeButton.val("Cancel Reservation")
+			console.log($("#current-locker-status-form").attr("action"))
+		}
+		else if(lockerStatus.val() == "abandoned"){
+			$("#current-locker-status-form").attr("action", "cancel-abandonment")
+			cancelTypeButton.val("Cancel Abandonment")
+			console.log($("#current-locker-status-form").attr("action"))
+		}
+	}
+	else{
+		$("#current-locker-info").hide()
+		$("#no-locker").show()
+	}
+	
+	var termDates = $("#term-date-option")
+	var llSection = $(".ll-section")
+
+	$("input[name='status']").prop('checked', true);
+
+	termDates.hide()
+	$(".locker-options").hide();
+	//$(".edit-locker").hide();
+
+	//$(".add-new-locker").hide();
+
+	$(".edit-locker-option").hide()
+	$(".delete-locker-option").hide()
+	$(".delete-locker-confirm-option").hide()
+
+	$("#term-dates").click(function(){
+		termDates.show();
+		llSection.hide();
+	})
+
+	$("#ll-options").click(function(){
+		termDates.hide();
+		llSection.show();
+	})
+
+
+	/*$("#delete-location").click(function(){
+		for(let i = 0; i < locations.length; i++){
+			if(locationSelect.val() == locations[i].locationName){
+				locations.splice(i, 1)
+			}
+		}
+
+		locationSelect.empty()
+
+		for(let i = 0; i < locations.length; i++){
+			var opLocation = $("<option></option>").text(locations[i].locationName)
+			opLocation.val(locations[i].locationName);
+
+
+			locationSelect.append(opLocation);
+		}
+
+		locationSelect.val(locations[0].locationName)
+		initTable(locations[0].locationName)
+	})*/
+
+	$("#set-dates").click(function(){
+		var termStart, termEnd;
+
+		termStart = new Date($("input[name='termStart']").val())
+		termEnd = new Date($("input[name='termEnd']").val())
+
+		formattedStart = (termStart.getMonth()+1).toString() + "/" + termStart.getDate().toString() + "/" + termStart.getFullYear().toString() + " at " + termStart.getHours() + ":" + termStart.getMinutes()
+
+		formattedEnd = (termEnd.getMonth()+1).toString() + "/" + termEnd.getDate().toString() + "/" + termEnd.getFullYear().toString() + " at " + termEnd.getHours() + ":" + termEnd.getMinutes()
+
+		start = termStart;
+		end = termEnd;
+
+		term(start.toDateString(), end.toDateString())
+		$('#dates-term').text(formattedStart + " - " + formattedEnd)
+	})
+
+	//$("#edit-options").hide()
+	/*$("#start-edit").click(function(){
+		$("#edit-options").show()
+	})*/
+
+
+	/*$(".delete-locker-button").on("click", function(){
+		$(".delete-locker-option").show()
+
+		$("input[name='lockerName']").on("click", function(){
+			var checked = $(this)
+
+			if(checked.is(":checked")){
+				var checkedLockers = checked.val();
+
+				checked.parent().css({
+					"background-color": "yellow",
+					"color": "dimgray"
+				})
+
+				$("#delete-form #confirm-delete").on("click", function(){
+					for(let i = 0; i < lockers.length; i++){
+						if(checkedLockers == lockers[i].lockerNo){
+							lockers.splice(i, 1)
+							initTable(locationSelect.val())
+						}
+					}
+				})
+
+				$("#delete-form #deselect-all-delete").on("click", function(){
+					$("input[name='lockerName']").prop("checked", false)
+
+					for(let i = 0; i < lockers.length; i++){
+						if(lockers[i].location == locationSelect.val()){
+							if(lockers[i].lockerNo == checked.val()){
+								if(lockers[i].owned == true){
+									checked.parent().css({
+										"background-color": "darkred",
+										"color": "azure"
+									})
+
+								}
+								else if(lockers[i].reserved == true){
+									checked.parent().css({
+										"background-color": "dodgerblue",
+										"color": "azure"
+									})
+								}
+								else if(lockers[i].reserved == false && 
+									   lockers[i].owned == false){
+									checked.parent().css({
+										"background-color": "green",
+										"color": "azure"
+									})
+								}
+							}
+						}
+					}
+				})
+
+			}
+			else if(checked.not(":checked")){
+				for(let i = 0; i < lockers.length; i++){
+					if(lockers[i].location == locationSelect.val()){
+						if(lockers[i].lockerNo == checked.val()){
+							if(lockers[i].owned == true){
+								checked.parent().css({
+									"background-color": "darkred",
+									"color": "azure"
+								})
+
+							}
+							else if(lockers[i].reserved == true){
+								checked.parent().css({
+									"background-color": "dodgerblue",
+									"color": "azure"
+								})
+							}
+							else if(lockers[i].reserved == false && 
+								   lockers[i].owned == false){
+								checked.parent().css({
+									"background-color": "green",
+									"color": "azure"
+								})
+							}
+						}
+					}
+				}
+			}
+		})
+
+	})*/
+	
+	$(".reserve-locker-section").show()
+	$(".owned-locker-section").hide()
+
+
+	$("#reserve-select").click(function(){
+		$("#reserve-select").attr("class", "nav-link active")
+		$("#own-select").attr("class", "nav-link")
+
+		$(".reserve-locker-section").show()
+		$(".owned-locker-section").hide()
+	})
+
+	$("#own-select").click(function(){
+		$("#reserve-select").attr("class", "nav-link")
+		$("#own-select").attr("class", "nav-link active")
+
+		$(".reserve-locker-section").hide()
+		$(".owned-locker-section").show()
+	})
+	
 	var lockersTable = $("#lockers-table")
 	var manageLockersTable = $("#manage-lockers-table")
 	var locationSelect = $("#location-select");
@@ -411,7 +778,7 @@ $(document).ready(function(){
 		data.forEach(function(item, index){
 			initReserveAllTable(item, "reserved")
 
-			if(item.status == "reserved" ){
+			if(item.status == "reserved"){
 				rCtr++;
 			}
 			else if(item.status == "owned"){
@@ -419,6 +786,12 @@ $(document).ready(function(){
 			}
 			else if(item.status == "abandoned"){
 				aCtr++;
+			}
+			
+			if(item.Locker.lockerNo == $("#search-locker-no").text()){
+			   if(item.Locker.location == $("#search-location").text()){
+			   		$('#search-status td').text(item.status)
+				}
 			}
 
 			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
@@ -848,4 +1221,8 @@ $(document).ready(function(){
 
 function goToProfile(){
 	$("#profile-hidden").submit()
+}
+
+function editProfile(){
+	$("#edit-profile-hidden").submit()
 }

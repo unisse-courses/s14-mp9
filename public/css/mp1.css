@@ -169,7 +169,7 @@ body{
 	transform: translate(-50%, -50%)
 }
 
-#login-form input[type=text], input[type=password], #register-form input[type=text], .manage-lockers-box .locker-manager .term-date-option form input #personal-info form input[type=text]{
+#login-form input[type=text], input[type=password], #register-form input[type=text]{
 	background-color: #88ae95;
 	color: #2d4635;
 	font-size: 18px;
@@ -527,15 +527,8 @@ input[type=submit], input[type=button]{
 	font-size: 18px;
 }
 
-.results-box{
-	background-color: #b8d5c1;
-	padding: 100px;
-	height: 100%;
-}
-
-.results-box{
-	margin-left: 100px;
-	margin-right: 100px;
+#results-box{
+	margin-left: 100px
 }
 
 .results-box #results-info{
@@ -543,13 +536,9 @@ input[type=submit], input[type=button]{
 	font-size: 20px;
 }
 
-#results-search{
-	width:1000px;
-	margin: 50px;
-} 
-
 #results-search th, #results-search td{
 	height: 50px;
+	text-align: center
 }
 
 .search{
@@ -672,6 +661,26 @@ input[type=submit], input[type=button]{
 	height: 1300px
 }
 
+.manage-lockers-box nav{
+	width: 400px;
+	margin-right: 50px
+}
+
+.manage-lockers-box nav h1{
+	color: #e6f3ea;
+	margin-top: 50px;
+	margin-left: 15px
+}
+
+.manage-lockers-box nav #nav-link-sections{
+	margin-top: 20px;
+	font-size: 24px;
+}
+
+.manage-lockers-box nav #nav-link-sections a{
+	color: #e6f3ea;
+}
+
 .manage-lockers-box #locker-table-section{
 	display: flex;
 	flex-direction: row;
@@ -679,7 +688,8 @@ input[type=submit], input[type=button]{
 }
 
 .manage-lockers-box #table-section{
-	margin-left: 30px
+	margin-left: 50px;
+	padding: 10px
 }
 
 .ll-section{
@@ -696,118 +706,14 @@ input[type=submit], input[type=button]{
 	padding-top: 10px
 }
 
-/*.manage-lockers-box .manage-menu{
-	background-color: #00521c;
-	width: 300px;
+#term-date-option{
+	margin-top: 100px;
+	margin-left: 50px;
 }
 
-.manage-lockers-box .locker-manager .term-date-option form{
-	margin-top: 40px;
+#term-date-option #set-date-button{
+	margin-top: 20px;
 }
-
-.manage-lockers-box .locker-manager .term-date-option input[type=button]{
-	height: 60px;
-	width: 150px;
-	border: 0;
-	outline: none;
-	background-color: #366ea4;
-	color: #f6f6f6;
-}
-
-.manage-lockers-box [type=button]{
-	border: 0;
-	outline: none;
-	background-color: #366ea4;
-	color: #f6f6f6;
-}
-
-#table-section input[value=Edit]{
-	width: 100px;
-}
-
-#table-section #edit-options input[type=button]{
-	width: 170px;
-}
-
-#table-section input[type=button]{
-	height: 40px;
-}
-
-.options-chosen-section{
-	margin-top: 20px 
-}
-
-.locations-section form input[type=button], .locations-section select{
-	height: 50px;
-}
-
-.manage-lockers-box .locations-section form{
-	margin-left: 30px;
-}
-
-.locations-section select{
-	background-color: #dde7f1;
-	border-radius: 6px;
-	border: 1px solid #233b53;
-}
-
-.locations-section form input[type=button]{
-	width: 180px;
-	border: 0;
-	outline: none;
-	background-color: #366ea4;
-	color: #f6f6f6;
-}
-
-.manage-lockers-box .locker-manager .term-date-option input[type=datetime], .manage-lockers-box .locker-manager .term-date-option form label{
-	margin-bottom: 30px;
-	height: 70px;
-	width: 400px
-}
-
-.manage-lockers-box .locker-manager{
-	background-color: #e6f3ea;
-	width: 1000px;
-	padding: 50px
-}
-
-.manage-lockers-box .manage-options{
-	height: 100%;
-	width: 300px;
-	z-index: auto;
-}
-
-.manage-lockers-box .manage-options a{
-	text-decoration: none;
-	padding-top: 25px;
-	padding-bottom: 25px;
-	font-size: 18px;
-	height: 30px;
-	display: block;
-}
-
-.manage-lockers-box .manage-options a:hover{
-	background-color: #127a35;
-}
-
-.manage-locker-table-section{
-	margin-top: 30px
-}
-
-.ll-section .card-body{
-	display: flex;
-	flex-direction: row
-}
-
-.ll-section .card-body form{
-	margin-left: 30px
-}
-
-
-.manage-lockers-box .manage-options a, .manage-lockers-box .manage-menu h3{
-	padding-left: 15px;
-	color: #edefee
-}*/
 
 /*admin_manage_requests.html*/
 #requests-box div[class^="locker-"] table tr{

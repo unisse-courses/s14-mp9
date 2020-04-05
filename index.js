@@ -5,17 +5,16 @@ const bodyparser = require("body-parser")
 const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
 const path = require("path")
+const moment = require("moment")
 const hbs = require("handlebars")
 const ehbs = require("express-handlebars")
 
-const {User} = require("./locker_user.js")
+const {User} = require("./models/locker_user.js")
 
-const {Location} = require("./location.js")
-const {Locker} = require("./locker.js")
-const {LockerReservation} = require("./locker.js")
-
-//const {LockerReservation} = require("./locker.js")
-//const {PendingAbandonRequestLockers} = require("./locker.js")
+const {Location} = require("./models/location.js")
+const {Locker} = require("./models/locker.js")
+const {LockerReservation} = require("./models/locker.js")
+const {TermDates} = require("./models/term_dates.js")
 
 const app = express();
 const port = 3000;
@@ -31,15 +30,19 @@ const urlencoder = bodyparser.urlencoded({
 	extended: true
 });
 
-/*app.engine('hbs', ehbs({
+app.engine('hbs', ehbs({
 	extname: 'hbs',
 	defaultView: 'main',
 	layoutsDir: path.join(__dirname, '/views/layouts'),
 	partialsDir: path.join(__dirname, '/views/partials')
 }))
 
-app.set('view engine', 'hbs')*/
+app.set('view engine', 'hbs')
 
+app.use(bodyparser.json())
+/*app.use(bodyparser.urlencoded({
+	extended: true
+}))*/
 app.use(cookieparser())
 app.use(express.static(__dirname + "/public"))
 app.use(session({
@@ -61,10 +64,13 @@ app.get(["/", "/home", "/home.html", "/homepage"], function(req, res){
 		console.log(req.session.idNo)
 		
 		if(req.session.idNo == "admin"){
-			res.render("admin_home.hbs")
+			res.render("admin_home", {
+				idNo : req.session.idNo, 
+				password : req.session.password
+			})
 		}
 		else{
-			res.render("home.hbs", {
+			res.render("home", {
 				idNo : req.session.idNo, 
 				password : req.session.password
 			})
@@ -166,34 +172,57 @@ app.get("/view-lockers", function(req, res){
 			})
 		}
 		else{
-			var locationList = docs;
-			Locker.find({
-				
-			},
+			var locationList = [];
+			var err, msg;
+			
+			docs.forEach(function(doc){
+				locationList.push(doc.toObject())
+			})
+	
+			err = req.session.err;
+			msg = req.session.msg;
+
+			req.session.err = null;
+			req.session.msg = null;
+			
+			TermDates.find({}, 
 			function(err, docs){
 				if(err){
-					
+				   
 				}
 				else{
-					var err, msg;
-	
-					err = req.session.err;
-					msg = req.session.msg;
+					var dates = []
+					var dateStrings = []
 
-					req.session.err = null;
-					req.session.msg = null;
+					docs.forEach(function(doc){
+						dates.push(doc.toObject())
+					})
+
+					var t1, t2;
+					t1 = JSON.stringify(dates[0].start)
+					t2 = JSON.stringify(dates[0].end)
+
+					var start, end;
+					start = t1.split("T")[0].substring(1);
+					end = t2.split("T")[0].substring(1);
+
+					console.log(start)
+					console.log(end)
+
+					dateStrings.push(start)
+					dateStrings.push(end)
 					
-					res.render("locker_view.hbs", {
+				   res.render("locker_view", {
 						idNo: req.session.idNo, 
 						password: req.session.password,
 						locations: locationList,
+						dateRange: dateStrings,
 						err,
 						msg
 					})
-					
 				}
 			})
-			
+
 		}
 	})
 })
@@ -305,19 +334,51 @@ app.get("/current-locker", function(req, res){
 			   res.send(err)
 			}
 			else if(!doc){
-				res.render("current_locker.hbs", {
+				res.render("current_locker", {
 					idNo: req.session.idNo, 
 					password: req.session.password,
 					reserveExists: false
 				})
 			}
 			else{
-				res.render("current_locker.hbs", {
-					idNo: req.session.idNo, 
-					password: req.session.password,
-					reserveExists: true, 
-					currentLocker: doc
-				})
+				TermDates.find({}, 
+					function(err, docs){
+						if(err){
+
+						}
+						else{
+							var dates = []
+							var dateStrings = []
+
+							docs.forEach(function(doc){
+								dates.push(doc.toObject())
+							})
+							
+							var t1, t2;
+							t1 = JSON.stringify(dates[0].start)
+							t2 = JSON.stringify(dates[0].end)
+							
+							var start, end;
+							start = t1.split("T")[0].substring(1);
+							end = t2.split("T")[0].substring(1);
+							
+							console.log(start)
+							console.log(end)
+							
+							dateStrings.push(start)
+							dateStrings.push(end)
+
+							res.render("current_locker", {
+								idNo: req.session.idNo, 
+								password: req.session.password,
+								reserveExists: true,
+								dateRange: dateStrings,  
+								currentLocker: doc.toObject()
+							})
+						}
+					})
+				
+				
 			}
 		}
 	)
@@ -438,11 +499,17 @@ app.post("/search", urlencoder, function(req, res){
 
 			}
 			else{
-				res.render("search.hbs", {
+				var lockers = []
+
+				docs.forEach(function(doc){
+					lockers.push(doc.toObject())
+				})
+				
+				res.render("search", {
 					idNo: req.session.idNo, 
 					password: req.session.password,
 					result: result,
-					lockers: docs
+					lockers: lockers
 				})
 			}
 		})
@@ -456,11 +523,17 @@ app.post("/search", urlencoder, function(req, res){
 
 			}
 			else{
-				res.render("search.hbs", {
+				var lockers = []
+
+				docs.forEach(function(doc){
+					lockers.push(doc.toObject())
+				})
+				
+				res.render("search", {
 					idNo: req.session.idNo, 
 					password: req.session.password,
 					result: result,
-					lockers: docs
+					lockers: lockers
 				})
 			}
 		})
@@ -478,7 +551,7 @@ app.post("/profile", urlencoder, function(req, res){
 	idNo = req.session.idNo;
 	password = req.session.password;
 	
-	console.log(idNo)
+	console.log("Profile: " + idNo)
 	console.log(password)
 	
 	User.findOne(
@@ -494,7 +567,7 @@ app.post("/profile", urlencoder, function(req, res){
 				res.send("User does not exist.")
 			}
 			else{
-				var user = doc
+				var profileDoc = doc.toObject();
 				
 				LockerReservation.findOne(
 					{
@@ -505,18 +578,20 @@ app.post("/profile", urlencoder, function(req, res){
 						   res.send(err)
 						}
 						else if(!doc){
-							res.render("profile.hbs", {
+							res.render("profile", {
 								reserved: false,
-								user: user,
+								user: profileDoc,
 								idNo: req.session.idNo,
 								password: req.session.password
 							})
 						}
 						else{
-							res.render("profile.hbs", {
+							var lockerDoc;
+							
+							res.render("profile", {
 								reserved: true,
-								user: user,
-								locker: doc,
+								user: profileDoc,
+								locker: doc.toObject(),
 								idNo: req.session.idNo,
 								password: req.session.password
 							})
@@ -553,7 +628,7 @@ app.post("/edit-profile", urlencoder, function(req, res){
 				res.send("User does not exist.")
 			}
 			else{
-				var user = doc
+				var user = doc.toObject();
 				
 				LockerReservation.findOne(
 					{
@@ -564,7 +639,7 @@ app.post("/edit-profile", urlencoder, function(req, res){
 						   res.send(err)
 						}
 						else if(!doc){
-							res.render("edit_profile.hbs", {
+							res.render("edit_profile", {
 								reserved: false,
 								user: user,
 								idNo: req.session.idNo,
@@ -572,10 +647,10 @@ app.post("/edit-profile", urlencoder, function(req, res){
 							})
 						}
 						else{
-							res.render("edit_profile.hbs", {
+							res.render("edit_profile", {
 								reserved: true,
 								user: user,
-								locker: doc,
+								locker: doc.toObject(),
 								idNo: req.session.idNo,
 								password: req.session.password
 							})
@@ -610,7 +685,7 @@ app.post("/confirm-edit-profile", urlencoder, function(req, res){
 		}
 		else{
 			console.log(result)
-			res.render("edit_profile.hbs", {
+			res.render("edit_profile", {
 				user: req.body,
 				idNo: req.session.idNo,
 				password: req.session.password
@@ -618,6 +693,7 @@ app.post("/confirm-edit-profile", urlencoder, function(req, res){
 		}
 	})
 })
+
 
 app.get("/manage-lockers", function(req, res){
 	var err, msg;
@@ -633,24 +709,51 @@ app.get("/manage-lockers", function(req, res){
 	},
 	function(err, docs){
 		if(err){
-			res.render("admin_manage_lockers.hbs", {
+			res.render("admin_manage_lockers", {
 				err
 			})
 		}
 		else{
-			var locationList = docs;
-			Locker.find({
-				
-			},
+			var locationList = [];
+			var err, msg;
+			
+			docs.forEach(function(doc){
+				locationList.push(doc.toObject())
+			})
+			
+			TermDates.find({}, 
 			function(err, docs){
 				if(err){
-					
+				   
 				}
 				else{
-					res.render("admin_manage_lockers.hbs", {
+					var dates = []
+					var dateStrings = []
+
+					docs.forEach(function(doc){
+						dates.push(doc.toObject())
+					})
+
+					var t1, t2;
+					t1 = JSON.stringify(dates[0].start)
+					t2 = JSON.stringify(dates[0].end)
+
+					var start, end;
+					start = t1.split("T")[0].substring(1);
+					end = t2.split("T")[0].substring(1);
+
+					console.log(start)
+					console.log(end)
+
+					dateStrings.push(start)
+					dateStrings.push(end)
+					
+				  	res.render("admin_manage_lockers", {
 						locations: locationList,
-						err,
-						msg
+						idNo: req.session.idNo,
+						password: req.session.password,
+						dateRange: dateStrings, 
+						err
 					})
 				}
 			})
@@ -819,6 +922,38 @@ app.post("/edit-locker", urlencoder, function(req, res){
 	})
 })
 
+app.post("/set-dates", urlencoder, function(req, res){
+	
+	console.log(req.body.termStart)
+	console.log(req.body.termEnd)
+	
+	let dates = new TermDates({
+		start: req.body.termStart,
+		end: req.body.termEnd
+	})
+	
+	TermDates.deleteMany({}, 
+	function(err, docs){
+		if(err){
+
+		}
+		else{
+		}
+	})
+	
+	dates.save().then(
+		function(doc){
+			req.session.start = doc.start;
+			req.session.end = doc.end;
+
+			res.redirect("/manage-lockers")
+		},
+		function(err){
+			res.redirect(err)
+		}
+	);
+	
+})
 
 app.get("/manage-requests", function(req, res){
 	Location.find({
@@ -829,8 +964,17 @@ app.get("/manage-requests", function(req, res){
 
 		}
 		else{
-			res.render("admin_manage_requests.hbs", {
-				locations: docs
+			var locationList = [];
+			var err, msg;
+			
+			docs.forEach(function(doc){
+				locationList.push(doc.toObject())
+			})
+			
+			res.render("admin_manage_requests", {
+				locations: locationList,
+				idNo: req.session.idNo,
+				password: req.session.password
 			})
 		}
 	})
@@ -916,23 +1060,6 @@ app.post("/abandon-accept-results", urlencoder, function(req, res){
 			}
 		})
 	}
-	
-	/*Location.deleteOne({
-		locationName: req.body.locationName
-		},
-		function(err, obj){
-			if(err){
-			   res.send(err)
-			}
-			else if(!result){
-				res.send("User does not exist.")
-			}
-			else{
-				console.log(result)
-				res.redirect("/manage-lockers")
-			}
-		}
-	);*/
 })
 
 

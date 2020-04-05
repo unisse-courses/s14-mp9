@@ -1,52 +1,18 @@
-<html>
-    <head>
-		<title>Admin Home</title>
-		
-        <link rel="stylesheet" type="text/css" href="css/mp1.css">
-    </head>
-    
-    <body>
-        <div class="top">
-            <div class="main-menu">
-				<div class="logo">
-						<img src="photo/Logo.PNG">
-					</div>
-				<a href="home">Home</a>
-				<div class="locker-menu">
-					<button class="locker-menu-button">Locker</button>
-					<div id="locker-menu-contents">
-						<a href="manage-lockers">Manage all lockers</a>
-						<a href="manage-requests">Manage locker requests and current lockers</a>
-					</div>
-				</div>
-
-				<span id="space"></span>
-
-				<div class="user-menu">
-					<button class="user-menu-button">Admin</button>
-					<div id="user-menu-contents">
-						<a href="logout">Log Out</a>
-					</div>
-				</div>
-			</div>
-         
-			<div class="admin-options">
-				<div id="#admin-lockers-option">
-					<img src="screenie1.png">
-					<p>Did La Salle build new lockers? A new term started and you need to specify the start and end dates of locker reservation? Click below to manage locker options.</p>
-					<form action="admin_manage_lockers.html">
-						<input type="submit" value="Start managing lockers">
-					</form>
-				</div>
-				<div id="#admin-requests-option">
-					<img src="screenie2.png">
-					<p>Need to approve reserve or abandonment requests? Click below to manage locker requests here.</p>
-					<form action="admin_manage_requests.html">
-						<input type="submit" value="Start managing requests">
-					</form>
-				</div>
-			</div>
-        </div>
-        
-    </body>
-</html>
+<div class="top">
+	<div class="admin-options">
+		<div id="#admin-lockers-option">
+			<img src="screenie1.png">
+			<p>Did La Salle build new lockers? A new term started and you need to specify the start and end dates of locker reservation? Click below to manage locker options.</p>
+			<form action="admin_manage_lockers.html">
+				<input type="submit" value="Start managing lockers">
+			</form>
+		</div>
+		<div id="#admin-requests-option">
+			<img src="screenie2.png">
+			<p>Need to approve reserve or abandonment requests? Click below to manage locker requests here.</p>
+			<form action="admin_manage_requests.html">
+				<input type="submit" value="Start managing requests">
+			</form>
+		</div>
+	</div>
+</div>

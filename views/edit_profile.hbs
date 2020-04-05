@@ -1,164 +1,81 @@
-<html>
-    <head>
-        <title>Edit Profile</title>
-		
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript">
-        </script>
-		
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		
-		<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
-		
-		<script src="js/script.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/mp1.css">
-		
-		<script src="js/script.js"></script>
-		
-		<script>
-			$(document).ready(function(){
-				var statusForm = $(".profile-current-locker-info form[method='post']")
-				var statusFormButton = $(".profile-current-locker-info form[method='post'] input[type='submit']")
-				var profileLockerStatus = $("input[name='profileLockerStatus']")
 
-				if($("input[name='lockerOwned']").val() == 'true'){
-					$(".profile-current-locker-info").show();
-					$(".reminder-current-locker-info").hide();
 
-					if(profileLockerStatus.val() == 'reserved'){
-						statusForm.attr("action", "cancel-reservation")
-						statusFormButton.val("Cancel Reservation")
-					}
-					else if(profileLockerStatus.val() == 'owned'){
-						statusForm.attr("action", "abandon-locker")
-						statusFormButton.val("Abandon")
-					}
-					else if(profileLockerStatus.val() == 'abandoned'){
-						statusForm.attr("action", "cancel-abandonment")
-						statusFormButton.val("Cancel Abandoment")
-					}
-				}
-				else{
-					$(".reminder-current-locker-info").show();
-					$(".profile-current-locker-info").hide();
-				}
-			})
-		</script>
-    </head>
-    
-    <body>
-        <div class="main-menu">
-			<div class="logo">
-				<img src="photo/Logo.PNG">
-			</div>
+<input type="hidden" name="lockerOwned" value="{{reserved}}">
+<input type="hidden" name="profileLockerStatus" value="{{locker.status}}">
 
-			<a href="home.html">Home</a>
-			<div class="locker-menu">
-				<button class="locker-menu-button">Locker</button>
-				<div id="locker-menu-contents">
-					<a href="current-locker">View current locker</a>
-					<a href="view-lockers">View lockers and reserve a locker</a>
-				</div>
-			</div>
+<div class="edit-profile-box">
+	<div id="image-locker">
+		<div class="card text-center" id="locker-info" style="width: 23rem;">
+			<h5 class="card-header">Current locker</h5>
+				<div class="card-body" id="locker">
 
-			<span id="space"></span>
-			<div class="user-menu">
-				<button class="user-menu-button">{{idNo}}</button>
-				<div id="user-menu-contents">
-					<a onclick="goToProfile();">Profile</a>
-					<a href="logout">Log Out</a>
-
-					<form id="profile-hidden" action="profile" method="post">
-						<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
-						<input type="hidden" value="{{password}}" id="password" name="password">
-					</form>
-				</div>
-			</div>
-		</div>
-        
-		<input type="hidden" name="lockerOwned" value="{{reserved}}">
-		<input type="hidden" name="profileLockerStatus" value="{{locker.status}}">
-		
-		<div class="edit-profile-box">
-			<div id="image-locker">
-				<div class="card text-center" id="locker-info" style="width: 23rem;">
-					<h5 class="card-header">Current locker</h5>
-						<div class="card-body" id="locker">
-
-							<div class="reminder-current-locker-info">
-								<span class="card-subtitle mb-3 text">You current do not have a locker reserved nor owned</span>
-								<form method="get" action="view-lockers">
-									<input type="submit" class="btn btn-primary" value="Reserve">
-								</form>
-							</div>
-
-							<div class="profile-current-locker-info">
-
-								<div id="profile-locker-address">
-									<h4 class="card-title">{{locker.Locker.lockerNo}}</h4>
-									<p id="profile-locker-location" class="card-subtitle mb-3 text-muted">{{locker.Locker.location}}</p>
-									<p id="profile-locker-status" class="card-subtitle mb-3 text-muted">{{locker.status}}</p>
-								</div>
-								<div id="locker-lock-code">
-									<b>Locker Code</b> <span>{{locker.Locker.lockCode}}</span>
-								</div>
-								<form method="post" action="view-lockers">
-									<input type="hidden" name="pageCur" value="profile">
-									<input type="submit" class="btn btn-primary" value="Reserve">
-								</form>
-							</div>
-
-						</div>
-				</div>
-			</div>
-			
-			<div class="edit-profile-info-box">
-				<div class="info-section">
-					<h1>Edit Profile for {{idNo}}</h1>
-					<div id="edit-personal-info">
-						<form id="edit" action="confirm-edit-profile" method="post">
-							<div class="form-group row">
-								<label for="real-name-change" class="col-sm-5 col-form-label"><b>Full Name</b></label> 
-								<div class="col-sm-5">
-									<input class="form-control" type="text" id="real-name-change" name="realName" value="{{user.realName}}">
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="degree-change" class="col-sm-5 col-form-label"><b>Degree Program</b></label> 
-								<div class="col-sm-5">
-									<input class="form-control" type="text" id="degree-change" name="degree" value="{{user.degree}}">
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="email-change" class="col-sm-5 col-form-label"><b>E-mail Address</b></label> 
-								<div class="col-sm-5">
-									<input class="form-control" type="text" id="email-change" name="email" value="{{user.email}}">
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="mobile-change" class="col-sm-5 col-form-label"><b>Mobile Contact Number</b></label>
-								<div class="col-sm-5">
-									<input class="form-control" type="text" id="mobile-change" name="mobileNo" value="{{user.mobileNo}}">
-								</div>
-							</div>
-							
-							<div id="submit-edit-profile" class="form-group row">
-								<input class="btn btn-primary w-100" type="submit" value="Confirm Edit">
-							</div>
+					<div class="reminder-current-locker-info">
+						<span class="card-subtitle mb-3 text">You current do not have a locker reserved nor owned</span>
+						<form method="get" action="view-lockers">
+							<input type="submit" class="btn btn-primary" value="Reserve">
 						</form>
 					</div>
-				</div>
-				
-			</div>
 
+					<div class="profile-current-locker-info">
+
+						<div id="profile-locker-address">
+							<h4 class="card-title">{{locker.Locker.lockerNo}}</h4>
+							<p id="profile-locker-location" class="card-subtitle mb-3 text-muted">{{locker.Locker.location}}</p>
+							<p id="profile-locker-status" class="card-subtitle mb-3 text-muted">{{locker.status}}</p>
+						</div>
+						<div id="locker-lock-code">
+							<b>Locker Code</b> <span>{{locker.Locker.lockCode}}</span>
+						</div>
+						<form method="post" action="view-lockers">
+							<input type="hidden" name="pageCur" value="profile">
+							<input type="submit" class="btn btn-primary" value="Reserve">
+						</form>
+					</div>
+
+				</div>
 		</div>
-		
-        
-        
-    </body>
-</html>
+	</div>
+
+	<div class="edit-profile-info-box">
+		<div class="info-section">
+			<h1>Edit Profile for {{idNo}}</h1>
+			<div id="edit-personal-info">
+				<form id="edit" action="confirm-edit-profile" method="post">
+					<div class="form-group row">
+						<label for="real-name-change" class="col-sm-5 col-form-label"><b>Full Name</b></label> 
+						<div class="col-sm-5">
+							<input class="form-control" type="text" id="real-name-change" name="realName" value="{{user.realName}}">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="degree-change" class="col-sm-5 col-form-label"><b>Degree Program</b></label> 
+						<div class="col-sm-5">
+							<input class="form-control" type="text" id="degree-change" name="degree" value="{{user.degree}}">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="email-change" class="col-sm-5 col-form-label"><b>E-mail Address</b></label> 
+						<div class="col-sm-5">
+							<input class="form-control" type="text" id="email-change" name="email" value="{{user.email}}">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="mobile-change" class="col-sm-5 col-form-label"><b>Mobile Contact Number</b></label>
+						<div class="col-sm-5">
+							<input class="form-control" type="text" id="mobile-change" name="mobileNo" value="{{user.mobileNo}}">
+						</div>
+					</div>
+
+					<div id="submit-edit-profile" class="form-group row">
+						<input class="btn btn-primary w-100" type="submit" value="Confirm Edit">
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</div>

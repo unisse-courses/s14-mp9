@@ -1,0 +1,36 @@
+<input type="hidden" id="login-user-id" name="idNo" value="{{idNo}}"> 
+
+<div class="main-menu">
+	<div class="logo">
+		<img src="photo/Logo.PNG">
+	</div>
+
+	<a id="home-button" href="home">Home</a>
+	<div class="locker-menu">
+		<button class="locker-menu-button">Locker</button>
+		<div id="locker-menu-contents">
+			<div id="user-locker-menu">
+				<a href="current-locker">View current locker</a>
+				<a href="view-lockers">View lockers and reserve a locker</a>
+			</div>
+			<div id="admin-locker-menu">
+				<a href="manage-lockers">Manage all lockers</a>
+				<a href="manage-requests">Manage locker requests and current lockers</a>
+			</div>
+		</div>
+	</div>
+
+	<span id="space"></span>
+	<div class="user-menu">
+		<button class="user-menu-button">{{idNo}}</button>
+		<div id="user-menu-contents">
+			<a id="user-profile" onclick="goToProfile();">Profile</a>
+			<a href="logout">Log Out</a>
+
+			<form id="profile-hidden" action="profile" method="post">
+				<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
+				<input type="hidden" value="{{password}}" id="password" name="password">
+			</form>
+		</div>
+	</div>
+</div>
