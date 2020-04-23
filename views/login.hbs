@@ -1,0 +1,36 @@
+<body class="user-welcome">
+	<div class="user-box">
+		<p>Locker Logbook</p>
+
+		{{> user_messages}}
+		<div class="login">
+			<form id="login-form" action="login" method="post">
+				<h1>LOGIN</h1>
+				<input type="text" name="idNo" placeholder="ID Number">
+				<input type="password" name="password" placeholder="Password">
+				<input type="submit" name="submit" value="Login" onclick="checkUser()"> 
+			</form>
+			<p>or</p>
+
+			<input type="button" id="start-register" value="Register">
+
+		</div>
+
+		
+		{{> user_messages}}
+		<div class="register">
+			<form id="register-form" action="register" method="post">
+				<h1>SIGN UP</h1>
+				<input type="text" name="idNo" placeholder="ID Number">
+				<input type="password" name="password" placeholder="Password">
+				<input type="text" name="realName" placeholder="Full Name">
+				<input type="text" name="degree" placeholder="Degree Program">
+				<input type="text" name="email" placeholder="E-mail Address">
+				<input type="text" name="mobileNo" placeholder="Mobile Contact Number">
+
+				<input type="submit" value="Register" onsubmit="registerUser()"> 
+			</form>
+		</div>
+	</div>
+
+</body>

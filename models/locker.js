@@ -1,48 +1,61 @@
-const mongoose = require('mongoose')
+const mongoose = require('./connection')
 
 var lockerSchema = mongoose.Schema({
-	lockerNo: String,
-	lockCode: String,
-	location: String
+	lockerNo: {type: String, required: true},
+	lockCode: {type: String, min: 3, max: 4, required: true},
+	location: {type: mongoose.Schema.Types.ObjectId, ref: 'locations', required: true},
+	status: {type: String, enum: ['available', 'reserved', 'owned', 'abandoned'] , required: true}
 })
 
 var Locker = mongoose.model("lockers", lockerSchema);
 
-var lockerReserveSchema = mongoose.Schema({
-	studentIdNo: String,
-	Locker: lockerSchema,
-	status: String
-})
-
-var LockerReservation = mongoose.model("lockerReserves", lockerReserveSchema);
-
-module.exports = {
-	Locker,
-	LockerReservation
+exports.findCurrentLocker = function(query, next){
+	Locker.findOne(query, function(err, locker){
+		next(err, locker);
+	})
 }
 
-
-/*var lockerReservationSchema = mongoose.Schema({
-	lockerNo : String,
-	lockerStatus: String,
-	reserveId : String,
-	locker: lockerSchema
-})
-
-var LockerReservation = mongoose.model("lockerReservations", lockerReservationSchema);
-
-module.exports = {
-	LockerReservation
+exports.statusChange = function(locker, query, next){
+	Locker.updateOne(locker, query, function(err, locker){
+		next(err, locker);
+	})
 }
 
-var abandonRequestLockerSchema = mongoose.Schema({
-	lockerNo : String,
-	location : String,
-	abandonId : Boolean
-})
+exports.findResults = function(query, next){
+	Locker.find(query, function(err, lockers){
+		next(err, lockers)
+	})
+}
 
-var PendingAbandonRequestLockers = mongoose.model("pendingRequestedAbandonLockers", abandonRequestLockerSchema);
+exports.loadLockers = function(next){
+	Locker.find({ }, function(err, lockers){
+		next(err, lockers)
+	})
+}
 
-module.exports = {
-	PendingAbandonRequestLockers
-}*/
+/*locker modify*/
+exports.addLocker = function(obj, next){
+	const locker = new Locker(obj);
+	
+	locker.save(function(err, locker){
+		next(err, locker)
+	})
+}
+
+exports.countLockers = function(query, next){
+	Locker.count(query, function(err, count){
+		next(err, count)
+	})
+}
+
+exports.editLocker = function(locker, query, next){
+	Locker.updateOne(locker, query, function(err, locker){
+		next(err, locker)
+	})
+}
+
+exports.deleteLocker = function(query, next){
+	Locker.deleteOne(query, function(err, locker){
+		next(err, locker)
+	})
+}

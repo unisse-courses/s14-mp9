@@ -17,6 +17,23 @@
 		<script>
 			$(document).ready(function(){
 				var idNo = $("#id-no")
+				var login = $(".login")
+				var register = $(".register")
+
+				register.hide();
+
+				$("#start-register").click(function(){
+					login.hide();
+					register.show();
+				})
+				
+				if($("#login-form h1").text() == "LOGIN" &&
+				  $("#register-form h1").text() == "SIGN UP"){
+				   $(".nav-menu").hide() 
+				}
+				else{
+					$(".nav-menu").show();
+				}
 				
 				if(idNo.val() == "admin"){
 					$("#user-profile").hide()
@@ -37,7 +54,9 @@
 	</head>
 
 	<body>
-		{{> nav}}
+		<div class="nav-menu">
+			{{> nav}}
+		</div>
 		
 		<div class="body">
 			{{{ body }}}

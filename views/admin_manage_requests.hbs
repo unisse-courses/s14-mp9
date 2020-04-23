@@ -17,10 +17,6 @@
 
 			<select id="reserve-location-select" name="Select a location">
 				<option name="currentSelectedLocation" value="all">All</option>
-				{{#each locations}}
-					<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-					</option>
-				{{/each}}
 			</select>
 
 			<form method="post" action="own-request-results" "option-buttons">
@@ -54,10 +50,6 @@
 
 			<select id="reserve-location-select" name="Select a location">
 				<option name="currentSelectedLocation" value="all">All</option>
-				{{#each locations}}
-					<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-					</option>
-				{{/each}}
 			</select>
 
 			<table class="table" id="lockers-reserve-table">
@@ -80,10 +72,6 @@
 
 			<select class="dropdown" id="reserve-location-select" name="Select a location">
 				<option name="currentSelectedLocation" value="all">All</option>
-				{{#each locations}}
-					<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-					</option>
-				{{/each}}
 			</select>
 
 			<form method="post" action="abandon-accept-results" id="option-buttons">

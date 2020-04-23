@@ -5,8 +5,8 @@
 	<div class="card text-center" id="locker-address" style="height: 25rem; width: 23rem;">
 		<h5 class="card-header">Current locker address</h5>
 		<div class="card-body">
-			<h1 class="card-title">{{currentLocker.Locker.lockerNo}}</h1>
-			<span class="card-subtitle mb-3 text-muted">{{currentLocker.Locker.location}}</span>
+			<h1 class="card-title">{{currentLocker.lockerNo}}</h1>
+			<span class="card-subtitle mb-3 text-muted">{{lockerLocation}}</span>
 		</div>
 	</div>
 
@@ -16,8 +16,8 @@
 				<div class="col-sm">
 					<label><b>Ownership Span</b></label> 
 				</div>
-				<div class="col-8">
-					{{dateRange.[0]}} to {{dateRange.[1]}}
+				<div id="date-range" class="col-8">
+					<!--{{dateRange.[0]}} to {{dateRange.[1]}}-->
 				</div>
 			</div>
 			<div class="row">
@@ -25,7 +25,8 @@
 					<label><b>Locker Status</b></label> 
 				</div>
 				<div class="col-8">
-					{{currentLocker.Locker.lockCode}}
+					{{currentLocker.status}}
+					
 				</div>
 			</div>
 			<div class="row">
@@ -33,12 +34,14 @@
 					<label><b>Locker Code</b></label> 
 				</div>
 				<div class="col-8">
-					{{currentLocker.status}}
+					{{currentLocker.lockCode}}
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm">
-					<form id="current-locker-status-form" action="view-lockers" method="post">
+					<form id="current-locker-status-form" action="view-lockers" method="get">
+						<input type="hidden" name="lockerNo" value="{{currentLocker.lockerNo}}"> 
+						<input type="hidden" name="location" value="{{currentLocker.location}}"> 
 						<input type="submit" class="btn btn-primary btn-lg btn-block h-50" value="Find and Reserve a locker"> 
 					</form>
 				</div>

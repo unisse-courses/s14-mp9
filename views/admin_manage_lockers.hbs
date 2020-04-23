@@ -14,7 +14,7 @@
 			<h3 class="card-header text-center">Term Dates</h3>
 			<div class="card-body">
 				<h5 class="card-title text-center">Current Term Date Range</h5>
-				<p class="card-subtitle mb-3 text-center">{{dateRange.[0]}} to {{dateRange.[1]}}</p>
+				<p id="date-range" class="card-subtitle mb-3 text-center"></p>
 				<form action="set-dates" method="post" id="term-option">
 					<div class="form-group">
 						<label for="term-start">Start</label>
@@ -34,17 +34,15 @@
 		</div>
 
 		<div class="ll-section">
+			{{> locker_messages}}
 			<div class="card" id="locations-section">
 				<h4 class="card-header">Location</h4>
 				<div class="card-body">
 					<select class="btn btn-secondary dropdown-toggle btn-lg" role="button" id="location-select" value="manage">
-						{{#each locations}}
-							<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-							</option>
-						{{/each}}
 					</select>
-					<form>
-						<input type="button"  class="btn btn-danger btn-lg" id="delete-location" name="edit" value="Delete Location">
+					<form action="delete-location" method="post">
+						<input type="hidden" value="">
+						<input type="submit" class="btn btn-danger btn-lg" id="delete-location" name="edit" value="Delete Location">
 						<input type="button"  class="btn btn-primary btn-lg" id="add-location" name="edit" data-toggle="modal" data-target="#add-new-location" value="Add New Location">
 					</form>
 				</div>
@@ -100,8 +98,6 @@
 
 						<form id="edit-options">
 							<input type="button" id="add-locker-button" class="btn btn-primary" name="edit" data-toggle="modal" data-target="#add-new-locker" value="Add Locker">
-							
-							<input type="button" id="delete-locker-button" class="btn btn-primary" name="edit" value="Select and Delete Lockers">
 						</form>
 
 						<span id="edit-reminder"></span><b id='edit-reminder-code'></b>
@@ -109,10 +105,6 @@
 						<table id="lockers-table" class="manage-table">
 						</table>
 						
-						<form method="post" action="delete-locker">
-							<input type="submit" class="btn btn-primary" value="Delete Lockers">
-							<input type="button" class="btn btn-primary" value="Deselect Lockers">
-						</form>
 					</div>
 				</div>
 			</div>
@@ -159,10 +151,10 @@
 
 							<input id="location-name-selected" name="selectedLocation" type="hidden">
 							<input id="location-name-lockers-selected" name="selectedLocationLockersNo" type="hidden">
-							<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
+							<input name="lockCode" type="text" class="form-control" id="new-location-name">
 						</div>
 						<div class="modal-footer">
-							<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Location">
+							<input type="submit" id="confirm-location-add" class="btn btn-primary" value="Add Locker">
 						</div>
 					</form>
 				</div>
@@ -187,10 +179,11 @@
 
 							<input id="edit-location-name-selected" name="selectedLocation" type="hidden">
 							<input id="edit-locker-no-selected" name="selectedLocationLockersNo" type="hidden">
-							<input name="newLockerCode" type="text" class="form-control" id="new-location-name">
+							<input name="lockCode" type="text" class="form-control" id="new-location-name">
 						</div>
 						<div class="modal-footer">
-							<input type="submit" class="btn btn-primary" value="Edit Location">
+							<input type="submit" class="btn btn-primary" name="editType" value="Delete Locker">
+							<input type="submit" class="btn btn-primary" name="editType" value="Edit Locker">
 						</div>
 					</form>
 				</div>
