@@ -22,8 +22,8 @@ exports.loadLocations = function(next){
 }
 
 exports.deleteLocation = function(query, next){
-	Location.deleteOne(query, function(err, locations){
-		next(err, user)
+	Location.deleteOne(query, function(err, location){
+		next(err, location)
 	})
 }
 

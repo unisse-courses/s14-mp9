@@ -59,3 +59,9 @@ exports.deleteLocker = function(query, next){
 		next(err, locker)
 	})
 }
+
+exports.clear = function(query, next){
+	Locker.deleteMany(query, function(err, lockers){
+		next(err, lockers)
+	})
+} 

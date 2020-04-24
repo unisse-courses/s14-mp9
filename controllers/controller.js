@@ -19,8 +19,6 @@ exports.register = (req, res) =>{
 		
 	  	userModel.getOne({idNo: idNo}, (err, result)=>{
 			if(result){
-				console.log(result)
-				
 				req.flash('fail_msg', "The user already exists. Please login.");
 				res.redirect('/login')
 			}
@@ -73,7 +71,6 @@ exports.login = (req, res) =>{
 		
 	  	userModel.getOne({idNo: idNo}, (err, user)=>{
 			if(err){
-				console.log(result)
 				req.flash('fail_msg', "An error occurred. Please try again.");
 				res.redirect('/login')
 			}
@@ -149,14 +146,15 @@ exports.profileEditConfirm = (req, res) =>{
 	}, 
 	function(err, result){
 		if(err){
-			console.log(err)
+			req.flash('fail_profile_msg', "An error occurred while trying to save the profile credentials.");
 			res.redirect("/edit-profile")
 		}
 		else if(!result){
-			console.log("User error.")
+			req.flash('fail_profile_msg', "An error occurred while trying to save the profile credentials.");
 			res.redirect("/edit-profile")
 		}
 		else{
+			req.flash('success_profile_msg', "Profile successfully updated!");
 			res.redirect("/edit-profile")
 		}
 	})
@@ -180,42 +178,41 @@ exports.currentLocker = (req, res) => {
 	}
 	
 	userModel.loadCurrentlocker(user,
-		function(err, user){
-			if(err){
-				res.send(err)
-			}
-			else if(!user){
-				res.render("current_locker", {
-					idNo: req.session.idNo, 
-					password: req.session.password,
-					reserveExists: false
-				})
-			}
-			else{
-				lockerId = user.locker
-				console.log(user)
-				
-				lockerModel.findCurrentLocker({
-					_id: lockerId
+	function(err, user){
+		if(err){
+			res.send(err)
+		}
+		else if(!user){
+			res.render("current_locker", {
+				idNo: req.session.idNo, 
+				password: req.session.password,
+				reserveExists: false
+			})
+		}
+		else{
+			lockerId = user.locker
+
+			lockerModel.findCurrentLocker({
+				_id: lockerId
+			},
+			function(err, locker){
+				locationModel.getOne({
+					_id: locker.location
 				},
-				function(err, locker){
-					locationModel.getOne({
-						_id: locker.location
-					},
-					function(err, location){
-						res.render("current_locker", {
-							idNo: req.session.idNo, 
-							password: req.session.password,
-							reserveExists: true,
-							currentLocker: locker.toObject(),
-							lockerLocation: location.locationName
-						})
+				function(err, location){
+					res.render("current_locker", {
+						idNo: req.session.idNo, 
+						password: req.session.password,
+						reserveExists: true,
+						currentLocker: locker.toObject(),
+						lockerLocation: location.locationName
 					})
-					
 				})
-				
-			}
-		})
+
+			})
+
+		}
+	})
 }
 
 exports.abandonLocker = (req, res) => {
@@ -237,11 +234,9 @@ exports.abandonLocker = (req, res) => {
 	}, 
 	function(err, lockers){
 		if(err){
-			console.log(err)
 			res.redirect("back")
 		}
 		else if(!lockers){
-			console.log("Locker error.")
 			res.redirect("back")
 		}
 		else{
@@ -269,11 +264,9 @@ exports.cancelAbandonLocker = (req, res) => {
 	}, 
 	function(err, lockers){
 		if(err){
-			console.log(err)
 			res.redirect("back")
 		}
 		else if(!lockers){
-			console.log("Locker error.")
 			res.redirect("back")
 		}
 		else{
@@ -579,31 +572,91 @@ exports.addLocation = (req, res) => {
 
 exports.deleteLocation = (req, res) => {
 	const {
-		newLocationName
+		selectedManageLocation
 	} = req.body
 	
-	const newLocation = {
-		locationName: newLocationName
+	var locationId = selectedManageLocation
+	var deletedLocation = {
+		_id: selectedManageLocation
 	}
 	
-	/*const location = {
-		locationName: newLocationName
-	}
+	var locationCheckLockerArray = []
 	
-	locationModel.deleteLocker(locker, 
-		function(err, locker){
-			if(err){
-				console.log(err)
-				res.redirect('/manage-lockers')
-			}
-			else if(!locker){
-				console.log("Locker error.")
-				res.redirect('/manage-lockers')
-			}
-			else{
-				res.redirect('/manage-lockers')
-			}
-		})*/
+	locationModel.getOne(deletedLocation,
+	function(err, location){
+		if(err){
+			req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting a location again.");
+			res.redirect('/manage-lockers')
+		}
+		else if(!location){
+			req.flash('fail_locker_manage_msg', "An error occurred finding the selected location. Please try deleting a location again.");
+			res.redirect('/manage-lockers')
+		}
+		else{
+			lockerModel.findResults({
+				location: location._id
+			},
+			function(err, lockers){
+				console.log(lockers)
+				if(err){
+					req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting a location again.");
+					res.redirect('/manage-lockers')
+				}
+				else if(!lockers){
+					req.flash('fail_locker_manage_msg', "An error occurred to find all lockers of this location. Please try deleting a location again.");
+					res.redirect('/manage-lockers')
+				}
+				else{
+					lockers.forEach(function(doc){
+						locationCheckLockerArray.push(doc.status)
+					})
+					
+					if(locationCheckLockerArray.includes("owned") ||
+					  locationCheckLockerArray.includes("reserved") ||
+					  locationCheckLockerArray.includes("abandoned")){
+						req.flash('fail_locker_manage_msg', "This location contains lockers that are either reserved, owned, and/or abandoned. Please find a location without any occupied lockers, or wait for this location to have all of its lockers unoccupied or available before deleting it.");
+						res.redirect('/manage-lockers')
+					}
+					else{
+						lockerModel.clear({
+							location: locationId
+						},
+						function(err, lockers){
+							if(err){
+								req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting a location again.");
+								res.redirect('/manage-lockers')
+							}
+							else if(!lockers){
+								req.flash('fail_locker_manage_msg', "An error occurred fully deleting the lockers. Please try deleting a location again.");
+								console.log("Location error.")
+								res.redirect('/manage-lockers')
+							}
+							else{
+								locationModel.deleteLocation(deletedLocation,
+								function(err, location){
+									if(err){
+										req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting a location again.");
+										res.redirect('/manage-lockers')
+									}
+									else if(!location){
+										req.flash('fail_locker_manage_msg', "An error occurred finding the selected location. Please try deleting a location again.");
+										console.log("Location error.")
+										res.redirect('/manage-lockers')
+									}
+									else{
+										req.flash('success_locker_manage_msg',  "Location successfully deleted!");
+										res.redirect('/manage-lockers')
+									}
+								})
+							}
+						})
+						
+					}
+				}
+			})
+		}
+	})
+	
 }
 
 exports.manageRequests = (req, res) => {
@@ -724,6 +777,7 @@ exports.abandonmentResults = (req, res) => {
 				res.redirect("/manage-requests")
 			}
 			else{
+				req.flash('success_locker_manage_msg',  "Abandonment requests successfully rejected.");
 				res.redirect("/manage-requests")
 			}
 		})
@@ -740,18 +794,27 @@ exports.setDates = (req, res) => {
 		start: termStart,
 		end: termEnd
 	}
-	
-	termDateModel.setDates(dates, function(err, dates){
-		if(err){
-			console.log(err)
-			req.flash('fail_locker_manage_msg', "An error occurred. Please try setting the dates again.");
-			res.redirect('/manage-lockers')
-		}
-		else{
-			req.flash('success_locker_manage_msg',  "Dates successfully set!");
-			res.redirect('/manage-lockers')
-		}
-	})
+	if(termStart == "" || termEnd == "" || (termStart == "" && termEnd == "")){
+	   	req.flash('fail_locker_manage_msg', "Please fill in all forms for the term start and end.");
+		res.redirect('/manage-lockers')
+	}
+	else if(termEnd < termStart){
+		req.flash('fail_locker_manage_msg', "Please set the term start date earlier than then term end one, not later.");
+		res.redirect('/manage-lockers')
+	}
+	else{
+		termDateModel.setDates(dates, function(err, dates){
+			if(err){
+				console.log(err)
+				req.flash('fail_locker_manage_msg', "An error occurred. Please try setting the dates again.");
+				res.redirect('/manage-lockers')
+			}
+			else{
+				req.flash('success_locker_manage_msg',  "Dates successfully set!");
+				res.redirect('/manage-lockers')
+			}
+		})
+	}
 }
 
 /*initialize*/

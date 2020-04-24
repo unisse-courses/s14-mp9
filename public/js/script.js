@@ -443,10 +443,16 @@ $(document).ready(function(){
 	})
 	
 	$.get('get-lockers', function(data, status){
-		console.log(locations)
 		var lockerReserves = []
 
 		locationSelect.val($("#location-select").val())
+		$("input[name=selectedManageLocation]").val(locationSelect.val())
+		
+		for(var i = 0; i < locations.length; i++){
+			if(locationSelect.val() == locations[i]._id){
+				$("#add-locker-manage-location").text("Location: " + locations[i].locationName);
+			}
+		}
 
 		var currLocation = locationSelect.val();
 		var currLocationId;
@@ -511,41 +517,21 @@ $(document).ready(function(){
 				"display": "block"
 			})
 			
-
-			/*$.get('get-locker-reserves', function(data, status){
-				data.forEach(function(item, index){
-					var lockerReserve = {
-						studentIdNo: item.studentIdNo,
-						Locker: item.Locker,
-						status: item.status
-					}
-					lockerReserves.push(lockerReserve)
-				})
-				initTable(currLocation, item, lockerReserves, lockersTable, rows[rowCtr], ctr)
-
-				if(ctr < 5){
-				}
-				else{
-					rowCtr++;
-					ctr = 0;
-				}
-
-				$("input[name='lockerName']").css({
-					"height": "130px",
-					"width": "130px",
-					"margin-top": "-18px",
-					"margin-left": "1px",
-					"position": "relative",
-					"opacity": "0",
-					"display": "block"
-				})
-			})*/
 		})
 
 		locationSelect.change(function(){
 			var currLocation = locationSelect.val();
-
+			$("input[name=selectedManageLocation]").val(currLocation)
+			console.log($("input[name=selectedManageLocation]").val())
+			
 			$("#cancel-reminder").hide();
+			
+			for(var i = 0; i < locations.length; i++){
+				if(currLocation == locations[i]._id){
+					$("#add-locker-manage-location").text("Location: " + locations[i].locationName);
+				}
+			}
+			
 
 			lockersTable.empty(); 
 
@@ -579,34 +565,6 @@ $(document).ready(function(){
 					"display": "block"
 				})
 				
-				/*$.get('get-locker-reserves', function(data, status){
-					data.forEach(function(item, index){
-						var lockerReserve = {
-							studentIdNo: item.studentIdNo,
-							Locker: item.Locker,
-							status: item.status
-						}
-						lockerReserves.push(lockerReserve)
-					})
-					initTable(currLocation, item, lockerReserves, lockersTable, rows[rowCtr], ctr)
-
-					if(ctr < 5){
-					}
-					else{
-						rowCtr++;
-						ctr = 0;
-					}
-
-					$("input[name='lockerName']").css({
-						"height": "130px",
-						"width": "130px",
-						"margin-top": "-18px",
-						"margin-left": "1px",
-						"position": "relative",
-						"opacity": "0",
-						"display": "block"
-					})
-				})*/
 			})
 
 			$("#location-name-selected").attr("value", currLocation)
@@ -821,8 +779,6 @@ $(document).ready(function(){
 			$(".locker-reserve-manager #lockers-reserve-table > tr").remove();
 			
 			rCtr = 0; 
-			//oCtr = 0; 
-			//aCtr = 0;
 			
 			if(selectedLocation == "all"){
 				for(var i = 0; i < lockersOccupied.length; i++){
@@ -834,7 +790,6 @@ $(document).ready(function(){
 			}
 			else{
 				for(var i = 0; i < lockersOccupied.length; i++){
-					//console.log(lockersOccupied[i].idNo)
 					initReserveTable(selectedLocation, lockersOccupied[i], "reserved")
 					if(selectedLocation == lockersOccupied[i].locationId && lockersOccupied[i].status == "reserved"){
 					   rCtr++;
@@ -853,8 +808,7 @@ $(document).ready(function(){
 		
 			$(".locker-own-manager #lockers-reserve-table > tr").remove();
 			 
-			oCtr = 0; 
-			//aCtr = 0;
+			oCtr = 0;
 			
 			if(ownedLocationSelect.val() == "all"){
 				for(var i = 0; i < lockersOccupied.length; i++){
@@ -937,7 +891,15 @@ $(document).ready(function(){
 				$("#locker-selected").attr("value", locker.lockerNo);
 				$("#location-name-lockers-selected").attr("value", locker.lockerNo);
 				$("#edit-locker-no-selected").attr("value", locker.lockerNo);
+				
 				$("#locker-code-current").text(locker.lockCode)
+				
+				for(var i = 0; i < locations.length; i++){
+					if(locker.location == locations[i]._id){
+						$("#current-edit-location-manage").text("Location: " + locations[i].locationName)
+					}
+				}
+				
 			})
 			
 			if(locker.status == "reserved"){

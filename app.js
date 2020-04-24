@@ -62,10 +62,15 @@ app.use(flash())
 app.use((req, res, next) =>{
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.fail_msg = req.flash('fail_msg');
+	
 	res.locals.success_locker_manage_msg = req.flash('success_locker_manage_msg');
 	res.locals.fail_locker_manage_msg = req.flash('fail_locker_manage_msg');
+	
 	res.locals.success_locker_msg = req.flash('success_locker_msg');
 	res.locals.fail_locker_msg = req.flash('fail_locker_msg');
+	
+	res.locals.success_profile_msg = req.flash('success_profile_msg');
+	res.locals.fail_profile_msg = req.flash('fail_profile_msg');
 	next()
 })
 
