@@ -39,14 +39,20 @@ exports.addCurrLocker = function(user, query, next){
 }
 
 exports.findCurrUserLocker = function(query, next){
-	User.findOne(query, function(err, user){
-		next(err, user)
+	User.find(query, function(err, users){
+		next(err, users)
 	})
 }
 
-exports.lockerChange = function(user, query, next){
-	User.updateOne(user, query, function(err, user){
-		next(err, user)
+exports.loadCurrentlocker = function(query, next){
+	User.findOne(query, function(err, users){
+		next(err, users)
+	})
+}
+
+exports.lockerChange = function(users, query, next){
+	User.updateMany(users, query, function(err, users){
+		next(err, users)
 	})
 }
 

@@ -179,7 +179,7 @@ exports.currentLocker = (req, res) => {
 		locker: {$ne: null}
 	}
 	
-	userModel.findCurrUserLocker(user,
+	userModel.loadCurrentlocker(user,
 		function(err, user){
 			if(err){
 				res.send(err)
@@ -193,6 +193,7 @@ exports.currentLocker = (req, res) => {
 			}
 			else{
 				lockerId = user.locker
+				console.log(user)
 				
 				lockerModel.findCurrentLocker({
 					_id: lockerId
@@ -218,86 +219,66 @@ exports.currentLocker = (req, res) => {
 }
 
 exports.abandonLocker = (req, res) => {
-	var lockerId;
-	
 	const user = {
 		idNo: req.session.idNo,
 		password: req.session.password
 	}
 	
 	const {
-		lockerNo,
-		location
+		lockerId
 	} = req.body
 	
 	const curLocker = {
-		lockerNo: lockerNo,
-		location: location
+		_id: lockerId
 	}
 	
 	lockerModel.statusChange(curLocker, {
 		status: "abandoned"
 	}, 
-	function(err, locker){
-		lockerModel.findCurrentLocker(curLocker, 
-		function(err, locker){
-			console.log(locker._id)
-			lockerId = locker._id
-			
-			if(err){
-				console.log(err)
-				res.redirect("/current-locker");
-			}
-			else if(!locker){
-				console.log("Locker error.")
-				res.redirect("/current-locker");
-			}
-			else{
-				res.redirect("/current-locker");
-			}
-		})
+	function(err, lockers){
+		if(err){
+			console.log(err)
+			res.redirect("back")
+		}
+		else if(!lockers){
+			console.log("Locker error.")
+			res.redirect("back")
+		}
+		else{
+			res.redirect("back")
+		}
 	})
 }
 
 exports.cancelAbandonLocker = (req, res) => {
-	var lockerId;
-	
 	const user = {
 		idNo: req.session.idNo,
 		password: req.session.password
 	}
 	
 	const {
-		lockerNo,
-		location
+		lockerId
 	} = req.body
 	
 	const curLocker = {
-		lockerNo: lockerNo,
-		location: location
+		_id: lockerId
 	}
 	
 	lockerModel.statusChange(curLocker, {
 		status: "owned"
 	}, 
-	function(err, locker){
-		lockerModel.findCurrentLocker(curLocker, 
-		function(err, locker){
-			console.log(locker._id)
-			lockerId = locker._id
-			
-			if(err){
-				console.log(err)
-				res.redirect("/current-locker");
-			}
-			else if(!locker){
-				console.log("Locker error.")
-				res.redirect("/current-locker");
-			}
-			else{
-				res.redirect("/current-locker");
-			}
-		})
+	function(err, lockers){
+		if(err){
+			console.log(err)
+			res.redirect("back")
+		}
+		else if(!lockers){
+			console.log("Locker error.")
+			res.redirect("back")
+		}
+		else{
+			res.redirect("back")
+		}
 	})
 }
 
@@ -324,19 +305,19 @@ exports.reserveLocker = (req, res) => {
 	}, 
 	function(err, locker){
 		lockerModel.findCurrentLocker(curLocker, 
-		function(err, locker){
-			console.log(locker._id)
-			lockerId = locker._id
+		function(err, lockers){
+			console.log(lockers._id)
+			lockerId = lockers._id
 			
 			userModel.addCurrLocker(user, {
 				locker: lockerId
 			}, 
-			function(err, user){
+			function(err, users){
 				if(err){
 					console.log(err)
 					res.redirect("/view-lockers")
 				}
-				else if(!user){
+				else if(!users){
 					console.log("Locker error.")
 					res.redirect("/view-lockers")
 				}
@@ -349,41 +330,37 @@ exports.reserveLocker = (req, res) => {
 }
 
 exports.cancelReserveLocker = (req, res) => {
-	var lockerId;
-	
 	const user = {
 		idNo: req.session.idNo,
 		password: req.session.password
 	}
 	
 	const {
-		lockerNo,
-		location
+		lockerId
 	} = req.body
 	
 	const curLocker = {
-		lockerNo: lockerNo,
-		location: location
+		_id: lockerId
 	}
 	
 	lockerModel.statusChange(curLocker, {
 		status: "available"
 	}, 
-	function(err, locker){
+	function(err, lockers){
 		userModel.lockerChange(user, {
 			locker: null
 		}, 
-		function(err, user){
+		function(err, users){
 			if(err){
 				console.log(err)
-				res.redirect("/current-locker")
+				res.redirect("back")
 			}
-			else if(!user){
+			else if(!users){
 				console.log("Locker error.")
-				res.redirect("/current-locker")
+				res.redirect("back")
 			}
 			else{
-				res.redirect("/current-locker")
+				res.redirect("back")
 			}
 		})
 	})
@@ -640,26 +617,24 @@ exports.ownershipResults = (req, res) => {
 	var lockerId;
 	
 	const {
-		reserveCheck
+		request
 	} = req.body
 	
-	userModel.findCurrUserLocker({
-		idNo: reserveCheck
-	},
-	function(err, user){
-		const curLocker = {
-			_id: user.locker
-		}
-
-		lockerModel.statusChange(curLocker, {
+	console.log(request)
+	console.log(req.body.reserveCheck)
+	
+	if(request == "Accept Request(s)"){
+		lockerModel.statusChange({
+			_id: req.body.reserveCheck
+		}, {
 			status: "owned"
 		}, 
-		function(err, locker){
+		function(err, lockers){
 			if(err){
 				console.log(err)
 				res.redirect("/manage-requests")
 			}
-			else if(!user){
+			else if(!lockers){
 				console.log("Locker error.")
 				res.redirect("/manage-requests")
 			}
@@ -667,38 +642,25 @@ exports.ownershipResults = (req, res) => {
 				res.redirect("/manage-requests")
 			}
 		})
-	})
-	
-}
-
-exports.abandonmentResults = (req, res) => {
-	var lockerId;
-	
-	const {
-		reserveCheck
-	} = req.body
-	
-	userModel.findCurrUserLocker({
-		idNo: reserveCheck
-	},
-	function(err, user){
-		const curLocker = {
-			_id: user.locker
-		}
-
-		lockerModel.statusChange(curLocker, {
+	}
+	else{
+		lockerModel.statusChange({
+			_id: req.body.reserveCheck
+		}, {
 			status: "available"
 		}, 
-		function(err, locker){
-			userModel.lockerChange(user, {
+		function(err, lockers){
+			userModel.lockerChange({
+				locker: req.body.reserveCheck
+			}, {
 				locker: null
 			}, 
-			function(err, user){
+			function(err, users){
 				if(err){
 					console.log(err)
 					res.redirect("/manage-requests")
 				}
-				else if(!user){
+				else if(!users){
 					console.log("Locker error.")
 					res.redirect("/manage-requests")
 				}
@@ -707,7 +669,65 @@ exports.abandonmentResults = (req, res) => {
 				}
 			})
 		})
-	})
+	}
+	
+}
+
+exports.abandonmentResults = (req, res) => {
+	var lockerId;
+	
+	const {
+		request
+	} = req.body
+	
+	
+	if(request == "Accept Request(s)"){
+		lockerModel.statusChange({
+			_id: req.body.abandonCheck
+		}, {
+			status: "available"
+		}, 
+		function(err, lockers){
+			userModel.lockerChange({
+				locker: req.body.abandonCheck
+			}, {
+				locker: null
+			}, 
+			function(err, users){
+				if(err){
+					console.log(err)
+					res.redirect("/manage-requests")
+				}
+				else if(!users){
+					console.log("Locker error.")
+					res.redirect("/manage-requests")
+				}
+				else{
+					res.redirect("/manage-requests")
+				}
+			})
+		})
+	}
+	else{
+		lockerModel.statusChange({
+			_id: req.body.abandonCheck
+		}, {
+			status: "owned"
+		}, 
+		function(err, lockers){
+			if(err){
+				console.log(err)
+				res.redirect("/manage-requests")
+			}
+			else if(!lockers){
+				console.log("Locker error.")
+				res.redirect("/manage-requests")
+			}
+			else{
+				res.redirect("/manage-requests")
+			}
+		})
+	}
 }
 
 exports.setDates = (req, res) => {
@@ -749,7 +769,6 @@ exports.initLocations = (req, res) => {
 
 exports.initRequests = (req, res) => {
 	userModel.loadRequests(function(err, requests){
-		console.log(requests)
 		res.send(requests)
 	})
 }

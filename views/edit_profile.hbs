@@ -19,14 +19,15 @@
 					<div class="profile-current-locker-info">
 
 						<div id="profile-locker-address">
-							<h4 class="card-title">{{locker.Locker.lockerNo}}</h4>
-							<p id="profile-locker-location" class="card-subtitle mb-3 text-muted">{{locker.Locker.location}}</p>
+							<h4 class="card-title">{{locker.lockerNo}}</h4>
+							<p id="profile-locker-location" class="card-subtitle mb-3 text-muted">{{lockerLocation}}</p>
 							<p id="profile-locker-status" class="card-subtitle mb-3 text-muted">{{locker.status}}</p>
 						</div>
 						<div id="locker-lock-code">
-							<b>Locker Code</b> <span>{{locker.Locker.lockCode}}</span>
+							<b>Locker Code</b> <span>{{locker.lockCode}}</span>
 						</div>
 						<form method="post" action="view-lockers">
+							<input type="hidden" name="lockerId" value="{{locker._id}}">
 							<input type="hidden" name="pageCur" value="profile">
 							<input type="submit" class="btn btn-primary" value="Reserve">
 						</form>

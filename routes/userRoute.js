@@ -17,12 +17,46 @@ router.get('/profile', (req, res) =>{
 			res.redirect("/")
 		}
 		else{
-			res.render("profile", {
-				reserved: false,
-				user: profileDoc,
-				idNo: req.session.idNo,
-				password: req.session.password
+			lockerModel.findCurrentLocker({
+				_id: user.locker
+			},
+			function(err, locker){
+				if(err){
+					res.redirect("/")
+				}
+				else if(!locker){
+					res.render("profile", {
+						reserved: false,
+						user: profileDoc,
+						idNo: req.session.idNo,
+						password: req.session.password
+					})
+				}
+				else{
+					locationModel.getOne({
+						_id: locker.location
+					},
+					function(err, location){
+						if(err){
+							res.redirect("back")
+						}
+						else if(!user){
+							res.redirect("back")
+						}
+						else{
+							res.render("profile", {
+								reserved: true,
+								user: profileDoc,
+								locker: locker.toObject(),
+								lockerLocation: location.locationName,
+								idNo: req.session.idNo,
+								password: req.session.password
+							})
+						}
+					})
+				}
 			})
+			
 		}
 	})
 })
@@ -31,7 +65,56 @@ router.get('/edit-profile', (req, res) =>{
 	userModel.getOne({idNo: req.session.idNo}, (err, user)=>{
 		var profileDoc = user.toObject();
 		
+		
 		if(err){
+			res.redirect("/profile")
+		}
+		else if(!user){
+			res.redirect("/profile")
+		}
+		else{
+			lockerModel.findCurrentLocker({
+				_id: user.locker
+			},
+			function(err, locker){
+				if(err){
+					res.redirect("/profile")
+				}
+				else if(!locker){
+					res.render("edit_profile", {
+						reserved: false,
+						user: profileDoc,
+						idNo: req.session.idNo,
+						password: req.session.password
+					})
+				}
+				else{
+					locationModel.getOne({
+						_id: locker.location
+					},
+					function(err, location){
+						if(err){
+							res.redirect("/profile")
+						}
+						else if(!user){
+							res.redirect("/profile")
+						}
+						else{
+							res.render("edit_profile", {
+								reserved: true,
+								user: profileDoc,
+								locker: locker.toObject(),
+								lockerLocation: location.locationName,
+								idNo: req.session.idNo,
+								password: req.session.password
+							})
+						}
+					})
+				}
+			})
+			
+		}
+		/*if(err){
 			res.redirect("/profile")
 		}
 		else if(!user){
@@ -44,7 +127,7 @@ router.get('/edit-profile', (req, res) =>{
 				idNo: req.session.idNo,
 				password: req.session.password
 			})
-		}
+		}*/
 	})
 })
 

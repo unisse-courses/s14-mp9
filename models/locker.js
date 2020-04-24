@@ -15,9 +15,9 @@ exports.findCurrentLocker = function(query, next){
 	})
 }
 
-exports.statusChange = function(locker, query, next){
-	Locker.updateOne(locker, query, function(err, locker){
-		next(err, locker);
+exports.statusChange = function(lockers, query, next){
+	Locker.updateMany(lockers, query, function(err, lockers){
+		next(err, lockers);
 	})
 }
 

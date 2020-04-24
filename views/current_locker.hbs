@@ -40,8 +40,7 @@
 			<div class="row">
 				<div class="col-sm">
 					<form id="current-locker-status-form" action="view-lockers" method="get">
-						<input type="hidden" name="lockerNo" value="{{currentLocker.lockerNo}}"> 
-						<input type="hidden" name="location" value="{{currentLocker.location}}"> 
+						<input type="hidden" name="lockerId" value="{{currentLocker._id}}">
 						<input type="submit" class="btn btn-primary btn-lg btn-block h-50" value="Find and Reserve a locker"> 
 					</form>
 				</div>

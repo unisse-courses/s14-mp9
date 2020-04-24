@@ -129,14 +129,17 @@ $(document).ready(function(){
 
 		if(profileLockerStatus.val() == 'reserved'){
 			statusForm.attr("action", "cancel-reservation")
+			statusForm.attr("method", "post")
 			statusFormButton.val("Cancel Reservation")
 		}
 		else if(profileLockerStatus.val() == 'owned'){
 			statusForm.attr("action", "abandon-locker")
+			statusForm.attr("method", "post")
 			statusFormButton.val("Abandon")
 		}
 		else if(profileLockerStatus.val() == 'abandoned'){
 			statusForm.attr("action", "cancel-abandonment")
+			statusForm.attr("method", "post")
 			statusFormButton.val("Cancel Abandoment")
 		}
 	}
@@ -199,9 +202,6 @@ $(document).ready(function(){
 
 	termDates.hide()
 	$(".locker-options").hide();
-	//$(".edit-locker").hide();
-
-	//$(".add-new-locker").hide();
 
 	$(".edit-locker-option").hide()
 	$(".delete-locker-option").hide()
@@ -399,8 +399,8 @@ $(document).ready(function(){
 			dateStrings.push(start)
 			dateStrings.push(end)
 			
-			$("#date-range").text(dateStrings[0] + " to " + dateStrings[0])
-			$("#term-dates").text(" " + dateStrings[0] + " to " + dateStrings[0])
+			$("#date-range").text(dateStrings[0] + " to " + dateStrings[1])
+			//$("#term-dates").text(" " + dateStrings[0] + " to " + dateStrings[0])
 		})
 		
 	})
@@ -664,7 +664,6 @@ $(document).ready(function(){
 			}
 		})
 		
-		
 		var ridHeader, rlockerNoHeader, rlocationHeader, rcheckHeader;
 		var rCtr = 0, oCtr = 0, aCtr = 0;
 
@@ -689,14 +688,23 @@ $(document).ready(function(){
 		console.log(reserveLocationSelect.val())
 		for(var i = 0; i < lockersOccupied.length; i++){
 			initReserveAllTable(lockersOccupied[i], "reserved")
+			if(lockersOccupied[i].status == "reserved"){
+			   rCtr++;
+			}
 		}
 
 		for(var i = 0; i < lockersOccupied.length; i++){
 			initReserveAllTable(lockersOccupied[i], "owned")
+			if(lockersOccupied[i].status == "owned"){
+			   oCtr++;
+			}
 		}
 
 		for(var i = 0; i < lockersOccupied.length; i++){
 			initReserveAllTable(lockersOccupied[i], "abandoned")
+			if(lockersOccupied[i].status == "abandoned"){
+			   aCtr++;
+			}
 		}
 
 		$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
@@ -806,6 +814,99 @@ $(document).ready(function(){
 			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
 		})
 
+		
+		reserveLocationSelect.change(function(){
+			var selectedLocation = $(this).val();
+
+			$(".locker-reserve-manager #lockers-reserve-table > tr").remove();
+			
+			rCtr = 0; 
+			//oCtr = 0; 
+			//aCtr = 0;
+			
+			if(selectedLocation == "all"){
+				for(var i = 0; i < lockersOccupied.length; i++){
+					initReserveAllTable(lockersOccupied[i], "reserved")
+					if(lockersOccupied[i].status == "reserved"){
+					   rCtr++;
+					}
+				}
+			}
+			else{
+				for(var i = 0; i < lockersOccupied.length; i++){
+					//console.log(lockersOccupied[i].idNo)
+					initReserveTable(selectedLocation, lockersOccupied[i], "reserved")
+					if(selectedLocation == lockersOccupied[i].locationId && lockersOccupied[i].status == "reserved"){
+					   rCtr++;
+					}
+				}
+			}
+			
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+			
+		})
+		
+		ownedLocationSelect.change(function(){
+			var selectedLocation = $(this).val();
+		
+			$(".locker-own-manager #lockers-reserve-table > tr").remove();
+			 
+			oCtr = 0; 
+			//aCtr = 0;
+			
+			if(ownedLocationSelect.val() == "all"){
+				for(var i = 0; i < lockersOccupied.length; i++){
+					initReserveAllTable(lockersOccupied[i], "owned")
+					if(lockersOccupied[i].status == "owned"){
+					   oCtr++;
+					}
+				}
+			}
+			else{
+				for(var i = 0; i < lockersOccupied.length; i++){
+					initReserveTable(selectedLocation, lockersOccupied[i], "owned")
+					if(selectedLocation == lockersOccupied[i].locationId && lockersOccupied[i].status == "owned"){
+					   oCtr++;
+					}
+				}
+			}
+			
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+			
+		})
+		
+		abandonLocationSelect.change(function(){
+			var selectedLocation = $(this).val();
+
+			$(".locker-abandon-manager #lockers-reserve-table > tr").remove();
+			
+			aCtr = 0;
+									 
+			if(abandonLocationSelect.val() == "all"){
+				for(var i = 0; i < lockersOccupied.length; i++){
+					initReserveAllTable(lockersOccupied[i], "abandoned")
+					if(lockersOccupied[i].status == "abandoned"){
+					   aCtr++;
+					}
+				}
+			}
+			else{
+				for(var i = 0; i < lockersOccupied.length; i++){
+					initReserveTable(selectedLocation, lockersOccupied[i], "abandoned")
+					if(selectedLocation == lockersOccupied[i].locationId && lockersOccupied[i].status == "abandoned"){
+					   aCtr++;
+					}
+				}
+			}
+			
+			$("#reserve-label").text("Manage Reservations " + "(" + rCtr + ")")
+			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
+			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
+		})
 	})
 	
 	/*
@@ -1037,7 +1138,7 @@ $(document).ready(function(){
 		var checkForm, checkbox;
 		
 		
-		if(currLocation == lockerOccupied.location){
+		if(currLocation == lockerOccupied.locationId){
 			row = $("<tr></tr>");
 
 			var cLabel = $("<label></label>");
@@ -1049,7 +1150,7 @@ $(document).ready(function(){
 			checkbox = $("<input>");
 			checkbox.attr("type", "checkbox")
 			checkbox.attr("name", "reserveCheck");
-			checkbox.attr("value", lockerOccupied.idNo);
+			checkbox.attr("value", lockerOccupied._id);
 
 			idNoTd = $("<td></td>").text(lockerOccupied.idNo);
 			lockerNoTd = $("<td></td>").text(lockerOccupied.lockerNo);
@@ -1102,7 +1203,7 @@ $(document).ready(function(){
 		checkbox = $("<input>");
 		checkbox.attr("type", "checkbox")
 		checkbox.attr("name", "reserveCheck");
-		checkbox.attr("value", lockerOccupied.idNo);
+		checkbox.attr("value", lockerOccupied._id);
 
 		idNoTd = $("<td></td>").text(lockerOccupied.idNo);
 		lockerNoTd = $("<td></td>").text(lockerOccupied.lockerNo);
