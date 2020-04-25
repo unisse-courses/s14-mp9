@@ -77,6 +77,9 @@ app.use((req, res, next) =>{
 	
 	res.locals.success_status_msg = req.flash('success_status_msg');
 	res.locals.fail_status_msg = req.flash('fail_status_msg');
+	
+	res.locals.success_locker_search_msg = req.flash('success_locker_search_msg');
+	res.locals.fail_locker_search_msg = req.flash('fail_locker_search_msg');
 	next()
 })
 

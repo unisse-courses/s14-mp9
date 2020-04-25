@@ -1,6 +1,18 @@
 <div class="search">
 	<form method="post" action="search">
+		{{> search_messages}}
 		<div class="form-group row">
+			<div class="dropdown show"> 
+				<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="searchAdvanced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				</a>
+				<div class="dropdown-menu" aria-labelledby="searchAdvanced">
+					<input type="text" class="form-control" name="searchResultLocker" placeholder="Search locker">
+					<input type="text" class="form-control" name="searchResultLocation" placeholder="Search location">
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
 			<div class="col-sm-80">
 				<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
 			</div>
@@ -17,13 +29,12 @@
 					<input type="radio" id="radio-search-lk" class="custom-control-input" name="criteria" value="lockerNo"> <label for="radio-search-lk" class="custom-control-label">Locker Number only</label>
 				</div>
 			</div>
-
 		</div>
 	</form>
 </div>
 
 <div class="locker-box">
-	<div class="card" id="term-info" style="width: 80.5rem;">
+	<div class="card" id="term-info" style="width: 75rem;">
 		<div class="card-body">
 			<label><b>Current term dates: </b></label><span id="date-range"></span>
 		</div>
@@ -31,7 +42,7 @@
 
 	<div class="user-lockers-section">
 		<div class="locker-view-options">
-			<div class="card" id="user-legend-section" style="width: 23rem;">
+			<div class="card" id="user-legend-section" style="width: 20rem;">
 				<h4 class="card-header">Filters</h4>
 				<div class="card-body">
 					<table class="table" id="legend">
@@ -72,7 +83,7 @@
 			</div>
 
 
-			<div class="card" id="location-select-section" style="height: 29.9rem; width: 23rem;">
+			<div class="card" id="location-select-section" style="height: 29.9rem; width: 20rem;">
 				<h4 class="card-header">Location</h4>
 				<div class="card-body">
 					<table class="table" id="location-list">

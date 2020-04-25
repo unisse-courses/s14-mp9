@@ -482,64 +482,164 @@ exports.cancelReserveLocker = (req, res) => {
 }
 
 exports.search = (req, res) => {
-	var result, criteria;
+	//const errors = validationResult(req)
+	var url = require("url")
+	var locationId;
 	
-	criteria = req.body.criteria
-	result = req.body.searchResult
-	
-	if(criteria == "location"){
-		lockerModel.findResults({
-			location: result
-		},
-		function(err, lockers){
-			if(err){
+	console.log(req.url)
+	//if(errors.isEmpty()){
+		var result, criteria;
 
+		criteria = req.body.criteria
+		result = req.body.searchResult
+		
+		const {
+			searchResultLocker,
+			searchResultLocation
+		} = req.body
+
+		if(criteria == "location"){
+			var locationResult = {
+				locationName: { $regex: result, $options: 'i' }
+			};
+			
+			locationModel.getOne(locationResult,
+			function(err, location){
+				if(err){
+
+				}
+				else if(!location){
+					res.render("search", {
+						idNo: req.session.idNo, 
+						password: req.session.password,
+						result: result
+					})
+				}
+				else{
+					lockerModel.findResults({
+						location: location._id
+					},
+					function(err, lockers){
+						if(err){
+
+						}
+						else if(!lockers){
+							res.render("search", {
+								idNo: req.session.idNo, 
+								password: req.session.password,
+								result: result
+							})
+						}
+						else{
+							var lockersResults = []
+
+							lockers.forEach(function(doc){
+								lockersResults.push(doc.toObject())
+							})
+
+							res.render("search", {
+								idNo: req.session.idNo, 
+								password: req.session.password,
+								result: result,
+								lockers: lockersResults
+							})
+						}
+					})
+				}
+			})
+		}
+		else if(criteria == "lockerNo"){
+			var resultNum;
+			
+			if(result.match(/^\d+$/)){
+				resultNum = parseInt(result)
+				if(resultNum >= 100 && resultNum <= 999){
+					lockerModel.findResults({
+						lockerNo: result
+					},
+					function(err, lockers){
+						if(err){
+
+						}
+						else if(!lockers){
+							res.render("search", {
+								idNo: req.session.idNo, 
+								password: req.session.password,
+								result: result
+							})
+						}
+						else{
+							var lockersResults = []
+
+							lockers.forEach(function(doc){
+								lockersResults.push(doc.toObject())
+							})
+
+							res.render("search", {
+								idNo: req.session.idNo, 
+								password: req.session.password,
+								result: result,
+								lockers: lockersResults
+							})
+						}
+					})
+				}
+				else{
+					req.flash('fail_locker_search_msg', "Locker search queries should be 3 digits.");
+					
+					res.redirect("/view-lockers")
+				}
 			}
 			else{
-				var lockersResults = []
-
-				lockers.forEach(function(doc){
-					lockersResults.push(doc.toObject())
-				})
+				req.flash('fail_locker_search_msg', "Locker search queries should not contain letters.");
 				
-				res.render("search", {
-					idNo: req.session.idNo, 
-					password: req.session.password,
-					result: result,
-					lockers: lockersResults
-				})
+				res.redirect("/view-lockers")
 			}
-		})
-	}
-	else if(criteria == "lockerNo"){
-		lockerModel.findResults({
-			lockerNo: result
-		},
-		function(err, lockers){
-			if(err){
-
+		}
+		else{
+			if(searchResultLocker == "" || searchResultLocation == "" || (searchResultLocker == "" && searchResultLocation == "")){
+				req.flash('fail_locker_search_msg', "Please select a filter first for the simple search option or fill all of the forms for the advanced search option.");
+				
+				res.redirect("/view-lockers")
 			}
 			else{
-				var lockersResults = []
-
-				lockers.forEach(function(doc){
-					lockersResults.push(doc.toObject())
-				})
+				var locationResult = {
+					locationName: { $regex: '^' + searchResultLocation }
+				};
 				
-				res.render("search", {
-					idNo: req.session.idNo, 
-					password: req.session.password,
-					result: result,
-					lockers: lockersResults
+				locationModel.getOne(locationResult,
+				function(err, location){
+					if(err){
+
+					}
+					else{
+						lockerModel.findResults({
+							location: location._id,
+							lockerNo: searchResultLocker
+						},
+						function(err, lockers){
+							if(err){
+
+							}
+							else{
+								var lockersResults = []
+
+								lockers.forEach(function(doc){
+									lockersResults.push(doc.toObject())
+								})
+
+								res.render("search", {
+									idNo: req.session.idNo, 
+									password: req.session.password,
+									result: result,
+									lockers: lockersResults
+								})
+							}
+						})
+					}
 				})
 			}
-		})
-	}
-	else{
-		req.flash('fail_locker_msg', "Please select a filter first.");
-		res.redirect('/view-lockers')
-	}
-	
+		}
 }
 
 /*admin lockers*/
@@ -819,55 +919,90 @@ exports.ownershipResults = (req, res) => {
 	var lockerId;
 	
 	const {
-		request,
+		request
+	} = req.body
+	
+	const {
 		reserveCheck
 	} = req.body
 	
-	if(request == "Accept Request(s)"){
-		lockerModel.statusChange({
-			_id: req.body.reserveCheck
-		}, {
-			status: "owned"
-		}, 
-		function(err, lockers){
-			if(err){
-				console.log(err)
-				res.redirect("/manage-requests")
-			}
-			else if(!lockers){
-				console.log("Locker error.")
-				res.redirect("/manage-requests")
-			}
-			else{
-				res.redirect("/manage-requests")
-			}
-		})
+	console.log(reserveCheck)
+	
+	var checkedLockers = []
+	
+	/*if(reserveCheck){
+		console.log("true")
 	}
 	else{
-		lockerModel.statusChange({
-			_id: req.body.reserveCheck
-		}, {
-			status: "available"
-		}, 
-		function(err, lockers){
-			userModel.lockerChange({
-				locker: req.body.reserveCheck
+		console.log("false")
+	}*/
+	
+	if(request == "Accept Request(s)"){
+		if(reserveCheck){
+			lockerModel.statusChange({
+				_id: req.body.reserveCheck
 			}, {
-				locker: null
+				status: "owned"
 			}, 
-			function(err, users){
+			function(err, lockers){
 				if(err){
+					req.flash('fail_request_msg',  "An error occurred while trying to find the ID's of the lockers to be accepted for ownership.");
 					res.redirect("/manage-requests")
 				}
-				else if(!users){
-					console.log("Locker error.")
+				else if(!lockers){
+					req.flash('fail_request_msg',  "Please select at least one ownership request to accept.");
 					res.redirect("/manage-requests")
 				}
 				else{
+					req.flash('success_request_msg',  "Ownership requests successfully accepted.");
 					res.redirect("/manage-requests")
 				}
 			})
-		})
+			
+		}
+		else{
+			req.flash('fail_request_msg',  "Please select at least one ownership request to accept.");
+			res.redirect("/manage-requests")
+		}
+	}
+	else{
+		if(reserveCheck){
+			lockerModel.statusChange({
+				_id: req.body.reserveCheck
+			}, {
+				status: "available"
+			}, 
+			function(err, lockers){
+				userModel.lockerChange({
+					locker: req.body.reserveCheck
+				}, {
+					locker: null
+				}, 
+				function(err, users){
+					if(err){
+						req.flash('fail_request_msg',  "An error occurred while trying to find the ID's of the lockers to be rejected for ownership.");
+						res.redirect("/manage-requests")
+					}
+					else if(!users){
+						req.flash('fail_request_msg',  "Please select at least one ownership request to reject.");
+						res.redirect("/manage-requests")
+					}
+					else{
+						if(req.body.reserveCheck == null){
+							req.flash('fail_request_msg',  "Please select at least one ownership request to accept.");
+						}
+						else{
+							req.flash('success_request_msg',  "Ownership requests successfully rejected.");
+							res.redirect("/manage-requests")
+						}
+					}
+				})
+			})
+		}
+		else{
+			req.flash('fail_request_msg',  "Please select at least one ownership request to reject.");
+			res.redirect("/manage-requests")
+		}
 	}
 	
 }
@@ -879,54 +1014,71 @@ exports.abandonmentResults = (req, res) => {
 		request
 	} = req.body
 	
+	const {
+		abandonCheck
+	} = req.body
+	
 	
 	if(request == "Accept Request(s)"){
-		lockerModel.statusChange({
-			_id: req.body.abandonCheck
-		}, {
-			status: "available"
-		}, 
-		function(err, lockers){
-			userModel.lockerChange({
-				locker: req.body.abandonCheck
+		if(abandonCheck){
+			lockerModel.statusChange({
+				_id: req.body.abandonCheck
 			}, {
-				locker: null
+				status: "available"
 			}, 
-			function(err, users){
+			function(err, lockers){
+				userModel.lockerChange({
+					locker: req.body.abandonCheck
+				}, {
+					locker: null
+				}, 
+				function(err, users){
+					if(err){
+						req.flash('fail_request_msg',  "An error occurred while trying to find the ID's of the lockers to be accepted for abandonment.");
+						res.redirect("/manage-requests")
+					}
+					else if(!users){
+						req.flash('fail_request_msg',  "Please select at least one abandonment request to accept.");
+						res.redirect("/manage-requests")
+					}
+					else{
+						req.flash('success_request_msg',  "Abandonment requests successfully accepted.");
+						res.redirect("/manage-requests")
+					}
+				})
+			})
+		}
+		else{
+			req.flash('fail_request_msg',  "Please select at least one abandonment request to accept.");
+			res.redirect("/manage-requests")
+		}
+	}
+	else{
+		if(abandonCheck){
+			lockerModel.statusChange({
+				_id: req.body.abandonCheck
+			}, {
+				status: "owned"
+			}, 
+			function(err, lockers){
 				if(err){
-					console.log(err)
+					req.flash('fail_request_msg',  "n error occurred while trying to find the ID's of the lockers to be rejected for abandonment.");
 					res.redirect("/manage-requests")
 				}
-				else if(!users){
-					console.log("Locker error.")
+				else if(!lockers){
+					req.flash('fail_request_msg',  "Please select at least one abandonment request to reject.");
 					res.redirect("/manage-requests")
 				}
 				else{
+					req.flash('success_request_msg',  "Abandonment requests successfully rejected.");
 					res.redirect("/manage-requests")
 				}
 			})
-		})
-	}
-	else{
-		lockerModel.statusChange({
-			_id: req.body.abandonCheck
-		}, {
-			status: "owned"
-		}, 
-		function(err, lockers){
-			if(err){
-				console.log(err)
-				res.redirect("/manage-requests")
-			}
-			else if(!lockers){
-				console.log("Locker error.")
-				res.redirect("/manage-requests")
-			}
-			else{
-				req.flash('success_locker_manage_msg',  "Abandonment requests successfully rejected.");
-				res.redirect("/manage-requests")
-			}
-		})
+		}
+		else{
+			req.flash('fail_request_msg',  "Please select at least one abandonment request to accept.");
+			res.redirect("/manage-requests")
+		}
 	}
 }
 

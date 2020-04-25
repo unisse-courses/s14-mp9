@@ -61,3 +61,12 @@ exports.isNavigated = (req, res, next) =>{
 		res.redirect('back')
 	}
 }
+
+exports.isLockerReserved = (req, res, next) =>{
+	if(req.session.idNo){
+		return next()
+	}
+	else{
+		res.redirect('/view-lockers')
+	}
+}

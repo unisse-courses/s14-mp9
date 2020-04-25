@@ -251,7 +251,7 @@ hr #divide{
 }
 
 #quick-menu-box{
-	font-size: 34px;
+	font-size: 24px;
 }
 
 #quick-admin-1 .carousel-caption, #quick-admin-2 .carousel-caption{
@@ -259,7 +259,7 @@ hr #divide{
 }
 
 #quick-menu-box .carousel-caption{
-	margin-bottom: 300px;
+	margin-bottom: 240px;
 }
 
 .carousel-caption form input{
@@ -274,11 +274,6 @@ hr #divide{
 	margin-top: 180px;
 	color: #E6FBDA;
 	text-align: center;
-}
-
-.quick-menu-box #reserve-reminder h1{
-	margin-left: 30px;
-	margin-right: 100px;
 }
 
 .admin-options div input[type=submit]{
@@ -297,11 +292,6 @@ hr #divide{
 	background-color: #661048
 }
 
-
-.quick-menu-box #reserve-reminder h1{
-	font-size: 40px
-}
-
 .quick-menu-box #reserve-reminder p, .admin-options div p{
 	width: 550px;
 	word-wrap: break-word;
@@ -312,13 +302,7 @@ hr #divide{
 	max-width: 30%;
 }
 
-input[type=submit], input[type=button]{
-	outline: none;
-	border: 0;
-}
-
 .quick-menu-box input[type=submit], .admin-options div input[type=submit]{
-	
 	outline: none;
 	border: 0;
 	background-color: #80125a;
@@ -326,13 +310,18 @@ input[type=submit], input[type=button]{
 	text-transform: uppercase;
 }
 
+input[type=submit], input[type=button]{
+	outline: none;
+	border: 0;
+}
 
 
 /*profile.html*/
-.page-box{
+.page-box, .edit-profile-box{
 	background-color: #cbdad0;
 	height: 100%;
 	margin-left: 130px;
+	margin-top: 20px;
 }
 
 .profile-box, .edit-profile-box{
@@ -341,8 +330,11 @@ input[type=submit], input[type=button]{
 	flex-direction: row;
 }
 
+..profile-box #personal-info, .edit-profile-info-box{
+	font-size: 24px;
+}
+
 .profile-box #personal-info{
-	font-size: 18px;
 	width: 1000px;
 }
 
@@ -352,11 +344,11 @@ input[type=submit], input[type=button]{
 }
 
 #profile-locker-address h4{
-	font-size: 80px;
+	font-size: 50px;
 }
 
 #profile-locker-address #profile-locker-location{
-	font-size: 30px;
+	font-size: 24px;
 }
 
 #profile-locker-status{
@@ -368,14 +360,26 @@ input[type=submit], input[type=button]{
 	font-size: 18px;
 }
 
-.profile-current-locker-info form[method=post]{
+.profile-current-locker-info form[method=post], .reminder-current-locker-info, .profile-box{
 	margin-top: 20px;
 }
 
+.reminder-current-locker-info .card-subtitle{
+	font-size: 18px
+}
+
 .profile-current-locker-info form[method=post] input[type=submit], .reminder-current-locker-info form[method=get] input[type=submit], .edit-profile-info-box form[method=post] input[type=submit]{
-	height: 70px;
+	height: 50px;
 	width: 100%;
-	font-size: 24px
+	font-size: 18px
+}
+
+.reminder-current-locker-info form[method=get] input[type=submit]{
+	margin-top: 30px;
+}
+
+.profile-current-locker-info form[method=post] input[type=submit]{
+	margin-top: 48px;
 }
 
 .profile-box #locker-info, .edit-profile-box #locker-info{
@@ -412,8 +416,10 @@ input[type=submit], input[type=button]{
 	background-color: #f3f6f4;
 	display: flex;
 	flex-direction: column;
-	padding: 50px;
+	padding: 40px;
 	margin-left: 50px;
+	width: 800px;
+	height: 417px
 }
 
 .info-section button img{
@@ -421,18 +427,16 @@ input[type=submit], input[type=button]{
 	max-height: 110%;
 }
 
-
 #personal-info, #profile-locker{
 	display: grid;
 	grid-gap: 10px;
 }
 
-#personal-info{
+#personal-info, .edit-profile-info-box{
 	grid-template-columns: 250px 250px;
 }
 
-
-#personal-info label, #profile-locker label{
+#personal-info label, .edit-profile-info-box label{
 	display: inline-block;
 	width: 150px;
 	margin-right: 100px;
@@ -441,22 +445,8 @@ input[type=submit], input[type=button]{
 
 
 /*edit_profile.html*/
-.edit-profile-box #personal-info, #edit-personal-info{
-	margin-left: 100px
-}
-
 #edit-personal-info{
 	margin-top: 20px
-}
-
-.edit-profile-info-box{
-	width: 1500px;
-	display: flex;
-	flex-direction: column;
-}
-
-.edit-profile-info-box h1{
-	margin-left: 100px
 }
 
 #personal-info form input[type=text]{
@@ -470,20 +460,25 @@ input[type=submit], input[type=button]{
 	height: 60px;
 }
 
+
 /*current_locker.html*/
 #no-locker, #current-locker-info{
-	margin-top: 100px;
+	margin-top: 105px;
 }
 
 #no-locker{
-	margin-left: 500px;
+	margin-left: 20%;
 }
 
 #no-locker .card-header, #current-locker-info .card-header, #current-locker-info #locker-address .card-body .card-subtitle{
-	font-size: 30px;
+	font-size: 24px;
 }
 
-#no-locker .card-body, #current-locker-info #current-locker-details #body .row .col-sm label, #current-locker-info #current-locker-details #body .row .col-8{
+#current-locker-info #current-locker-details #body .row .col-sm label, #current-locker-info #current-locker-details #body .row .col-8{
+	font-size: 18px;
+}
+
+#no-locker .card-body, #no-locker .card-body form input[type="submit"]{
 	font-size: 24px;
 }
 
@@ -494,23 +489,35 @@ input[type=submit], input[type=button]{
 #current-locker-info{
 	display: flex;
 	flex-direction: row;
-	margin-left: 380px;
+	margin-left: 12.5%;
 }
 
 #locker-address{
 	margin-right: 30px
 }
 
-#no-locker .card-body, #locker-address .card-body{
+#locker-address .card-body{
 	margin-top: 30px;
 }
 
+#no-locker .card-body{
+	margin-top: 30px;
+}
+
+#no-locker .card-body form{
+	margin-top: 60px;
+}
+
+#no-locker .card-body form input[type="submit"]{
+	height: 60px
+}
+
 #current-locker-info #current-locker-details #body{
-	margin-top: 50px;
+	margin-top: 65px;
 }
 
 #current-locker-info #locker-address .card-body .card-title{
-	font-size: 80px;
+	font-size: 60px;
 }
 
 #current-locker-info #current-locker-details #body .row{
@@ -529,8 +536,9 @@ input[type=submit], input[type=button]{
 .locker-box{
 	background-color: #e6f3ea;
 	height: 1000px;
+	width: 100%;
 	padding-top: 40px;
-	padding-left: 380px
+	padding-left: 12.5%;
 }
 
 #user-locker-section {

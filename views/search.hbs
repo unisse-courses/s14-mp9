@@ -1,14 +1,26 @@
 <div class="top">
 	<div class="search">
 		<form method="post" action="search">
-			<div class="form-row">
-				<div class="input-control">
-					<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
-					<div class="input-control-append">
+			{{> search_messages}}
+			<div class="form-group row">
+				<div class="dropdown show"> 
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="searchAdvanced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					</a>
+					<div class="dropdown-menu" aria-labelledby="searchAdvanced">
+						<input type="text" class="form-control" name="searchResultLocker" placeholder="Search locker">
+						<input type="text" class="form-control" name="searchResultLocation" placeholder="Search location">
 						<button type="submit" class="btn btn-primary">
 							<i class="fa fa-search"></i>
 						</button>
 					</div>
+				</div>
+				<div class="col-sm-80">
+					<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
+				</div>
+				<div class="col-lg-append">
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-search"></i>
+					</button>
 				</div>
 				<div id="radio-criteria">
 					<div class="custom-control custom-radio">
@@ -18,7 +30,6 @@
 						<input type="radio" id="radio-search-lk" class="custom-control-input" name="criteria" value="lockerNo"> <label for="radio-search-lk" class="custom-control-label">Locker Number only</label>
 					</div>
 				</div>
-
 			</div>
 		</form>
 	</div>

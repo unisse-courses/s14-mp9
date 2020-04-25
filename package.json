@@ -16,7 +16,8 @@
     "hbs": "^4.1.1",
     "moment": "^2.24.0",
     "mongodb": "^3.5.5",
-    "mongoose": "^5.9.4"
+    "mongoose": "^5.9.4",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "handlebars": "^4.5.0"

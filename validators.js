@@ -43,8 +43,8 @@ const editProfileValid = [
 	body('mobileNo').not().isEmpty().withMessage("Locker code should be 3 to 4 digits long.")
 ]
 
-const requestValid = [
-	body('reserveCheck').not().isEmpty().withMessage("Please select at least one request to accept or reject.")
+const searchValid = [
+	body('searchResult').not().isEmpty().withMessage("Search criteria is required.")
 ]
 
-module.exports = { registerValid, loginValid, manageLockersValid, editProfileValid, manageLocationsValid, manageDatesValid, requestValid }
+module.exports = { registerValid, loginValid, manageLockersValid, editProfileValid, manageLocationsValid, manageDatesValid, searchValid}

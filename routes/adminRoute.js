@@ -5,7 +5,7 @@ const lockerModel = require('../models/locker');
 const locationModel = require('../models/location');
 const termDateModel = require('../models/term_dates');
 const {isPublic, isPrivate, isNavigated, isLockerManaged, isRequestsManaged} = require('..//middlewares/checkAuth')
-const { loginValid, registerValid, manageLockersValid, manageLocationsValid, manageDatesValid, requestValid } = require('../validators.js')
+const { loginValid, registerValid, manageLockersValid, manageLocationsValid, manageDatesValid } = require('../validators.js')
 
 /*lockers*/
 router.get('/manage-lockers', isNavigated, controller.manageLockers)
@@ -17,10 +17,10 @@ router.post('/add-location', isLockerManaged, manageLocationsValid, controller.a
 router.post('/delete-location', isLockerManaged, controller.deleteLocation)
 
 /*requests*/
-router.get('/manage-requests', isNavigated, controller.manageRequests)
+router.get('/manage-requests', isRequestsManaged, controller.manageRequests)
 
-router.post('/own-request-results', isRequestsManaged, requestValid, controller.ownershipResults)
-router.post('/abandon-accept-results', isRequestsManaged, requestValid, controller.abandonmentResults)
+router.post('/own-request-results', isRequestsManaged, controller.ownershipResults)
+router.post('/abandon-accept-results', isRequestsManaged, controller.abandonmentResults)
 
 /*dates*/
 router.post('/set-dates', isLockerManaged, manageDatesValid, controller.setDates)

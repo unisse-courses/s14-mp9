@@ -591,8 +591,18 @@ $(document).ready(function(){
 	
 	$.get('get-requests', function(data, status){
 		data.forEach(function(item, index){
-			if(item.idNo == $("#id-no").val()){
-				for (var i = 0; i < lockersOccupied.length; i++){
+			//if(item.idNo == $("#id-no").val()){
+				
+			//}
+			console.log(lockersOccupied)
+			for(var i = 0; i < lockersOccupied.length; i++){
+				if(lockersOccupied[i]._id == item.locker){
+				   lockersOccupied[i].idNo = item.idNo;
+				}
+			}
+			
+			for (var i = 0; i < lockersOccupied.length; i++){
+				if(lockersOccupied[i].idNo == $("#id-no").val()){
 					if(item.locker == lockersOccupied[i]._id){
 						$("#lockers-table td").attr("data-toggle", "popover")
 
@@ -612,18 +622,13 @@ $(document).ready(function(){
 					}
 				}
 			}
-			console.log(lockersOccupied.length)
-			for(var i = 0; i < lockersOccupied.length; i++){
-				if(lockersOccupied[i]._id == item.locker){
-				   lockersOccupied[i].idNo = item.idNo;
-				}
-			}
 		})
 		
 		locationSelect.change(function(){
 			for (var i = 0; i < lockersOccupied.length; i++){
 				if(lockersOccupied[i].idNo == $("#id-no").val()){
-					//$("#lockers-table td").attr("data-toggle", "popover")
+					$("#lockers-table td").attr("data-toggle", "popover")
+
 					if(lockersOccupied[i].status == "reserved"){
 					   $("#lockers-table td").attr("data-content", "Sorry, but you cannot reserve another locker. Cancel your current reservation first to reserve another locker.")
 					}
@@ -951,7 +956,7 @@ $(document).ready(function(){
 				lockerTd.attr("value", "reserved")
 				lockerTd.attr("data-toggle", "popover")
 
-				if(lockersTable.closest(".manage-lockers-box")){
+				if($("#id-no").val() == "admin"){
 					lockerTd.attr("data-content", "Sorry, but you cannot change a reserved locker. The locker code has already been set before the user reserved this locker")
 				}
 				else{
@@ -976,7 +981,7 @@ $(document).ready(function(){
 				lockerTd.attr("value", "owned")
 				lockerTd.attr("data-toggle", "popover")
 
-				if(lockersTable.closest(".manage-lockers-box")){
+				if($("#id-no").val() == "admin"){
 					lockerTd.attr("data-content", "Sorry, but you cannot change a reserved locker. The locker code has already been set before the user reserved this locker")
 				}
 				else{
