@@ -217,28 +217,6 @@ $(document).ready(function(){
 		llSection.show();
 	})
 
-
-	/*$("#delete-location").click(function(){
-		for(let i = 0; i < locations.length; i++){
-			if(locationSelect.val() == locations[i].locationName){
-				locations.splice(i, 1)
-			}
-		}
-
-		locationSelect.empty()
-
-		for(let i = 0; i < locations.length; i++){
-			var opLocation = $("<option></option>").text(locations[i].locationName)
-			opLocation.val(locations[i].locationName);
-
-
-			locationSelect.append(opLocation);
-		}
-
-		locationSelect.val(locations[0].locationName)
-		initTable(locations[0].locationName)
-	})*/
-
 	$("#set-dates").click(function(){
 		var termStart, termEnd;
 
@@ -400,7 +378,6 @@ $(document).ready(function(){
 			dateStrings.push(end)
 			
 			$("#date-range").text(dateStrings[0] + " to " + dateStrings[1])
-			//$("#term-dates").text(" " + dateStrings[0] + " to " + dateStrings[0])
 		})
 		
 	})
@@ -414,7 +391,9 @@ $(document).ready(function(){
 			
 			var location = {
 				locationName: item.locationName,
-				_id:  item._id
+				_id:  item._id,
+				nAvailableLockers: 0,
+				nTotalLockers: 0
 			}
 			
 			locations.push(location)
@@ -499,6 +478,16 @@ $(document).ready(function(){
 				
 			   lockersOccupied.push(lockerReserve)
 			}
+			
+			var temp1 = 0, temp2 = 0;
+			for(var i = 0; i < locations.length; i++){
+				if(locations[i]._id == item.location){
+					locations[i].nTotalLockers++;
+					if(item.status == "available"){
+						locations[i].nAvailableLockers++;
+					}
+				}
+			}
 
 			if(ctr < 5){
 			}
@@ -519,6 +508,26 @@ $(document).ready(function(){
 			
 		})
 
+		for(var i = 0; i < locations.length; i++){
+			var tr = $("<tr></tr>");
+			var td1, td2, td3;
+			
+			td1 = $("<td></td>");
+			td2 = $("<td></td>");
+			td3 = $("<td></td>");
+			
+			td1.text(locations[i].locationName)
+			td2.text(locations[i].nTotalLockers.toString())
+			td3.text(locations[i].nAvailableLockers.toString())
+			
+			tr.append(td1)
+			tr.append(td2)
+			tr.append(td3)
+			
+			$("#location-select-section #location-list").append(tr)
+			
+		}
+		
 		locationSelect.change(function(){
 			var currLocation = locationSelect.val();
 			$("input[name=selectedManageLocation]").val(currLocation)
@@ -580,17 +589,6 @@ $(document).ready(function(){
 		})
 	})
 	
-	$.get('get-locations', function(data, status){
-		data.forEach(function(item, index){
-			for(var i = 0; i < lockersOccupied.length; i++){
-				if(lockersOccupied[i].locationId == item._id){
-				   lockersOccupied[i].location = item.locationName;
-				}
-			}
-		})
-
-	})
-	
 	$.get('get-requests', function(data, status){
 		data.forEach(function(item, index){
 			if(item.idNo == $("#id-no").val()){
@@ -621,6 +619,35 @@ $(document).ready(function(){
 				}
 			}
 		})
+		
+		locationSelect.change(function(){
+			for (var i = 0; i < lockersOccupied.length; i++){
+				if(lockersOccupied[i].idNo == $("#id-no").val()){
+					//$("#lockers-table td").attr("data-toggle", "popover")
+					if(lockersOccupied[i].status == "reserved"){
+					   $("#lockers-table td").attr("data-content", "Sorry, but you cannot reserve another locker. Cancel your current reservation first to reserve another locker.")
+					}
+					else{
+					   $("#lockers-table td").attr("data-content", "Sorry, but you cannot reserve another locker. Request to abandon your current locker first and wait for the request to be accepted to reserve another locker.")
+					}
+
+					$("#lockers-table td").popover()
+					$("#lockers-table td").click(function(){
+						setTimeout(function(){
+							$("#lockers-table td").popover('hide')
+						}, 1500)
+					})
+				}
+			}
+		})
+		
+		for(var i = 0; i < lockersOccupied.length; i++){
+			for(var j = 0; j < locations.length; j++){
+				if(lockersOccupied[i].locationId == locations[j]._id){
+				   lockersOccupied[i].location = locations[j].locationName;
+				}
+			}
+		}
 		
 		var ridHeader, rlockerNoHeader, rlocationHeader, rcheckHeader;
 		var rCtr = 0, oCtr = 0, aCtr = 0;
@@ -861,6 +888,17 @@ $(document).ready(function(){
 			$("#own-label").text("View Owned Lockers " + "(" + oCtr + ")")
 			$("#abandon-label").text("Manage Abandon Requests " + "(" + aCtr + ")")
 		})
+		
+		for(var i = 0; i < lockersOccupied.length; i++){
+			for(var j = 0; j < locations.length; j++){
+				if(lockersOccupied[i].locationId == locations[j]._id){
+				   lockersOccupied[i].location = locations[j].locationName;
+				}
+			}
+		}
+		
+		
+		
 	})
 	
 	/*
@@ -976,107 +1014,6 @@ $(document).ready(function(){
 			row.append(lockerTd)
 			
 			ctr++;
-			/*if(lockerReserves[i].studentIdNo == $("#id-no").val()){
-				lockerTd.attr("data-toggle", "popover")
-
-				if(lockerReserves[i].status == "reserved"){
-				   lockerTd.attr("data-content", "Sorry, but you cannot reserve another locker. Cancel your current reservation first to reserve another locker.")
-				}
-				else{
-				   lockerTd.attr("data-content", "Sorry, but you cannot reserve another locker. Request to abandon your current locker first and wait for the request to be accepted to reserve another locker.")
-				}
-
-				lockerTd.popover()
-				lockerTd.click(function(){
-					setTimeout(function(){
-						lockerTd.popover('hide')
-					}, 1500)
-				})
-			}*/
-
-			
-			
-			/*for(let i = 0; i < lockerReserves.length; i++){
-				if(lockerReserves[i].studentIdNo == $("#id-no").val()){
-					lockerTd.attr("data-toggle", "popover")
-					
-					if(lockerReserves[i].status == "reserved"){
-					   lockerTd.attr("data-content", "Sorry, but you cannot reserve another locker. Cancel your current reservation first to reserve another locker.")
-					}
-					else{
-					   lockerTd.attr("data-content", "Sorry, but you cannot reserve another locker. Request to abandon your current locker first and wait for the request to be accepted to reserve another locker.")
-					}
-					
-					lockerTd.popover()
-					lockerTd.click(function(){
-						setTimeout(function(){
-							lockerTd.popover('hide')
-						}, 1500)
-					})
-				}
-				
-				if(lockerReserves[i].Locker.lockerNo == locker.lockerNo){
-					if(lockerReserves[i].Locker.location == locker.location){
-						if(lockerReserves[i].status == "reserved"){
-							lockerTd.css({
-								"height": "130px",
-								"width": "130px",
-								"display": "inline-block",
-								"background-color": "dodgerblue",
-								"color": "azure"
-							})
-							lockerTd.attr("value", "reserved")
-							
-							
-							lockerTd.attr("data-toggle", "popover")
-							
-							if(lockersTable.closest(".manage-lockers-box")){
-								lockerTd.attr("data-content", "Sorry, but you cannot change a reserved locker. The locker code has already been set before the user reserved this locker")
-							}
-							else{
-								lockerTd.attr("data-content", "Sorry, but this locker is currently reserved by someone else. Find an availble locker to reserve.")
-							}
-							
-							lockerTd.popover()
-							lockerTd.click(function(){
-								setTimeout(function(){
-									lockerTd.popover('hide')
-								}, 1500)
-							})
-						}
-						else if(lockerReserves[i].status == "owned"){
-							lockerTd.css({
-								"height": "130px",
-								"width": "130px",
-								"display": "inline-block",
-								"background-color": "darkred",
-								"color": "azure"
-							})
-							lockerTd.attr("value", "owned")
-							
-							lockerTd.attr("data-toggle", "popover")
-							
-							if(lockersTable.closest(".manage-lockers-box")){
-								lockerTd.attr("data-content", "Sorry, but you cannot change a reserved locker. The locker code has already been set before the user reserved this locker")
-							}
-							else{
-								lockerTd.attr("data-content", "Sorry, but this locker is already owned by someone else. Find an availble locker to reserve.")
-							}
-							
-							lockerTd.popover()
-							lockerTd.click(function(){
-								setTimeout(function(){
-									lockerTd.popover('hide')
-								}, 1500)
-							})
-						}
-					}
-					
-				}
-			}*/
-
-			
-			
 		}
 		
 	}

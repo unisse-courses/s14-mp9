@@ -4,25 +4,25 @@ const userModel = require('../models/locker_user');
 const lockerModel = require('../models/locker');
 const locationModel = require('../models/location');
 const termDateModel = require('../models/term_dates');
-const {isPublic, isPrivate, isNavigated} = require('..//middlewares/checkAuth')
-const { loginValid, registerValid, manageLockersValid } = require('../validators.js')
+const {isPublic, isPrivate, isNavigated, isLockerManaged, isRequestsManaged} = require('..//middlewares/checkAuth')
+const { loginValid, registerValid, manageLockersValid, manageLocationsValid, manageDatesValid, requestValid } = require('../validators.js')
 
 /*lockers*/
 router.get('/manage-lockers', isNavigated, controller.manageLockers)
 
-router.post('/add-locker', manageLockersValid, controller.addLocker)
-router.post('/edit-locker', manageLockersValid, controller.editLocker)
+router.post('/add-locker', isLockerManaged, manageLockersValid, controller.addLocker)
+router.post('/edit-locker', isLockerManaged, manageLockersValid, controller.editLocker)
 
-router.post('/add-location', controller.addLocation)
-router.post('/delete-location', controller.deleteLocation)
+router.post('/add-location', isLockerManaged, manageLocationsValid, controller.addLocation)
+router.post('/delete-location', isLockerManaged, controller.deleteLocation)
 
 /*requests*/
 router.get('/manage-requests', isNavigated, controller.manageRequests)
 
-router.post('/own-request-results', controller.ownershipResults)
-router.post('/abandon-accept-results', controller.abandonmentResults)
+router.post('/own-request-results', isRequestsManaged, requestValid, controller.ownershipResults)
+router.post('/abandon-accept-results', isRequestsManaged, requestValid, controller.abandonmentResults)
 
 /*dates*/
-router.post('/set-dates', controller.setDates)
+router.post('/set-dates', isLockerManaged, manageDatesValid, controller.setDates)
 
 module.exports = router;

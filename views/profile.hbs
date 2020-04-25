@@ -42,12 +42,12 @@
 				<div id="name-edit">
 					<h3>{{user.realName}}</h3> <a href="#" class="btn" onclick="editProfile();"><i class="fa fa-pencil fa-lg"></i></a>
 
-					<form id="edit-profile-hidden" action="edit-profile" method="post">
+					<form id="edit-profile-hidden" action="edit-profile" method="get">
 						<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
 						<input type="hidden" value="{{password}}" id="password" name="password">
 					</form>
 				</div>
-
+				
 				<div id="personal-info">
 					<label><b>ID Number</b></label> <p id="id-number">{{user.idNo}}</p>
 					<label><b>Degree Program</b></label> <p id="degree">{{user.degree}}</p>

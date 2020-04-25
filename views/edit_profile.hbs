@@ -8,7 +8,7 @@
 		<div class="card text-center" id="locker-info" style="width: 23rem;">
 			<h5 class="card-header">Current locker</h5>
 				<div class="card-body" id="locker">
-
+					{{> locker_status_messages}}
 					<div class="reminder-current-locker-info">
 						<span class="card-subtitle mb-3 text">You current do not have a locker reserved nor owned</span>
 						<form method="get" action="view-lockers">
@@ -17,7 +17,6 @@
 					</div>
 
 					<div class="profile-current-locker-info">
-
 						<div id="profile-locker-address">
 							<h4 class="card-title">{{locker.lockerNo}}</h4>
 							<p id="profile-locker-location" class="card-subtitle mb-3 text-muted">{{lockerLocation}}</p>
@@ -37,11 +36,12 @@
 		</div>
 	</div>
 
+	
 	<div class="edit-profile-info-box">
 		<div class="info-section">
 			<h1>Edit Profile for {{idNo}}</h1>
+			{{> profile_messages}}
 			<div id="edit-personal-info">
-				{{> profile_messages}}
 				<form id="edit" action="confirm-edit-profile" method="post">
 					<div class="form-group row">
 						<label for="real-name-change" class="col-sm-5 col-form-label"><b>Full Name</b></label> 

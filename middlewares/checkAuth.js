@@ -18,19 +18,38 @@ exports.isPublic = (req, res, next) =>{
 
 exports.isProfileEdited = (req, res, next) =>{
 	if(req.session.idNo){
-		res.redirect('/edit-profile')
+		return next()
 	}
 	else{
-		return next()
+		res.redirect('/edit-profile')
 	}
 }
 
-exports.isSearched = (req, res, next) =>{
+exports.isLockerManaged = (req, res, next) =>{
 	if(req.session.idNo){
-		res.redirect('/search')
+		return next()
 	}
 	else{
+		res.redirect('/manage-lockers')
+	}
+}
+
+exports.isRequestsManaged = (req, res, next) =>{
+	if(req.session.idNo){
 		return next()
+	}
+	else{
+		res.redirect('/manage-requests')
+	}
+}
+
+
+exports.isSearched = (req, res, next) =>{
+	if(req.session.idNo){
+		return next()
+	}
+	else{
+		res.redirect('/search')
 	}
 }
 

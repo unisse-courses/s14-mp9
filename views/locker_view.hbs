@@ -81,13 +81,6 @@
 							<th>Total Lockers</th>
 							<th>Available</th>
 						</tr>
-						{{#each locations}}
-							<tr>
-								<td>{{this.locationName}}</td>
-								<td>{{this.nTotalLockers}}</td>
-								<td>{{this.availableLockers}}</td>
-							</tr>
-						{{/each}}
 					</table>
 				</div>
 			</div>
@@ -97,6 +90,7 @@
 			<h4 class="card-header">Lockers</h4>
 			<div class="card-body">
 				<div class="lockers">
+					{{> locker_status_messages}}
 					<label class="card-title"><b>Lockers Location </b></label><select id="location-select" class="btn btn-secondary dropdown-toggle" role="button" name="Select a location">
 						{{#each locations}}
 							<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}

@@ -71,6 +71,12 @@ app.use((req, res, next) =>{
 	
 	res.locals.success_profile_msg = req.flash('success_profile_msg');
 	res.locals.fail_profile_msg = req.flash('fail_profile_msg');
+	
+	res.locals.success_request_msg = req.flash('success_request_msg');
+	res.locals.fail_request_msg = req.flash('fail_request_msg');
+	
+	res.locals.success_status_msg = req.flash('success_status_msg');
+	res.locals.fail_status_msg = req.flash('fail_status_msg');
 	next()
 })
 

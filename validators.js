@@ -22,8 +22,18 @@ const loginValid = [
 ];
 
 const manageLockersValid = [
-	body('newLockerCode').isLength({min: 3, max: 4}).withMessage("Locker code should be 3 to 4 digits long.")
+	body('lockCode').isLength({min: 3, max: 4}).withMessage("Locker code should be 3 to 4 digits long.")
 ];
+
+const manageLocationsValid = [
+	body('newLocationName').not().isEmpty().withMessage("Location name is required.")
+]
+
+const manageDatesValid = [
+	body('termStart').not().isEmpty().withMessage("Term start date is required."),
+	
+	body('termEnd').not().isEmpty().withMessage("Term end date is required."),	
+]
 
 const editProfileValid = [
 	body('realName').not().isEmpty().withMessage("Full name is required"),
@@ -33,4 +43,8 @@ const editProfileValid = [
 	body('mobileNo').not().isEmpty().withMessage("Locker code should be 3 to 4 digits long.")
 ]
 
-module.exports = { registerValid, loginValid, manageLockersValid, editProfileValid }
+const requestValid = [
+	body('reserveCheck').not().isEmpty().withMessage("Please select at least one request to accept or reject.")
+]
+
+module.exports = { registerValid, loginValid, manageLockersValid, editProfileValid, manageLocationsValid, manageDatesValid, requestValid }
