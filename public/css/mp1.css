@@ -14,7 +14,6 @@
 }
 
 .main-menu{
-	
     height: 80px;
 	width: 100%;
     background-color: #00521c;
@@ -110,14 +109,16 @@ body{
 
 /*main.html*/
 .user-box{
-	margin-left: 500px;
+	margin-left: 30%;
     background-color: #DDDCDE;
-    padding: 20px;
-	width: 800px;
+    padding: 30px;
+	width: 600px;
+	height: 1000px
 }
 
 .user-welcome{
-	background-image: url("../photo/Background2.jpg")
+	background-image: url("../photo/Background2.jpg");
+	height: 750px
 }
 
 .login, .register{
@@ -250,12 +251,16 @@ hr #divide{
 	height: 100%;
 }
 
-#quick-menu-box{
+#quick-menu-box, #admin-options{
 	font-size: 24px;
 }
 
-#quick-admin-1 .carousel-caption, #quick-admin-2 .carousel-caption{
-	margin-bottom: 300px
+#quick-admin-1 .carousel-caption{
+	margin-bottom: 200px
+}
+
+#quick-admin-2 .carousel-caption{
+	margin-bottom: 180px
 }
 
 #quick-menu-box .carousel-caption{
@@ -276,10 +281,6 @@ hr #divide{
 	text-align: center;
 }
 
-.admin-options div input[type=submit]{
-	margin-top: 45px;
-}
-
 .quick-menu-box input[type=submit]{
 	width: 400px;
 	height: 100px;
@@ -290,12 +291,6 @@ hr #divide{
 
 .quick-menu-box input[type=submit]:hover{
 	background-color: #661048
-}
-
-.quick-menu-box #reserve-reminder p, .admin-options div p{
-	width: 550px;
-	word-wrap: break-word;
-	font-size: 28px
 }
 
 .quick-menu-box img, .admin-options #admin-requests-option img{
@@ -537,12 +532,8 @@ input[type=submit], input[type=button]{
 	background-color: #e6f3ea;
 	height: 1000px;
 	width: 100%;
-	padding-top: 40px;
+	padding-top: 20px;
 	padding-left: 12.5%;
-}
-
-#user-locker-section {
-	margin-left: 120px;
 }
 
 #term-info{
@@ -565,8 +556,8 @@ input[type=submit], input[type=button]{
 
 .search{
 	display: block;
-	margin-top: 40px;
-	padding-left: 25%;
+	margin-top: 20px;
+	padding-left: 200px;
 }
 
 .search .input-control{
@@ -579,6 +570,20 @@ input[type=submit], input[type=button]{
 	margin-left: 0;
 }
 
+.search .dropdown a{
+	height: 50px;
+}
+
+.search .dropdown .dropdown-menu{
+	width: 1010px;
+	padding: 15px;
+	margin-right: 900px;
+}
+
+.search .dropdown .dropdown-menu input, .search .dropdown .dropdown-menu button, .search .dropdown .dropdown-menu h5{
+	margin-left: 40px;
+}
+
 #radio-criteria{
 	margin-left: 10px;
 }
@@ -588,10 +593,9 @@ input[type=submit], input[type=button]{
 }
 
 .search form input[type=text]{
-	width: 1000px;
+	width: 900px;
 	height: 50px;
 	background-color: inherit;
-	
 	border: 1px solid #00521c;
 }
 
@@ -602,6 +606,14 @@ input[type=submit], input[type=button]{
 	border: none;
 	background-color: #437eb8;
 	color: #e6f3ea;
+}
+
+#searchAdvanced i{
+	margin-top: 10px;
+}
+
+#user-locker-section {
+	margin-left: 80px;
 }
 
 .user-lockers-section{
@@ -636,7 +648,7 @@ input[type=submit], input[type=button]{
 }
 
 #location-list th{
-    font-size: 18px
+    font-size: 14px
 }
 
 #user-locker-section #lockers-table td{
@@ -657,8 +669,8 @@ input[type=submit], input[type=button]{
 }
 
 .filters #legend th, .filters #legend td{
-	height: 50px;
-	width: 200px;
+	height: 30px;
+	width: 100px;
 }
 
 #legend td[value="green"]{
@@ -679,16 +691,18 @@ input[type=submit], input[type=button]{
 	background-color: #e6f3ea;
 	display: flex;
 	flex-direction: row;
-	margin: 50px;
-	height: 1300px
+	margin-top: 30px;
+	margin-left: 50px;
+	width: 1400px;
+	height: 1500px
 }
 
 .manage-lockers-box nav{
-	width: 400px;
-	margin-right: 50px
+	width: 300px;
+	background-color: #00521c;
 }
 
-.manage-lockers-box nav h1{
+.manage-lockers-box nav h3{
 	color: #e6f3ea;
 	margin-top: 50px;
 	margin-left: 15px
@@ -696,7 +710,7 @@ input[type=submit], input[type=button]{
 
 .manage-lockers-box nav #nav-link-sections{
 	margin-top: 20px;
-	font-size: 24px;
+	font-size: 18px
 }
 
 .manage-lockers-box nav #nav-link-sections a{
@@ -706,7 +720,7 @@ input[type=submit], input[type=button]{
 .manage-lockers-box #locker-table-section{
 	display: flex;
 	flex-direction: row;
-	margin-top: 50px;
+	margin-top: 20px;
 }
 
 .manage-lockers-box #table-section{
@@ -715,16 +729,21 @@ input[type=submit], input[type=button]{
 }
 
 .ll-section{
-	margin: 80px;
+	margin: 30px;
 }
 
 .ll-section #locations-section .card-body{
-	display: flex;
-	flex-direction: row;
+	padding: 10px;
+	padding-left: 35px;
+}
+
+.ll-section #locations-section .card-body #location-select{
+	margin-top: 10px;
+	height: 45px;
 }
 
 .ll-section #locations-section .card-body form{
-	margin-left: 30px;
+	margin-left: 10px;
 	padding-top: 10px
 }
 
@@ -734,7 +753,7 @@ form[action=delete-locker]{
 
 #term-date-option{
 	margin-top: 100px;
-	margin-left: 50px;
+	margin-left: 150px;
 }
 
 #term-date-option #set-date-button{
@@ -753,17 +772,23 @@ form[action=delete-locker]{
 	flex-direction: row;
 }
 
-.owned-locker-section table{
-	width: 740px;
+.locker-own-manager table{
+	width: 600px;
+	margin: 0;
+}
+
+.locker-abandon-manager table{
+	width: 700px;
 	margin: 0;
 }
 
 .reserve-locker-section #lockers-reserve-table{
-	width: 1750px;
+	width: 1300px;
+	margin: 0;
 }
 
 #requests-box{
-	margin-top: 30px;
+	margin-top: 20px;
 	margin-left: 50px;
 	margin-right: 50px;
 }
@@ -800,6 +825,8 @@ form[action=delete-locker]{
 	background-color: #366ea4;
 	color: #f6f6f6;
 }
+
+
 
 #requests-box table th, .locker-reserve-manager table td:first-child, .locker-abandon-manager table td:first-child{
 	max-width: 10px;
@@ -875,4 +902,13 @@ form[action=delete-locker]{
 	background-color: #2d5984;
 }
 
+/*about*/
+.about, .about .row{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 
+.scroll{
+	max-height: 17rem;
+	overflow-y: auto;
+}

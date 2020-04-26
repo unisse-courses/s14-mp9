@@ -36,7 +36,7 @@ $(document).ready(function(){
 	$("input[name='criteria']").click(function(){
 		var checkedStatus;
 		$("input[name='criteria']").not(this).prop('checked', false);
-		//
+		
 		if($(this).is(":checked")){
 			checkedStatus = $(this).val();
 			console.log(checkedStatus)
@@ -456,7 +456,8 @@ $(document).ready(function(){
 
 		var rows = []
 		for(let row = 0; row <= (nLockersSelected/5); row++){
-			var lockerTr = $("<tr></tr>");
+			var lockerTr = $("<div></div>");
+			lockerTr.attr("class", "row")
 			rows.push(lockerTr)
 			lockersTable.append(rows[row]);
 			manageLockersTable.append(rows[row]);
@@ -591,9 +592,6 @@ $(document).ready(function(){
 	
 	$.get('get-requests', function(data, status){
 		data.forEach(function(item, index){
-			//if(item.idNo == $("#id-no").val()){
-				
-			//}
 			console.log(lockersOccupied)
 			for(var i = 0; i < lockersOccupied.length; i++){
 				if(lockersOccupied[i]._id == item.locker){
@@ -906,14 +904,6 @@ $(document).ready(function(){
 		
 	})
 	
-	/*
-	var reserveLocationSelect = $(".locker-reserve-manager #reserve-location-select");
-	var ownedLocationSelect = $(".locker-own-manager #reserve-location-select");
-	var abandonLocationSelect = $(".locker-abandon-manager #reserve-location-select");
-	*/
-	/*requests section*/
-	
-	
 	function initTable(currLocation, locker, lockerReserves, lockersTable, row, ctr){
 		if(locker.location == currLocation){
 			var lockerTd = $("<td></td>");
@@ -951,7 +941,9 @@ $(document).ready(function(){
 					"width": "130px",
 					"display": "inline-block",
 					"background-color": "dodgerblue",
-					"color": "azure"
+					"color": "azure",
+					"font-size": "38px",
+					"padding-top": "40px"
 				})
 				lockerTd.attr("value", "reserved")
 				lockerTd.attr("data-toggle", "popover")
@@ -976,7 +968,9 @@ $(document).ready(function(){
 					"width": "130px",
 					"display": "inline-block",
 					"background-color": "darkred",
-					"color": "azure"
+					"color": "azure",
+					"font-size": "38px",
+					"padding-top": "40px"
 				})
 				lockerTd.attr("value", "owned")
 				lockerTd.attr("data-toggle", "popover")
@@ -1001,7 +995,9 @@ $(document).ready(function(){
 					"width": "130px",
 					"display": "inline-block",
 					"background-color": "green",
-					"color": "azure"
+					"color": "azure",
+					"font-size": "38px",
+					"padding-top": "40px"
 					})
 				lockerTd.attr("data-toggle", "modal")
 				lockerTd.attr("value", "available")
@@ -1023,19 +1019,6 @@ $(document).ready(function(){
 		
 	}
 	
-	
-	/*
-	var lockerReserve = {
-		_id: item._id,
-		lockerNo: item.lockerNo,
-		locationId: item.location,
-		location: "",
-		status: item.status,
-		idNo: ""
-	}
-
-   lockersOccupied.push(lockerReserve)
-	*/
 	function initReserveTable(currLocation, lockerOccupied, marker){
 		var row;
 		var idNoTd, lockerNoTd, lockerLocTd, check;

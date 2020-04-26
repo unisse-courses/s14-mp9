@@ -2,19 +2,21 @@
 	<form method="post" action="search">
 		{{> search_messages}}
 		<div class="form-group row">
+			<div class="col-sm-75">
+				<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
+			</div>
 			<div class="dropdown show"> 
-				<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="searchAdvanced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="btn btn-secondary" href="#" role="button" id="searchAdvanced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fa fa-sort-down"></i>
 				</a>
 				<div class="dropdown-menu" aria-labelledby="searchAdvanced">
+					<h5>Advanced Search</h5>
 					<input type="text" class="form-control" name="searchResultLocker" placeholder="Search locker">
 					<input type="text" class="form-control" name="searchResultLocation" placeholder="Search location">
 					<button type="submit" class="btn btn-primary">
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
-			</div>
-			<div class="col-sm-80">
-				<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
 			</div>
 			<div class="col-lg-append">
 				<button type="submit" class="btn btn-primary">
@@ -34,88 +36,100 @@
 </div>
 
 <div class="locker-box">
-	<div class="card" id="term-info" style="width: 75rem;">
-		<div class="card-body">
-			<label><b>Current term dates: </b></label><span id="date-range"></span>
-		</div>
-	</div>
-
-	<div class="user-lockers-section">
-		<div class="locker-view-options">
-			<div class="card" id="user-legend-section" style="width: 20rem;">
-				<h4 class="card-header">Filters</h4>
-				<div class="card-body">
-					<table class="table" id="legend">
-						<tr>
-							<th>Color</th> 
-							<th>Status</th> 
-							<th>Filter</th>
-						</tr>
-						<tr>
-							<td value="green"></td> 
-							<td>Available</td> 
-							<td>
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" id="available-cell" class="custom-control-input" name="status" value="available"> <label for="available-cell" class="custom-control-label"></label>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td value="blue"></td> 
-							<td>Reserved</td>
-							<td>
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" id="reserved-cell" class="custom-control-input" name="status" value="reserved"> <label for="reserved-cell" class="custom-control-label"></label>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td value="red"></td> 
-							<td>Owned</td> 
-							<td>
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" id="own-cell" class="custom-control-input" name="status" value="owned"> <label for="own-cell" class="custom-control-label"></label>
-								</div>
-							</td>
-						</tr>
-					</table>
-				</div>	
-			</div>
-
-
-			<div class="card" id="location-select-section" style="height: 29.9rem; width: 20rem;">
-				<h4 class="card-header">Location</h4>
-				<div class="card-body">
-					<table class="table" id="location-list">
-						<tr>
-							<th>Location</th>
-							<th>Total Lockers</th>
-							<th>Available</th>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-
-		<div id="user-locker-section" class="card" style="height: 50rem; width: 50rem;">
-			<h4 class="card-header">Lockers</h4>
+	<div class="row">
+		<div class="card" id="term-info" style="width: 76rem;">
 			<div class="card-body">
-				<div class="lockers">
-					{{> locker_status_messages}}
-					<label class="card-title"><b>Lockers Location </b></label><select id="location-select" class="btn btn-secondary dropdown-toggle" role="button" name="Select a location">
-						{{#each locations}}
-							<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
-							</option>
-						{{/each}}
-					</select>
-					<table id="lockers-table">
-
-					</table>
-				</div>
-			</div>	
+				<label><b>Current term dates: </b></label><span> </span><span id="date-range"></span>
+			</div>
 		</div>
-
 	</div>
+
+	<div class="row">
+		<div class="user-lockers-section">
+			<div class="col">
+				<div class="locker-view-options">
+					<div class="row">
+						<div class="card" id="user-legend-section" style="width: 20rem;">
+							<h4 class="card-header">Filters</h4>
+							<div class="card-body">
+								<table class="table" id="legend">
+									<tr>
+										<th>Color</th> 
+										<th>Status</th> 
+										<th>Filter</th>
+									</tr>
+									<tr>
+										<td value="green"></td> 
+										<td>Available</td> 
+										<td>
+											<div class="custom-control custom-checkbox">
+												<input type="checkbox" id="available-cell" class="custom-control-input" name="status" value="available"> <label for="available-cell" class="custom-control-label"></label>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td value="blue"></td> 
+										<td>Reserved</td>
+										<td>
+											<div class="custom-control custom-checkbox">
+												<input type="checkbox" id="reserved-cell" class="custom-control-input" name="status" value="reserved"> <label for="reserved-cell" class="custom-control-label"></label>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td value="red"></td> 
+										<td>Owned</td> 
+										<td>
+											<div class="custom-control custom-checkbox">
+												<input type="checkbox" id="own-cell" class="custom-control-input" name="status" value="owned"> <label for="own-cell" class="custom-control-label"></label>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>	
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="card" id="location-select-section" style="width: 20rem;">
+							<h4 class="card-header">Location</h4>
+							<div class="card-body">
+								<table class="table" id="location-list">
+									<tr>
+										<th>Location</th>
+										<th>Total Lockers</th>
+										<th>Available</th>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="col">
+				<div id="user-locker-section" class="card" style="height: 53rem; width: 50rem;">
+					<h4 class="card-header">Lockers</h4>
+					<div class="card-body">
+						<div class="lockers">
+							{{> locker_status_messages}}
+							<label class="card-title"><b>Lockers Location </b></label><select id="location-select" class="btn btn-secondary dropdown-toggle" role="button" name="Select a location">
+								{{#each locations}}
+									<option name="currentSelectedLocation" value="{{this.locationName}}">{{this.locationName}}
+									</option>
+								{{/each}}
+							</select>
+							<table id="lockers-table">
+
+							</table>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	
 
 	<div class="modal fade" id="validity-confirm" tabindex="-1" role="dialog" aria-labelledby="validConfirmLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">

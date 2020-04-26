@@ -21,5 +21,6 @@ router.get('/profile', isNavigated, controller.profile)
 router.get('/edit-profile', isNavigated, controller.profileEdit)
 router.post('/confirm-edit-profile', isProfileEdited, editProfileValid, controller.profileEditConfirm)
 
+router.get('/about', controller.about)
 
 module.exports = router;

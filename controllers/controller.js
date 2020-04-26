@@ -116,6 +116,13 @@ exports.logoutUser = (req, res) =>{
 	}
 }
 
+exports.about = (req, res) =>{
+	res.render("about", {
+		idNo: req.session.idNo,
+		password: req.session.password
+	})
+}
+
 /*user*/
 exports.profile = (req, res) =>{
 	userModel.getOne({idNo: req.session.idNo}, (err, user)=>{
@@ -229,7 +236,6 @@ exports.profileEdit = (req, res) =>{
 }
 
 exports.profileEditConfirm = (req, res) =>{
-	
 	const errors = validationResult(req)
 	
 	if(errors.isEmpty()){
@@ -419,7 +425,6 @@ exports.reserveLocker = (req, res) => {
 	function(err, locker){
 		lockerModel.findCurrentLocker(curLocker, 
 		function(err, lockers){
-			console.log(lockers._id)
 			lockerId = lockers._id
 			
 			userModel.addCurrLocker(user, {
@@ -482,53 +487,141 @@ exports.cancelReserveLocker = (req, res) => {
 }
 
 exports.search = (req, res) => {
-	//const errors = validationResult(req)
 	var url = require("url")
 	var locationId;
 	
-	console.log(req.url)
-	//if(errors.isEmpty()){
-		var result, criteria;
+	var result, criteria;
 
-		criteria = req.body.criteria
-		result = req.body.searchResult
-		
-		const {
-			searchResultLocker,
-			searchResultLocation
-		} = req.body
+	criteria = req.body.criteria
+	result = req.body.searchResult
 
-		if(criteria == "location"){
+	const {
+		searchResultLocker,
+		searchResultLocation
+	} = req.body
+
+	if(criteria == "location"){
+		var locationResult = {
+			locationName: { $regex: result, $options: 'i' }
+		};
+
+		locationModel.getOne(locationResult,
+		function(err, location){
+			if(err){
+
+			}
+			else if(!location){
+				res.render("search", {
+					idNo: req.session.idNo, 
+					password: req.session.password,
+					result: result
+				})
+			}
+			else{
+				lockerModel.findResults({
+					location: location._id
+				},
+				function(err, lockers){
+					if(err){
+
+					}
+					else if(!lockers){
+						res.render("search", {
+							idNo: req.session.idNo, 
+							password: req.session.password,
+							result: result
+						})
+					}
+					else{
+						var lockersResults = []
+
+						lockers.forEach(function(doc){
+							lockersResults.push(doc.toObject())
+						})
+
+						res.render("search", {
+							idNo: req.session.idNo, 
+							password: req.session.password,
+							result: result,
+							lockers: lockersResults
+						})
+					}
+				})
+			}
+		})
+	}
+	else if(criteria == "lockerNo"){
+		var resultNum;
+
+		if(result.match(/^\d+$/)){
+			resultNum = parseInt(result)
+			if(resultNum >= 100 && resultNum <= 999){
+				lockerModel.findResults({
+					lockerNo: result
+				},
+				function(err, lockers){
+					if(err){
+
+					}
+					else if(!lockers){
+						res.render("search", {
+							idNo: req.session.idNo, 
+							password: req.session.password,
+							result: result
+						})
+					}
+					else{
+						var lockersResults = []
+
+						lockers.forEach(function(doc){
+							lockersResults.push(doc.toObject())
+						})
+
+						res.render("search", {
+							idNo: req.session.idNo, 
+							password: req.session.password,
+							result: result,
+							lockers: lockersResults
+						})
+					}
+				})
+			}
+			else{
+				req.flash('fail_locker_search_msg', "Locker search queries should be 3 digits.");
+
+				res.redirect("/view-lockers")
+			}
+		}
+		else{
+			req.flash('fail_locker_search_msg', "Locker search queries should not contain letters.");
+
+			res.redirect("/view-lockers")
+		}
+	}
+	else{
+		if(searchResultLocker == "" || searchResultLocation == "" || (searchResultLocker == "" && searchResultLocation == "")){
+			req.flash('fail_locker_search_msg', "Please select a filter first for the simple search option or fill all of the forms for the advanced search option.");
+
+			res.redirect("/view-lockers")
+		}
+		else{
 			var locationResult = {
-				locationName: { $regex: result, $options: 'i' }
+				locationName: { $regex: '^' + searchResultLocation }
 			};
-			
+
 			locationModel.getOne(locationResult,
 			function(err, location){
 				if(err){
 
 				}
-				else if(!location){
-					res.render("search", {
-						idNo: req.session.idNo, 
-						password: req.session.password,
-						result: result
-					})
-				}
 				else{
 					lockerModel.findResults({
-						location: location._id
+						location: location._id,
+						lockerNo: searchResultLocker
 					},
 					function(err, lockers){
 						if(err){
 
-						}
-						else if(!lockers){
-							res.render("search", {
-								idNo: req.session.idNo, 
-								password: req.session.password,
-								result: result
-							})
 						}
 						else{
 							var lockersResults = []
@@ -548,98 +641,7 @@ exports.search = (req, res) => {
 				}
 			})
 		}
-		else if(criteria == "lockerNo"){
-			var resultNum;
-			
-			if(result.match(/^\d+$/)){
-				resultNum = parseInt(result)
-				if(resultNum >= 100 && resultNum <= 999){
-					lockerModel.findResults({
-						lockerNo: result
-					},
-					function(err, lockers){
-						if(err){
-
-						}
-						else if(!lockers){
-							res.render("search", {
-								idNo: req.session.idNo, 
-								password: req.session.password,
-								result: result
-							})
-						}
-						else{
-							var lockersResults = []
-
-							lockers.forEach(function(doc){
-								lockersResults.push(doc.toObject())
-							})
-
-							res.render("search", {
-								idNo: req.session.idNo, 
-								password: req.session.password,
-								result: result,
-								lockers: lockersResults
-							})
-						}
-					})
-				}
-				else{
-					req.flash('fail_locker_search_msg', "Locker search queries should be 3 digits.");
-					
-					res.redirect("/view-lockers")
-				}
-			}
-			else{
-				req.flash('fail_locker_search_msg', "Locker search queries should not contain letters.");
-				
-				res.redirect("/view-lockers")
-			}
-		}
-		else{
-			if(searchResultLocker == "" || searchResultLocation == "" || (searchResultLocker == "" && searchResultLocation == "")){
-				req.flash('fail_locker_search_msg', "Please select a filter first for the simple search option or fill all of the forms for the advanced search option.");
-				
-				res.redirect("/view-lockers")
-			}
-			else{
-				var locationResult = {
-					locationName: { $regex: '^' + searchResultLocation }
-				};
-				
-				locationModel.getOne(locationResult,
-				function(err, location){
-					if(err){
-
-					}
-					else{
-						lockerModel.findResults({
-							location: location._id,
-							lockerNo: searchResultLocker
-						},
-						function(err, lockers){
-							if(err){
-
-							}
-							else{
-								var lockersResults = []
-
-								lockers.forEach(function(doc){
-									lockersResults.push(doc.toObject())
-								})
-
-								res.render("search", {
-									idNo: req.session.idNo, 
-									password: req.session.password,
-									result: result,
-									lockers: lockersResults
-								})
-							}
-						})
-					}
-				})
-			}
-		}
+	}
 }
 
 /*admin lockers*/
@@ -660,8 +662,6 @@ exports.addLocker = (req, res) => {
 			selectedLocation,
 			lockCode,
 		} = req.body
-
-		console.log(selectedLocation)
 
 		locationModel.getOne({
 			_id: selectedLocation
@@ -684,7 +684,6 @@ exports.addLocker = (req, res) => {
 
 				lockerModel.addLocker(newLocker, (err, locker)=>{
 					if(err){
-						console.log(err)
 						req.flash('fail_locker_manage_msg', "An error occurred. Please try adding the locker again.");
 						res.redirect('/manage-lockers')
 					}
@@ -709,14 +708,14 @@ exports.editLocker = (req, res) => {
 	
 	var locationId;
 	
-	if(errors.isEmpty()){
-		const {
-			selectedLocationLockersNo, 
-			selectedLocation,
-			lockCode,
-			editType
-		} = req.body
-
+	const {
+		selectedLocationLockersNo, 
+		selectedLocation,
+		lockCode,
+		editType
+	} = req.body
+	
+	if(editType == "Delete Locker"){
 		locationModel.getOne({
 			_id: selectedLocation
 		}, function(err, location){
@@ -728,24 +727,36 @@ exports.editLocker = (req, res) => {
 				location: locationId, 
 			}
 
-			if(editType == "Delete Locker"){
-				lockerModel.deleteLocker(locker, 
-				function(err, locker){
-					if(err){
-						req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting the locker again.");
-						res.redirect('/manage-lockers')
-					}
-					else if(!locker){
-						req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting the locker again.");
-						res.redirect('/manage-lockers')
-					}
-					else{
-						req.flash('success_locker_manage_msg',  "Locker successfully deleted!");
-						res.redirect('/manage-lockers')
-					}
-				})
-			}
-			else if(editType == "Edit Locker"){
+			lockerModel.deleteLocker(locker, 
+			function(err, locker){
+				if(err){
+					req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting the locker again.");
+					res.redirect('/manage-lockers')
+				}
+				else if(!locker){
+					req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting the locker again.");
+					res.redirect('/manage-lockers')
+				}
+				else{
+					req.flash('success_locker_manage_msg',  "Locker successfully deleted!");
+					res.redirect('/manage-lockers')
+				}
+			})
+		})
+	}
+	else if(editType == "Edit Locker"){
+		if(errors.isEmpty()){
+			locationModel.getOne({
+				_id: selectedLocation
+			}, function(err, location){
+				var lockerCount;
+				locationId = location._id
+				
+				var locker = {
+					lockerNo: selectedLocationLockersNo,
+					location: locationId, 
+				}
+
 				lockerModel.editLocker(locker, {
 					lockCode: lockCode
 				}, 
@@ -763,15 +774,16 @@ exports.editLocker = (req, res) => {
 						res.redirect('/manage-lockers')
 					}
 				})
-			}
-		})
+			})
+		}
+		else{
+			const messages = errors.array().map((item)=> item.msg)
+
+			req.flash('fail_locker_manage_msg', messages.join(' '));
+			res.redirect('/manage-lockers')
+		}
 	}
-	else{
-		const messages = errors.array().map((item)=> item.msg)
-		
-		req.flash('fail_locker_manage_msg', messages.join(' '));
-		res.redirect('/manage-lockers')
-	}
+	
 	
 }
 
@@ -795,7 +807,6 @@ exports.addLocation = (req, res) => {
 			else if(!location){
 				locationModel.addLocation(newLocation, (err, location)=>{
 					if(err){
-						console.log(err)
 						req.flash('fail_locker_manage_msg', "An error occurred. Please try adding a location again.");
 						res.redirect('/manage-lockers')
 					}
@@ -847,7 +858,6 @@ exports.deleteLocation = (req, res) => {
 				location: location._id
 			},
 			function(err, lockers){
-				console.log(lockers)
 				if(err){
 					req.flash('fail_locker_manage_msg', "An error occurred. Please try deleting a location again.");
 					res.redirect('/manage-lockers')
@@ -889,7 +899,6 @@ exports.deleteLocation = (req, res) => {
 									}
 									else if(!location){
 										req.flash('fail_locker_manage_msg', "An error occurred finding the selected location. Please try deleting a location again.");
-										console.log("Location error.")
 										res.redirect('/manage-lockers')
 									}
 									else{
@@ -926,16 +935,7 @@ exports.ownershipResults = (req, res) => {
 		reserveCheck
 	} = req.body
 	
-	console.log(reserveCheck)
-	
 	var checkedLockers = []
-	
-	/*if(reserveCheck){
-		console.log("true")
-	}
-	else{
-		console.log("false")
-	}*/
 	
 	if(request == "Accept Request(s)"){
 		if(reserveCheck){
@@ -1106,7 +1106,6 @@ exports.setDates = (req, res) => {
 		else{
 			termDateModel.setDates(dates, function(err, dates){
 				if(err){
-					console.log(err)
 					req.flash('fail_locker_manage_msg', "An error occurred. Please try setting the dates again.");
 					res.redirect('/manage-lockers')
 				}

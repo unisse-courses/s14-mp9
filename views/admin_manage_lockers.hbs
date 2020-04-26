@@ -1,16 +1,16 @@
 
 		
 <div class="manage-lockers-box">
-	<nav class="nav flex-column bg-success">
-		<h1>Locker Options</h1>
+	<nav class="nav flex-column">
+		<h3>Locker Options</h3>
 		<div id="nav-link-sections">
 			<a class="nav-link active" id="ll-options" href="#">Location and Locker Options <span></span></a>
 			<a class="nav-link" id="term-dates" href="#">Term Dates<span></span></a>
 		</div>
 	</nav>
 
-	<div class="locker-manager">
-		<div class="card" style="width: 75rem;" id="term-date-option">
+	<div id="locker-manager" class="container">
+		<div class="card" style="width: 53rem;" id="term-date-option">
 			<h3 class="card-header text-center">Term Dates</h3>
 			<div class="card-body">
 				<h5 class="card-title text-center">Current Term Date Range</h5>
@@ -35,21 +35,24 @@
 
 		<div class="ll-section">
 			{{> locker_messages}}
-			<div class="card" id="locations-section">
-				<h4 class="card-header">Location</h4>
-				<div class="card-body">
-					<select class="btn btn-secondary dropdown-toggle btn-lg" role="button" id="location-select" value="manage">
-					</select>
-					<form action="delete-location" method="post">
-						<input type="hidden" name="selectedManageLocation" value="">
-						<input type="submit" class="btn btn-danger btn-lg" id="delete-location" name="edit" value="Delete Location">
-						<input type="button"  class="btn btn-primary btn-lg" id="add-location" name="edit" data-toggle="modal" data-target="#add-new-location" value="Add New Location">
-					</form>
+			<div class="row">
+				<div class="card" style="height: 9.5rem; width: 64.6rem;" id="locations-section">
+					<h4 class="card-header">Location</h4>
+					<div class="card-body">
+						<div class="row" id="location-row">
+							<select class="btn btn-secondary dropdown-toggle btn-lg" role="button" id="location-select" value="manage">
+							</select>
+							<form action="delete-location" method="post">
+								<input type="hidden" name="selectedManageLocation" value="">
+								<input type="submit" class="btn btn-danger btn-lg" id="delete-location" name="edit" value="Delete Location">
+								<input type="button"  class="btn btn-primary btn-lg" id="add-location" name="edit" data-toggle="modal" data-target="#add-new-location" value="Add New Location">
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 
-
-			<div id="locker-table-section">
+			<div class="row" id="locker-table-section">
 				<div class="card">
 					<h4 class="card-header">Filters</h4>
 					<div class="card-body">
@@ -94,17 +97,26 @@
 				<div class="card" style="height: 50rem; width: 45rem;" id="table-section">
 					<h4 class="card-header">Lockers</h4>
 					<div class="card-body">
-						<p>To edit a locker, just simply click on it.</p>
+						<div class="container">
+							<div class="col">
+								<div class="row">
+									<p>To edit a locker, just simply click on it.</p>
+								</div>
+								<div class="row">
+									<form id="edit-options">
+										<input type="button" id="add-locker-button" class="btn btn-primary" name="edit" data-toggle="modal" data-target="#add-new-locker" value="Add Locker">
+									</form>
+								</div>
+								
+							</div>
 
-						<form id="edit-options">
-							<input type="button" id="add-locker-button" class="btn btn-primary" name="edit" data-toggle="modal" data-target="#add-new-locker" value="Add Locker">
-						</form>
-
-						<span id="edit-reminder"></span><b id='edit-reminder-code'></b>
-
-						<table id="lockers-table" class="manage-table">
-						</table>
-						
+							<div class="col">
+								<div class="row">
+									<table id="lockers-table" class="table">
+									</table>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
