@@ -1,15 +1,19 @@
 {{#if success_msg}}
-<div class="row bg-success">
-	<div class="col">
-		<p class="font-weight-bold">{{success_msg}}</p>
+<div class="d-flex justify-content-center">
+	<div id="user-success" class="row bg-success">
+		<div class="col">
+			<p class="font-weight-bold text-center">{{success_msg}}</p>
+		</div>
 	</div>
 </div>
 {{/if}}
 
 {{#if fail_msg}}
-<div class="row bg-danger">
-	<div class="col">
-		<p class="font-weight-bold">{{fail_msg}}</p>
+<div class="d-flex justify-content-center">
+	<div id="user-error" class="row">
+		<div class="col">
+			<p class="font-weight-bold text-center">{{fail_msg}}</p>
+		</div>
 	</div>
 </div>
 {{/if}}

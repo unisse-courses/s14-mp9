@@ -1,15 +1,17 @@
 {{#if success_profile_msg}}
-<div class="row bg-success">
+<div id="profile-success"  class="row bg-success">
 	<div class="col">
 		<p class="font-weight-bold">{{success_profile_msg}}</p>
 	</div>
 </div>
+
 {{/if}}
 
 {{#if fail_profile_msg}}
-<div class="row bg-danger">
+<div id="profile-error" class="row">
 	<div class="col">
 		<p class="font-weight-bold">{{fail_profile_msg}}</p>
 	</div>
 </div>
+
 {{/if}}

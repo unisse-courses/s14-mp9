@@ -1,10 +1,57 @@
+/*flash*/
+#user-error, #user-success, #profile-error, #profile-success, #search-success, #search-error, #locker-view-success, #locker-view-error, #locker-manage-success, #locker-manage-error, #locker-request-success, #locker-request-error{
+	padding-top: 10px;
+}
+
+[id$='error']{
+	background-color: #de2316;
+	color: azure
+}
+
+#profile-error, #profile-success{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 700px;
+	margin-left: 3px
+}
+
+#search-success, #search-error{
+	width: 1200px;
+	margin-bottom: 10px;
+}
+
+.lockers #locker-view-success, .lockers #locker-view-error{
+	width: 650px;
+}
+
+.profile-box #locker-view-success, .profile-box #locker-view-error, .edit-profile-box #locker-view-success, .edit-profile-box #locker-view-success{
+	width: 250px;
+}
+
+#locker-manage-success, #locker-manage-error{
+	width: 1034px;
+	margin-bottom: 10px;
+}
+
+#locker-request-success, #locker-request-error{
+	width: 1340px;
+	margin-left: 3px
+}
+
+#current-locker-messages{
+	margin-top: 60px;
+	width: 935px;
+	margin-left: 21%
+}
+
+/*menu*/
 .logo{
 	display: flex;
 	flex-flow: row nowrap;
 	align-self: center;
 	width: 4%;
 	height: 70%;
-	margin-left: 18%;
+	margin-left: 15%;
 	margin-right: 21%
 }
 
@@ -55,10 +102,6 @@
 
 #user-menu-contents{
 	min-width: 150px;
-}
-
-.main-menu a, .locker-menu, .user-menu{
-    
 }
 
 #locker-menu-contents a, #user-menu-contents a{
@@ -256,11 +299,15 @@ hr #divide{
 }
 
 #quick-admin-1 .carousel-caption{
-	margin-bottom: 200px
+	margin-bottom: 150px;
+	width: 400px;
+	margin-left: 21%;
 }
 
 #quick-admin-2 .carousel-caption{
-	margin-bottom: 180px
+	margin-bottom: 110px;
+	width: 400px;
+	margin-left: 21%;
 }
 
 #quick-menu-box .carousel-caption{
@@ -271,6 +318,14 @@ hr #divide{
 	height: 80px;
 	width: 300px;
 	font-size: 24px;
+}
+
+.carousel-control-prev{
+	margin-left: 200px;
+}
+
+.carousel-control-next{
+	margin-right: 200px;
 }
 
 .quick-menu-box #reserve-reminder. #admin-options p{
@@ -414,7 +469,7 @@ input[type=submit], input[type=button]{
 	padding: 40px;
 	margin-left: 50px;
 	width: 800px;
-	height: 417px
+	height: 453px
 }
 
 .info-section button img{
@@ -458,7 +513,7 @@ input[type=submit], input[type=button]{
 
 /*current_locker.html*/
 #no-locker, #current-locker-info{
-	margin-top: 105px;
+	margin-top: 40px;
 }
 
 #no-locker{
@@ -541,6 +596,7 @@ input[type=submit], input[type=button]{
 }
 
 #results-box{
+	margin-top: 50px;
 	margin-left: 100px
 }
 

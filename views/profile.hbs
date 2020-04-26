@@ -9,7 +9,10 @@
 				<div class="card text-center" id="locker-info" style="width: 17rem;">
 					<h5 class="card-header">Current locker</h5>
 					<div class="card-body" id="locker">
-
+						<div class="d-flex justify-content-center">
+							{{> locker_status_messages}}
+						</div>
+						
 						<div class="reminder-current-locker-info">
 							<span class="card-subtitle mb-3 text">You current do not have a locker reserved nor owned</span>
 							<form method="get" action="view-lockers">

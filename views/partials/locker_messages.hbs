@@ -1,5 +1,5 @@
 {{#if success_locker_manage_msg}}
-<div class="row bg-success">
+<div id="locker-manage-success" class="row bg-success">
 	<div class="col">
 		<p class="font-weight-bold">{{success_locker_manage_msg}}</p>
 	</div>
@@ -7,7 +7,7 @@
 {{/if}}
 
 {{#if fail_locker_manage_msg}}
-<div class="row bg-danger">
+<div id="locker-manage-error" class="row">
 	<div class="col">
 		<p class="font-weight-bold">{{fail_locker_manage_msg}}</p>
 	</div>
@@ -24,7 +24,7 @@
 {{/if}}
 
 {{#if fail_locker_msg}}
-<div class="row bg-danger">
+<div class="row">
 	<div class="col">
 		<p class="font-weight-bold">{{fail_locker_msg}}</p>
 	</div>

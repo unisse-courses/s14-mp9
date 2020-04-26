@@ -353,6 +353,7 @@ $(document).ready(function(){
 	var dateStrings = []
 	var lockersOccupied = []
 	var locations = [];
+	var lockers = []
 	var lockersTable = $("#lockers-table")
 	var manageLockersTable = $("#manage-lockers-table")
 	
@@ -463,6 +464,8 @@ $(document).ready(function(){
 			manageLockersTable.append(rows[row]);
 		}
 
+		var col = $("<div></div>")
+		col.attr("class", "col")
 		data.forEach(function(item, index){
 			initTable(currLocation, item, lockerReserves, lockersTable, rows[rowCtr], ctr)
 			
@@ -497,17 +500,20 @@ $(document).ready(function(){
 				ctr = 0;
 			}
 			
+			
 			$("input[name='lockerName']").css({
 				"height": "130px",
 				"width": "130px",
-				"margin-top": "-18px",
-				"margin-left": "1px",
-				"position": "relative",
+				"margin-top": "-40px",
+				"margin-left": "-95px",
+				"position": "absolute",
 				"opacity": "0",
-				"display": "block"
+				"display": "inline-block"
 			})
 			
 		})
+		
+		//col.append($("input[name='lockerName']"))
 
 		for(var i = 0; i < locations.length; i++){
 			var tr = $("<tr></tr>");
@@ -557,6 +563,7 @@ $(document).ready(function(){
 			rows = [] 
 			for(let row = 0; row <= nLockersSelected/5; row++){ 
 				var lockerTr = $("<tr></tr>");
+				lockerTr.attr("class", "row")
 				rows.push(lockerTr)
 				lockersTable.append(rows[row]);
 			}
@@ -568,11 +575,11 @@ $(document).ready(function(){
 				$("input[name='lockerName']").css({
 					"height": "130px",
 					"width": "130px",
-					"margin-top": "-18px",
-					"margin-left": "1px",
-					"position": "relative",
+					"margin-top": "-40px",
+					"margin-left": "-95px",
+					"position": "absolute",
 					"opacity": "0",
-					"display": "block"
+					"display": "inline-block"
 				})
 				
 			})
@@ -588,11 +595,11 @@ $(document).ready(function(){
 				}
 			})
 		})
+		
 	})
 	
 	$.get('get-requests', function(data, status){
 		data.forEach(function(item, index){
-			console.log(lockersOccupied)
 			for(var i = 0; i < lockersOccupied.length; i++){
 				if(lockersOccupied[i]._id == item.locker){
 				   lockersOccupied[i].idNo = item.idNo;
@@ -604,6 +611,8 @@ $(document).ready(function(){
 					if(item.locker == lockersOccupied[i]._id){
 						$("#lockers-table td").attr("data-toggle", "popover")
 
+						$("td#search-status[value='available'] a").removeAttr("href")
+						
 						if(lockersOccupied[i].status == "reserved"){
 						   $("#lockers-table td").attr("data-content", "Sorry, but you cannot reserve another locker. Cancel your current reservation first to reserve another locker.")
 						}
@@ -627,6 +636,8 @@ $(document).ready(function(){
 				if(lockersOccupied[i].idNo == $("#id-no").val()){
 					$("#lockers-table td").attr("data-toggle", "popover")
 
+					$("td#search-status[value='available'] a").removeAttr("href")
+					
 					if(lockersOccupied[i].status == "reserved"){
 					   $("#lockers-table td").attr("data-content", "Sorry, but you cannot reserve another locker. Cancel your current reservation first to reserve another locker.")
 					}
@@ -673,7 +684,6 @@ $(document).ready(function(){
 		hrow.append(rlocationHeader);
 		thead.append(hrow);
 		
-		console.log(reserveLocationSelect.val())
 		for(var i = 0; i < lockersOccupied.length; i++){
 			initReserveAllTable(lockersOccupied[i], "reserved")
 			if(lockersOccupied[i].status == "reserved"){
@@ -893,6 +903,14 @@ $(document).ready(function(){
 		})
 		
 		for(var i = 0; i < lockersOccupied.length; i++){
+			/*if(lockersOccupied[i].idNo == $("#id-no").val()){
+			}
+			else{
+				$("td#search-status[value='available'] a").attr("href", "#")
+				$("td#search-status[value='available'] a").attr("data-toggle", "modal")
+				$("td#search-status[value='available'] a").attr("data-target", "#validity-confirm")
+			}*/
+			
 			for(var j = 0; j < locations.length; j++){
 				if(lockersOccupied[i].locationId == locations[j]._id){
 				   lockersOccupied[i].location = locations[j].locationName;
@@ -900,7 +918,88 @@ $(document).ready(function(){
 			}
 		}
 		
+		$("table#results-search tr").each(function(){
+			var lData = $(this).find("td#search-location")
+			
+			if(lData.length > 0){
+				lData.each(function(){
+					for(var j = 0; j < locations.length; j++){
+						if(lData.text() == locations[j]._id){
+						   lData.text(locations[j].locationName);
+						}
+					}
+				})
+			}
+		})
 		
+		/*console.log($("table#results-search tr td#search-status"))
+		
+		var resultsArray = []
+		
+		$("table#results-search tr").each(function(){
+			var anchor = $(this).find("td#search-status a")
+			var lData = $(this).find("td#search-location")
+			var lockerData = $(this).find("td#search-locker-no")
+			var statusData = $(this).find("td#search-status")
+			
+			var result = {
+				a: null,
+				location: "",
+				status: "", 
+				lockerNo: ""
+			}
+			
+			if(lData.length > 0){
+				lData.each(function(){
+					result.location = lData.text();
+					for(var j = 0; j < locations.length; j++){
+						if(lData.text() == locations[j]._id){
+						   lData.text(locations[j].locationName);
+						}
+					}
+				})
+			}
+			if(lockerData.length > 0){
+				lockerData.each(function(){
+					result.lockerNo = lockerData.text();
+					//console.log(result.lockerNo)
+				})
+			}
+			if(statusData.length > 0){
+				statusData.each(function(){
+					result.status = statusData.text();
+				})
+			}
+			if(anchor.length > 0){
+				anchor.each(function(){
+					result.a = anchor;
+				})
+			}
+			resultsArray.push(result)
+		})
+		
+		for(var i = 0; i < resultsArray.length; i++){
+			if(resultsArray[i].status == "available"){
+				console.log("a")
+				console.log(resultsArray[i].a)
+				//console.log(resultsArray[i].lockerNo)
+				
+				resultsArray[i].a.click(function(){
+					console.log(resultsArray[i].lockerNo)
+					for(var k = 0; k < lockers.length; k++){
+						if(resultsArray[i].location == lockers[k].location){
+							if(resultsArray[i].lockerNo == lockers[k].lockerNo){
+								$("#locker-selected").attr("value", lockers[k].lockerNo); 
+								$("#location-name-selected").attr("value", locations[j]._id);
+								$("#lock-code-reveal").text(lockers[j].lockCode)
+								console.log(lockers[k].lockerNo + ", " + locations[j]._id)
+							}
+						}
+					}
+				})
+				
+			}
+		}*/
 		
 	})
 	
@@ -919,12 +1018,14 @@ $(document).ready(function(){
 			lockerTd.attr("class", "btn btn-primary")
 
 			button.click(function(){
+				console.log(locker.lockerNo + ", " + locker.location)
 				$("#location-name-selected").attr("value", locker.location);
 				$("#edit-location-name-selected").attr("value", locker.location);
 				$("#locker-selected").attr("value", locker.lockerNo);
 				$("#location-name-lockers-selected").attr("value", locker.lockerNo);
 				$("#edit-locker-no-selected").attr("value", locker.lockerNo);
 				
+				$("#lock-code-reveal").text(locker.lockCode)
 				$("#locker-code-current").text(locker.lockCode)
 				
 				for(var i = 0; i < locations.length; i++){
@@ -1002,7 +1103,7 @@ $(document).ready(function(){
 				lockerTd.attr("data-toggle", "modal")
 				lockerTd.attr("value", "available")
 				
-				if(lockersTable.attr("class") == "manage-table"){
+				if($("#id-no").val() == "admin"){
 					console.log(lockersTable.val())
 					lockerTd.attr("data-target", "#manage-edit-selected-locker")
 				}

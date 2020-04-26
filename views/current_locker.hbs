@@ -1,7 +1,10 @@
 <input type="hidden" value="{{reserveExists}}" id="reserve-exists" name="reserveExists">
 <input type="hidden" value="{{currentLocker.status}}" id="cur-locker-reserve-status" name="resStatus">
 
-{{> locker_status_messages}}
+<div id="current-locker-messages">
+	{{> locker_status_messages}}
+</div>
+
 <div id="current-locker-info">
 	<div class="card text-center" id="locker-address" style="height: 22rem; width: 23rem;">
 		<h5 class="card-header">Current locker address</h5>

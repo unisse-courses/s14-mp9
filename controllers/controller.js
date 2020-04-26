@@ -83,6 +83,9 @@ exports.login = (req, res) =>{
 						if(result){
 							req.session.idNo = user.idNo;
 							req.session.password = user.password;
+							req.session.userIdCode = user._id;
+							
+							console.log(req.session.userIdCode)
 
 							res.redirect('/')
 						}
@@ -119,13 +122,13 @@ exports.logoutUser = (req, res) =>{
 exports.about = (req, res) =>{
 	res.render("about", {
 		idNo: req.session.idNo,
-		password: req.session.password
+		userIdCode: req.session.userIdCode
 	})
 }
 
 /*user*/
 exports.profile = (req, res) =>{
-	userModel.getOne({idNo: req.session.idNo}, (err, user)=>{
+	userModel.getOne({_id: req.session.userIdCode}, (err, user)=>{
 		var profileDoc = user.toObject();
 		
 		if(err){
@@ -147,7 +150,7 @@ exports.profile = (req, res) =>{
 						reserved: false,
 						user: profileDoc,
 						idNo: req.session.idNo,
-						password: req.session.password
+						userIdCode: req.session.userIdCode
 					})
 				}
 				else{
@@ -168,7 +171,7 @@ exports.profile = (req, res) =>{
 								locker: locker.toObject(),
 								lockerLocation: location.locationName,
 								idNo: req.session.idNo,
-								password: req.session.password
+								userIdCode: req.session.userIdCode
 							})
 						}
 					})
@@ -180,7 +183,7 @@ exports.profile = (req, res) =>{
 }
 
 exports.profileEdit = (req, res) =>{
-	userModel.getOne({idNo: req.session.idNo}, (err, user)=>{
+	userModel.getOne({_id: req.session.userIdCode}, (err, user)=>{
 		var profileDoc = user.toObject();
 		
 		
@@ -203,7 +206,7 @@ exports.profileEdit = (req, res) =>{
 						reserved: false,
 						user: profileDoc,
 						idNo: req.session.idNo,
-						password: req.session.password
+						userIdCode: req.session.userIdCode
 					})
 				}
 				else{
@@ -224,7 +227,7 @@ exports.profileEdit = (req, res) =>{
 								locker: locker.toObject(),
 								lockerLocation: location.locationName,
 								idNo: req.session.idNo,
-								password: req.session.password
+								userIdCode: req.session.userIdCode
 							})
 						}
 					})
@@ -240,8 +243,7 @@ exports.profileEditConfirm = (req, res) =>{
 	
 	if(errors.isEmpty()){
 		const user = {
-			idNo: req.session.idNo,
-			password: req.session.password
+			_id: req.session.userIdCode
 		}
 
 		const {
@@ -283,8 +285,8 @@ exports.profileEditConfirm = (req, res) =>{
 /*user lockers*/
 exports.viewLockers = (req, res) => {
 	res.render("locker_view", {
-		idNo: req.session.idNo, 
-		password: req.session.password
+		idNo: req.session.idNo,
+		userIdCode: req.session.userIdCode,
 	})
 }
 
@@ -292,8 +294,7 @@ exports.currentLocker = (req, res) => {
 	var lockerId;
 	
 	const user = {
-		idNo: req.session.idNo,
-		password: req.session.password,
+		_id: req.session.userIdCode,
 		locker: {$ne: null}
 	}
 	
@@ -304,8 +305,8 @@ exports.currentLocker = (req, res) => {
 		}
 		else if(!user){
 			res.render("current_locker", {
-				idNo: req.session.idNo, 
-				password: req.session.password,
+				idNo: req.session.idNo,
+				userIdCode: req.session.userIdCode,
 				reserveExists: false
 			})
 		}
@@ -321,8 +322,8 @@ exports.currentLocker = (req, res) => {
 				},
 				function(err, location){
 					res.render("current_locker", {
-						idNo: req.session.idNo, 
-						password: req.session.password,
+						idNo: req.session.idNo,
+						userIdCode: req.session.userIdCode,
 						reserveExists: true,
 						currentLocker: locker.toObject(),
 						lockerLocation: location.locationName
@@ -337,8 +338,7 @@ exports.currentLocker = (req, res) => {
 
 exports.abandonLocker = (req, res) => {
 	const user = {
-		idNo: req.session.idNo,
-		password: req.session.password
+		_id: req.session.userIdCode
 	}
 	
 	const {
@@ -370,8 +370,7 @@ exports.abandonLocker = (req, res) => {
 
 exports.cancelAbandonLocker = (req, res) => {
 	const user = {
-		idNo: req.session.idNo,
-		password: req.session.password
+		_id: req.session.userIdCode
 	}
 	
 	const {
@@ -405,8 +404,7 @@ exports.reserveLocker = (req, res) => {
 	var lockerId;
 	
 	const user = {
-		idNo: req.session.idNo,
-		password: req.session.password
+		_id: req.session.userIdCode
 	}
 	
 	const {
@@ -450,8 +448,7 @@ exports.reserveLocker = (req, res) => {
 
 exports.cancelReserveLocker = (req, res) => {
 	const user = {
-		idNo: req.session.idNo,
-		password: req.session.password
+		_id: req.session.userIdCode
 	}
 	
 	const {
@@ -508,12 +505,13 @@ exports.search = (req, res) => {
 		locationModel.getOne(locationResult,
 		function(err, location){
 			if(err){
-
+				req.flash('fail_locker_search_msg', "An error occured. Please try to search again.");
+				res.redirect("/view-lockers")
 			}
 			else if(!location){
 				res.render("search", {
 					idNo: req.session.idNo, 
-					password: req.session.password,
+					userIdCode: req.session.userIdCode,
 					result: result
 				})
 			}
@@ -523,12 +521,13 @@ exports.search = (req, res) => {
 				},
 				function(err, lockers){
 					if(err){
-
+						req.flash('fail_locker_search_msg', "An error occured. Please try to search again.");
+						res.redirect("/view-lockers")
 					}
 					else if(!lockers){
 						res.render("search", {
 							idNo: req.session.idNo, 
-							password: req.session.password,
+							userIdCode: req.session.userIdCode,
 							result: result
 						})
 					}
@@ -541,7 +540,7 @@ exports.search = (req, res) => {
 
 						res.render("search", {
 							idNo: req.session.idNo, 
-							password: req.session.password,
+							userIdCode: req.session.userIdCode,
 							result: result,
 							lockers: lockersResults
 						})
@@ -561,12 +560,13 @@ exports.search = (req, res) => {
 				},
 				function(err, lockers){
 					if(err){
-
+						req.flash('fail_locker_search_msg', "An error occured. Please try to search again.");
+						res.redirect("/view-lockers")
 					}
 					else if(!lockers){
 						res.render("search", {
 							idNo: req.session.idNo, 
-							password: req.session.password,
+							userIdCode: req.session.userIdCode,
 							result: result
 						})
 					}
@@ -579,7 +579,7 @@ exports.search = (req, res) => {
 
 						res.render("search", {
 							idNo: req.session.idNo, 
-							password: req.session.password,
+							userIdCode: req.session.userIdCode,
 							result: result,
 							lockers: lockersResults
 						})
@@ -588,13 +588,11 @@ exports.search = (req, res) => {
 			}
 			else{
 				req.flash('fail_locker_search_msg', "Locker search queries should be 3 digits.");
-
 				res.redirect("/view-lockers")
 			}
 		}
 		else{
 			req.flash('fail_locker_search_msg', "Locker search queries should not contain letters.");
-
 			res.redirect("/view-lockers")
 		}
 	}
@@ -606,13 +604,14 @@ exports.search = (req, res) => {
 		}
 		else{
 			var locationResult = {
-				locationName: { $regex: '^' + searchResultLocation }
+				locationName: { $regex: searchResultLocation, $options: 'i' }
 			};
 
 			locationModel.getOne(locationResult,
 			function(err, location){
 				if(err){
-
+					req.flash('fail_locker_search_msg', "An error occured. Please try to search again.");
+					res.redirect("/view-lockers")
 				}
 				else{
 					lockerModel.findResults({
@@ -632,7 +631,7 @@ exports.search = (req, res) => {
 
 							res.render("search", {
 								idNo: req.session.idNo, 
-								password: req.session.password,
+								userIdCode: req.session.userIdCode,
 								result: result,
 								lockers: lockersResults
 							})
@@ -648,7 +647,7 @@ exports.search = (req, res) => {
 exports.manageLockers = (req, res) => {
 	res.render("admin_manage_lockers", {
 		idNo: req.session.idNo, 
-		password: req.session.password
+		userIdCode: req.session.userIdCode,
 	})
 }
 
@@ -920,7 +919,7 @@ exports.deleteLocation = (req, res) => {
 exports.manageRequests = (req, res) => {
 	res.render("admin_manage_requests", {
 		idNo: req.session.idNo, 
-		password: req.session.password
+		userIdCode: req.session.userIdCode,
 	})
 }
 

@@ -12,15 +12,14 @@
 			<div id="user-locker-menu">
 				<a href="current-locker">View current locker</a>
 				<a href="view-lockers">View lockers and reserve a locker</a>
-				<a href="about">About</a>
 			</div>
 			<div id="admin-locker-menu">
 				<a href="manage-lockers">Manage all lockers</a>
 				<a href="manage-requests">Manage locker requests and current lockers</a>
-				<a href="about">About</a>
 			</div>
 		</div>
 	</div>
+	<a id="home-button" href="about">About</a>
 
 	<span id="space"></span>
 	<div class="user-menu">
@@ -31,7 +30,7 @@
 
 			<form id="profile-hidden" action="profile" method="post">
 				<input type="hidden" value="{{idNo}}" id="id-no" name="idNo">
-				<input type="hidden" value="{{password}}" id="password" name="password">
+				<input type="hidden" value="{{userIdCode}}" id="user-id-code" name="userIdCode">
 			</form>
 		</div>
 	</div>

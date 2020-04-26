@@ -3,19 +3,21 @@
 		<form method="post" action="search">
 			{{> search_messages}}
 			<div class="form-group row">
+				<div class="col-sm-75">
+					<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
+				</div>
 				<div class="dropdown show"> 
-					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="searchAdvanced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="btn btn-secondary" href="#" role="button" id="searchAdvanced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-sort-down"></i>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="searchAdvanced">
+						<h5>Advanced Search</h5>
 						<input type="text" class="form-control" name="searchResultLocker" placeholder="Search locker">
 						<input type="text" class="form-control" name="searchResultLocation" placeholder="Search location">
 						<button type="submit" class="btn btn-primary">
 							<i class="fa fa-search"></i>
 						</button>
 					</div>
-				</div>
-				<div class="col-sm-80">
-					<input type="text" class="form-control" name="searchResult" placeholder="Search locker or location">
 				</div>
 				<div class="col-lg-append">
 					<button type="submit" class="btn btn-primary">
@@ -34,9 +36,9 @@
 		</form>
 	</div>
 
-	<div id="results-box" class="card" style="width: 110rem">
+	<div id="results-box" class="card" style="width: 80rem">
 		<div class="card-header" id="results-info">
-			<b>Search results for</b> <span>{{result}}</span>
+			<b>Search results for</b> <span id="search-result">{{result}}</span>
 		</div>
 		<table class="table-striped table-bordered" id="results-search">
 			<thead>
@@ -51,9 +53,11 @@
 				<tr>
 					<td id="search-locker-no">{{this.lockerNo}}</td>
 					<td id="search-location">{{this.location}}</td>
-					<td id="search-status">{{this.status}}</td>
+					<td id="search-status" value="{{this.status}}"><a>{{this.status}}</a></td>
 				</tr>
 			{{/each}}
 		</table>
 	</div>
+	
+	
 </div>
