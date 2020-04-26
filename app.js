@@ -11,6 +11,8 @@ const ehbs = require("express-handlebars")
 const flash = require("connect-flash")
 const MongoStore = require('connect-mongo')(session)
 
+const {envPort, sessionKey} = require('./config')
+
 const index = require('./routes/index')
 const auth = require('./routes/auth')
 const userRoute = require('./routes/userRoute')
@@ -25,7 +27,7 @@ const {LockerReservation} = require("./models/locker.js")
 const {TermDates} = require("./models/term_dates.js")
 
 const app = express();
-const port = 3000;
+const port = envPort || 3000;
 
 app.listen(port, function(){
     console.log("Connected to " + port)
@@ -50,7 +52,7 @@ app.use(express.static(__dirname + "/public"))
 app.use(session({
 	resave: true,
 	saveUninitialized: true,
-	secret: "secret",
+	secret: sessionKey,
 	store: new MongoStore({mongooseConnection: mongoose.connection}),
 	name: "locker-cookie",
 	cookie: {
