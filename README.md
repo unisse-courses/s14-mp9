@@ -120,11 +120,16 @@ After initializing the necessary tools to run the application, you can now use t
 The typical person using the application. Only has control of viewing, reserving, and abandoning a locker and viewing and editing their profile.
 
 ### Login and Register
-For the users' conveniency, both the log in and register features are in the same page.
+For the users' conveniency, both the log in and register features are in the same page. 
+
 Login
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web1.png)
+The login page can now check for incorrect passwords or nonexistent accounts.
+
+
 Register
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web2.png)
+Registration can now check if the user missed some forms or typed in a password with less than 6 characters.
 
 #### Home
 The main page of the logged in user.
@@ -133,7 +138,7 @@ User Home
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web3.png)
 
 #### View Current Locker
-This page is a quick view of the user's current locker, whether reserved, owned, or abandoned. 
+This page is a quick view of the user's current locker, whether reserved, owned, or abandoned. The user can also cancel their reservation or abandon their locker.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web4.png)
 
 If the user does not own a locker, the user is given a quick button to the View Lockers page to find a locker to reserve.
@@ -166,7 +171,7 @@ Advanced Search Results
 
 #### Profile
 The profile shows the credentials of the user such as their full name, ID number, degree program, e-mail address, and mobile number. 
-Everything except for the ID number can be edited in Edit Profile. 
+Everything except for the ID number can be edited in Edit Profile. The profile pages also shows the user's locker and other way to cancel a reservation or abandon a locker.
 
 Profile
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web9.png)
@@ -176,12 +181,13 @@ Edit Profile
 
 ### Admin Mode
 The admin has the control on locker management. Not only they can add, edit, and delete lockers, but also set the start and end dates for locker reservation. The admin is the very first user registered in the application, as previously demonstrated.
-The admin may be a user, but unlike a regular one, the admin does not have a profile of their own.
+The admin may be a user, but unlike a regular one, the admin does not have a profile of their own. However, they cannot meddle with reserved or occupied lockers.
 
 #### Managing lockers
 The admin can do the following when managing lockers:
 1. Add Locker
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web19.png)
+The locker code should either have 3 or 4 digits, going with the number of digits a real life padlock has.
 
 2. Delete A Locker
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web26.png)
@@ -196,9 +202,11 @@ The admin can do the following when managing lockers:
 
 5. Deletng Locations
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web23.png)
+Only locations without any reserved, owned, or abandoned lockers may be deleted.
 
 6. Setting the Term Dates to mark the span allowed to reserve a locker.
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web25.png)
+Although actually deleting the reservations and ownerships during a specific does not work now, thisr reminds the user the span of the reservation or ownership period.
 
 Locker Manager
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web13.png)
@@ -213,9 +221,11 @@ Two buttons for accepting and rejecting requests are in the reservation and aban
 
 Reserved Locker Requests
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web15.png)
+Picks reservations to accept or reject.
 
 View Owned Lockers and Abandon Locker Requests
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web16.png)
+Shows all the currently owned lockers. Also picks abandoment requests to accept or reject.
 
 
 ### Others
