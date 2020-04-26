@@ -3,6 +3,8 @@
 * Lapan, Jessamyn Kristi
 * Chen, Ysabelle Chloe Tan
 
+
+**Heroku Link**: 
 # How to Use This Web Application
 
 ## Setting Up the Application
@@ -190,7 +192,7 @@ The admin can do the following when managing lockers:
 1. Add Locker
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web19.png)
 
-2. Delete Lockers (still incomplete function)
+2. Delete Lockers
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web20.png)
 
 3. Editing Lockers by clicking directly on a locker
