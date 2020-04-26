@@ -47,6 +47,11 @@ Type in "yes", and your packages are installed.
     * path
     * handlebars
     * express-handlebars
+    * express-validators
+    * bcrypt
+    * url
+    * bootstrap
+    * connect-flash
 
 The format to install the frameworks in cmd or git-bash:
 ```
@@ -108,27 +113,8 @@ Enter your Database username and password.
 Authentication Method is "Use CA Certificate"
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/robo3.png)
 
-### Adding Default Data to MongoDB Atlas
-1. Add the admin's credentials, as listed below.
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/datadef.png)
-
-2. Create a new collection called "termdates" 
-Click on Add My Own Data button
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas8.png)
-
-"test" was used a sample. However, "termdates" is, of course, created with the same method.
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas9.png)
-
-Done! Now you can add data.
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/atlas10.png)
-
-The only datum in the "termdates" database because it only stores the start and end dates of locker reservation. Everytime new dates are entered, the old dates are deleted and then the datum for the new dates are entered.
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/datadef2.png)
-
 ## Using and Exploring the Application
 After initializing the necessary tools to run the application, you can now use the application itself. 
-
-For the current phase, zoom your web browser to 80% for better navigation of the application.
 
 ### User Mode
 The typical person using the application. Only has control of viewing, reserving, and abandoning a locker and viewing and editing their profile.
@@ -165,13 +151,18 @@ After reserving the locker, the user either had the option to reserve or cancel 
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web18.png)
 
 #### Search Lockers
-The search function for the lockers is currently very limited. Only select one of the radio boxes and then type an exact locker number or an exact location name. You cannot even reserve lockers in the search page yet.
+The search function for the lockers can now perform advanced search function, alongside the locker number and location only search functions.
 
 Location Results
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web7.png)
 
 Locker Results
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web8.png)
+
+Advanced Search Results
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web33.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web31.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web32.png)
 
 #### Profile
 The profile shows the credentials of the user such as their full name, ID number, degree program, e-mail address, and mobile number. 
@@ -192,20 +183,22 @@ The admin can do the following when managing lockers:
 1. Add Locker
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web19.png)
 
-2. Delete Lockers
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web20.png)
+2. Delete A Locker
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web26.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web27.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web28.png)
 
-3. Editing Lockers by clicking directly on a locker
+3. Editing A Locker by clicking directly on it
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web24.png)
 
 4. Adding New Locations
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web22.png)
 
 5. Deletng Locations
-![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web25.png)
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web23.png)
 
 6. Setting the Term Dates to mark the span allowed to reserve a locker.
-
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web25.png)
 
 Locker Manager
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web13.png)
@@ -223,3 +216,9 @@ Reserved Locker Requests
 
 View Owned Lockers and Abandon Locker Requests
 ![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web16.png)
+
+
+### Others
+#### About Page
+Shows the NPM packages and other tools such as database applications. Also lists a few details about the machine project group
+![alt-text](https://github.com/unisse-courses/s14-mp9/blob/master/readme-images/web30.png)
